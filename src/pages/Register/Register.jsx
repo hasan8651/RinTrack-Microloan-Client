@@ -4,14 +4,10 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
+import { saveOrUpdateUser } from "../../utils";
 
 const Register = () => {
-  const {
-    createUserFunction,
-    setUser,
-    updateProfileFunction,
-    loginPopFunction,
-  } = useContext(AuthContext);
+  const {createUserFunction, setUser, updateProfileFunction, loginPopFunction} = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -22,89 +18,127 @@ const Register = () => {
     return regex.test(password);
   };
 
-  const handleGoogleLogin = () => {
-    loginPopFunction()
-      .then((res) => {
-        setUser(res.user);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "success",
-          title: "Logged in successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((err) => {
-        setError(err.code);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "error",
-          title: "Failed to log in with Google.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-  };
+const handleGoogleLogin = async () => {
+  const from = location?.state?.from?.pathname || "/";
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const photoURL = e.target.photoURL.value;
-    const password = e.target.password.value;
-    if (!passwordValidation(password)) {
-      setPasswordError(
-        "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
-      );
-      return;
-    }
-    setPasswordError("");
+  try {
+    // Firebase google popup login
+    const result = await loginPopFunction();
+    const user = result.user;
 
-    createUserFunction(email, password)
-      .then((res) => {
-        //  setUser(res.user);
-        return updateProfileFunction({
-          displayName: name,
-          photoURL: photoURL,
-        });
-      })
-      .then(() => {
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "success",
-          title: "Registered successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
-      })
-      .catch((err) => {
-        setError(err.code);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "error",
-          title: "Registration failed. Please try again.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-  };
+    // Save or update user in database
+    await saveOrUpdateUser({
+      name: user?.displayName,
+      email: user?.email,
+      image: user?.photoURL,
+    });
+
+    // Update React state
+    setUser(user);
+
+    Swal.fire({
+      position: "top-end",
+      background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+      color: "white",
+      icon: "success",
+      title: "Logged in successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
+    navigate(from, { replace: true });
+  } catch (err) {
+    setError(err.code);
+    
+
+    Swal.fire({
+      position: "top-end",
+      background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+      color: "white",
+      icon: "error",
+      title: "Failed to log in with Google.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+};
+
+ const handleRegister = async (e) => {
+  e.preventDefault();
+  const name = e.target.name.value;
+  const email = e.target.email.value;
+  const photoURL = e.target.photoURL.value;
+  const password = e.target.password.value;
+
+  // Validate password
+  if (!passwordValidation(password)) {
+    setPasswordError(
+      "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
+    );
+    return;
+  }
+
+  setPasswordError("");
+  setError("");
+
+  try {
+    // Create Firebase user
+    const result = await createUserFunction(email, password);
+    const user = result.user;
+
+    // Update Firebase profile (name + photo)
+    await updateProfileFunction({
+      displayName: name,
+      photoURL: photoURL,
+    });
+
+    // Save or update user in DB
+    await saveOrUpdateUser({
+      name: name,
+      email: email,
+      image: photoURL,
+    });
+
+    // Update React user state
+    setUser({
+      ...user,
+      displayName: name,
+      photoURL: photoURL,
+    });
+
+    Swal.fire({
+      position: "top-end",
+      background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+      color: "white",
+      icon: "success",
+      title: "Registered successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
+    navigate("/");
+  } catch (err) {
+    setError(err.code || "Registration failed.");
+
+    Swal.fire({
+      position: "top-end",
+      background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+      color: "white",
+      icon: "error",
+      title: "Registration failed. Please try again.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+};
+
 
   return (
     <div>
       <Helmet>
-        <title>Study Pilot - Register</title>
+        <title>RinTrack - Register</title>
       </Helmet>
-      <div className="hero  ">
+      <div className="hero">
         <div className="hero-content flex-col md:flex-row-reverse">
           <div className="card  w-full max-w-sm shrink-0 shadow-2xl">
             <form onSubmit={handleRegister} className="card-body">

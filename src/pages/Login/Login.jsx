@@ -4,10 +4,10 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../context/AuthContext";
+import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
-  const { loginFunction, setUser, loginPopFunction, setLoading } =
-    useContext(AuthContext);
+  const { loginFunction, setUser, loginPopFunction, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState("");
@@ -26,77 +26,104 @@ const Login = () => {
     });
   };
 
-  const handleGoogleLogin = () => {
-    loginPopFunction()
-      .then((res) => {
-        setUser(res.user);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "success",
-          title: "Logged in successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((err) => {
-        setError(err.code);
-        setLoading(false);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "error",
-          title: "Failed to log in with Google.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+  const handleGoogleLogin = async () => {
+    const from = location?.state?.from?.pathname || "/";
+
+    try {
+      // Firebase google popup login
+      const result = await loginPopFunction();
+      const user = result.user;
+
+      // Save or update user in database
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
       });
+
+      // Update React state
+      setUser(user);
+
+      Swal.fire({
+        position: "top-end",
+        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+        color: "white",
+        icon: "success",
+        title: "Logged in successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(from, { replace: true });
+    } catch (err) {
+      setError(err.code);
+      setLoading(false);
+
+      Swal.fire({
+        position: "top-end",
+        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+        color: "white",
+        icon: "error",
+        title: "Failed to log in with Google.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const from = location?.state?.from?.pathname || "/";
 
-    loginFunction(email, password)
-      .then((res) => {
-        setUser(res.user);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "success",
-          title: "Logged in successfully!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(location?.state ? location.state : "/");
-      })
-      .catch((err) => {
-        setError(err.code);
-        setLoading(false);
-        Swal.fire({
-          position: "top-end",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
-          icon: "error",
-          title: "Login failed. Please check your credentials.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+    try {
+      // Login with email/password
+      const { user } = await loginFunction(email, password);
+
+      // Save or update DB user
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
       });
+
+      // Update React state
+      setUser(user);
+
+      Swal.fire({
+        position: "top-end",
+        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+        color: "white",
+        icon: "success",
+        title: "Logged in successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(from, { replace: true });
+    } catch (err) {
+      setError(err.code);
+      setLoading(false);
+      Swal.fire({
+        position: "top-end",
+        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+        color: "white",
+        icon: "error",
+        title: "Login failed. Please check your credentials.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
     <div>
       <Helmet>
-        <title>Study Pilot - Login</title>
+        <title>RinTrack - Login</title>
       </Helmet>
       <div className="hero">
-        <title>Study Pilot - Login</title>
+        <title>RinTrack - Login</title>
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="card w-full shrink-0 shadow-2xl">
             <form onSubmit={handleLogin} className="card-body">
