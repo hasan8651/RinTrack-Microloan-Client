@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import Swal from "sweetalert2";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import NotFound from "../NotFound/NotFound";
@@ -143,9 +143,11 @@ const LoanDetails = () => {
               </div>
               <div>
                 {user?.email && (
-                  <button onClick={handleApplied} className="btn btn-gradient">
+                   <Link
+                to={`/loan-form/${loan?._id}`}
+                   className="btn btn-gradient">
                     Apply Now
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>

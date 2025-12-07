@@ -1,18 +1,17 @@
 import { useState } from "react";
-import LoanDetailsModal from "../../Modal/LoanDetailsModal";
-import Swal from "sweetalert2";
-import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
-import PaymentDetailsModal from "../../Modal/LoanDetailsModal";
+import axios from "axios";
+import Swal from "sweetalert2";
+import PaymentDetailsModal from "../../Modal/PaymentDetailsModal";
+import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
 
-const CustomerOrderDataRow = ({ myLoan, refetch }) => {
+const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const closeModal = () => setIsOpen(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
+
   const { user } = useAuth();
-  console.log(myLoan);
 
   const handlePayment = async () => {
-    console.log(myLoan);
     const paymentInfo = {
       loanApplicationId: myLoan._id,
       loanTitle: myLoan.loanTitle,
@@ -33,7 +32,6 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
       paymentInfo
     );
     window.location.href = data.url;
-    console.log(data);
   };
 
   const handleCancelLoan = async () => {
@@ -59,7 +57,7 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
             confirmButtonColor: "#16a34a",
           });
 
-          refetch(); // 🔥 Refetch data instead of reload
+          refetch();
         } catch (error) {
           Swal.fire({
             title: "Error!",
@@ -73,12 +71,10 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
 
   return (
     <tr>
-      {/* Loan ID */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <p>{myLoan.loanId}</p>
       </td>
 
-      {/* Loan Info */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <p className="font-semibold">{myLoan.loanTitle}</p>
         <p className="text-gray-600 text-sm">
@@ -86,12 +82,10 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
         </p>
       </td>
 
-      {/* Amount */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <p>${myLoan.loanAmount}</p>
       </td>
 
-      {/* Status */}
       <td className="px-5 py-5 border-b bg-white text-sm">
         <p
           className={`font-bold ${
@@ -106,11 +100,9 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
         </p>
       </td>
 
-      {/* Actions */}
       <td className="px-5 py-5 border-b bg-white text-sm space-x-2">
-        {/* View Details */}
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsViewOpen(true)}
           className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
         >
           View Details
@@ -119,7 +111,7 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
         {/* Cancel Button (Only Pending) */}
         {myLoan.status === "Pending" && (
           <button
-            onClick={handleCancelLoan} // ✅ async handled
+            onClick={handleCancelLoan}
             className="px-3 py-1 bg-red-500 text-white rounded text-sm"
           >
             Cancel
@@ -139,19 +131,30 @@ const CustomerOrderDataRow = ({ myLoan, refetch }) => {
             onClick={() => setIsOpen(true)}
             className="px-3 py-1 bg-green-600 text-white rounded text-sm"
           >
-            Fee Paid
+            Paid
           </button>
         )}
 
-        {/* Modal */}
-        <PaymentDetailsModal
-          myLoan={myLoan}
-          isOpen={isOpen}
-          closeModal={closeModal}
-        />
+        {/* Application Details Modal */}
+        {isViewOpen && (
+          <ApplicationDetailsModal
+            myLoan={myLoan}
+            isOpen={isViewOpen}
+            closeModal={() => setIsViewOpen(false)}
+          />
+        )}
+
+        {/* Payment Details Modal */}
+        {isOpen && (
+          <PaymentDetailsModal
+            myLoan={myLoan}
+            isOpen={isOpen}
+            closeModal={() => setIsOpen(false)}
+          />
+        )}
       </td>
     </tr>
   );
 };
 
-export default CustomerOrderDataRow;
+export default BorrowerAppliedDataRow;

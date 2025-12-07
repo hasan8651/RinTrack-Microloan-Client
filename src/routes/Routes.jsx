@@ -8,6 +8,9 @@ import Register from "../pages/Register/Register";
 import AllLoans from "../pages/AllLoans/AllLoans";
 import LoanDetails from "../pages/LoanDetails/LoanDetails";
 import DashboardLayout from "../layout/DashboardLayout";
+import LoanForm from "../pages/LoanForm/LoanForm";
+import MyLoans from "../pages/Dashboard/Borrower/Myloans";
+
 
 
 export const router = createBrowserRouter([
@@ -28,6 +31,10 @@ export const router = createBrowserRouter([
         {
         path: "/loans/:id",
         element: <LoanDetails/>,
+      },
+       {
+        path: "/loan-form/:id",
+        element: <LoanForm/>,
       },
         {
         path: "/register",
@@ -52,6 +59,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <DashboardLayout />,
+      },
+      {
+        path: "/dashboard/my-loans",
+        element: <MyLoans />,
       },
     ]}
 
