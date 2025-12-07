@@ -6,6 +6,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AllLoans from "../pages/AllLoans/AllLoans";
+import LoanDetails from "../pages/LoanDetails/LoanDetails";
 
 
 export const router = createBrowserRouter([
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
         {
         path: "/loans",
         element: <AllLoans/>,
+      },
+        {
+        path: "/loans/:id",
+        element: <LoanDetails/>,
       },
         {
         path: "/register",
