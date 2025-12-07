@@ -5,6 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner/LoadingSpinner";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import AllLoans from "../pages/AllLoans/AllLoans";
 
 
 export const router = createBrowserRouter([
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+        {
+        path: "/loans",
+        element: <AllLoans/>,
       },
         {
         path: "/register",
