@@ -7,6 +7,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AllLoans from "../pages/AllLoans/AllLoans";
 import LoanDetails from "../pages/LoanDetails/LoanDetails";
+import DashboardLayout from "../layout/DashboardLayout";
 
 
 export const router = createBrowserRouter([
@@ -39,4 +40,19 @@ export const router = createBrowserRouter([
       
     ],
   },
+
+  {
+    path: "/dashboard",
+    element: 
+     
+        <DashboardLayout />
+      
+   ,
+    children: [
+      {
+        index: true,
+        element: <DashboardLayout />,
+      },
+    ]}
+
 ]);
