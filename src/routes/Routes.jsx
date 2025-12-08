@@ -13,6 +13,7 @@ import MyLoans from "../pages/Dashboard/Borrower/Myloans";
 import AddLoan from "../pages/Dashboard/Manager/AddLoan";
 import ManageLoans from "../pages/Dashboard/Manager/ManageLoans";
 import UpdateLoans from "../pages/Dashboard/Manager/UpdateLoans";
+import PendingLoans from "../pages/Dashboard/Manager/PendingLoans";
 
 
 
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
        {
         path: "/dashboard/pending-loans",
         element: 
-            <AddLoan gg/>,
+            <PendingLoans/>,
                  },
        {
         path: "/dashboard/approved-loans",

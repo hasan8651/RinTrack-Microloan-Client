@@ -61,6 +61,18 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">Manage Loans</span>
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Pending Loan Applications" to="/dashboard/pending-loans">
+                                <FaRegCreditCard />
+                                <span className="is-drawer-close:hidden">Pending Loan Applications</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Loan Applications" to="/dashboard/approved-loans">
+                                <FaRegCreditCard />
+                                <span className="is-drawer-close:hidden">Approved Loan Applications</span>
+                            </NavLink>
+                        </li>
                         {
                             role === 'rider' && <>
                                 <li>
