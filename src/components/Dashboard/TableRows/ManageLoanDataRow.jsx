@@ -65,7 +65,7 @@ const ManageLoanDataRow = ({ loan, refetch }) => {
       <td className="px-5 py-4 bg-white text-sm text-center">
         <div className="flex justify-center items-center gap-2">
           <Link
-            to={`/update-loan/${loan._id}`}
+            to={`/dashboard/update-loan/${loan._id}`}
             className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Update

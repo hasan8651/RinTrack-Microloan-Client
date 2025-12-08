@@ -12,6 +12,7 @@ import LoanForm from "../pages/LoanForm/LoanForm";
 import MyLoans from "../pages/Dashboard/Borrower/Myloans";
 import AddLoan from "../pages/Dashboard/Manager/AddLoan";
 import ManageLoans from "../pages/Dashboard/Manager/ManageLoans";
+import UpdateLoans from "../pages/Dashboard/Manager/UpdateLoans";
 
 
 
@@ -78,7 +79,7 @@ export const router = createBrowserRouter([
        {
         path: "/dashboard/update-loan/:id",
         element: 
-            <AddLoan gg/>,
+            <UpdateLoans/>,
                  },
        {
         path: "/dashboard/manage-loans",
