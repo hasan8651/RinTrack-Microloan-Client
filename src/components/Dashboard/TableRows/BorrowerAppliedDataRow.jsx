@@ -8,7 +8,6 @@ import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
 const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
-
   const { user } = useAuth();
 
   const handlePayment = async () => {
@@ -108,7 +107,6 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
           View Details
         </button>
 
-        {/* Cancel Button (Only Pending) */}
         {myLoan.status === "Pending" && (
           <button
             onClick={handleCancelLoan}
@@ -118,7 +116,6 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
           </button>
         )}
 
-        {/* Pay Fee */}
         {myLoan.applicationFeeStatus === "Unpaid" ? (
           <button
             onClick={handlePayment}
@@ -135,7 +132,6 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
           </button>
         )}
 
-        {/* Application Details Modal */}
         {isViewOpen && (
           <ApplicationDetailsModal
             myLoan={myLoan}
@@ -144,7 +140,6 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
           />
         )}
 
-        {/* Payment Details Modal */}
         {isOpen && (
           <PaymentDetailsModal
             myLoan={myLoan}
