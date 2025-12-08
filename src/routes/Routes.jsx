@@ -15,6 +15,7 @@ import ManageLoans from "../pages/Dashboard/Manager/ManageLoans";
 import UpdateLoans from "../pages/Dashboard/Manager/UpdateLoans";
 import PendingLoans from "../pages/Dashboard/Manager/PendingLoans";
 import ApprovedLoans from "../pages/Dashboard/Manager/ApprovedLoans";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 
 
 
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
        {
         path: "/loan-form/:id",
         element: <LoanForm/>,
+      },
+       {
+        path: "/payment-success",
+        element: <PaymentSuccess />,
       },
         {
         path: "/register",
