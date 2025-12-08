@@ -50,6 +50,12 @@ const DashboardLayout = () => {
                             </NavLink>
                         </li>
                         <li>
+                            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Loan" to="/dashboard/add-loan">
+                                <CiDeliveryTruck />
+                                <span className="is-drawer-close:hidden">Add Loan</span>
+                            </NavLink>
+                        </li>
+                        <li>
                             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History" to="/dashboard/payment-history">
                                 <FaRegCreditCard />
                                 <span className="is-drawer-close:hidden">Payment History</span>

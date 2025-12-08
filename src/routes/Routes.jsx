@@ -10,6 +10,7 @@ import LoanDetails from "../pages/LoanDetails/LoanDetails";
 import DashboardLayout from "../layout/DashboardLayout";
 import LoanForm from "../pages/LoanForm/LoanForm";
 import MyLoans from "../pages/Dashboard/Borrower/Myloans";
+import AddLoan from "../pages/Dashboard/Manager/AddLoan";
 
 
 
@@ -64,6 +65,12 @@ export const router = createBrowserRouter([
         path: "/dashboard/my-loans",
         element: <MyLoans />,
       },
+       {
+        path: "/dashboard/add-loan",
+        element: 
+            <AddLoan/>,
+          
+       },
     ]}
 
 ]);

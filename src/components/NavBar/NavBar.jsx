@@ -59,7 +59,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-purple-400" to={"/courses"}>
+                <Link className="hover:text-purple-400" to={"/loans"}>
                   All-Loans
                 </Link>
               </li>
@@ -159,7 +159,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/courses"
+                to="/loans"
                 className={({ isActive }) =>
                   isActive
                     ? "bg-purple-900 text-purple-400"
