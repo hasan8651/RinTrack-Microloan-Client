@@ -11,6 +11,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import LoanForm from "../pages/LoanForm/LoanForm";
 import MyLoans from "../pages/Dashboard/Borrower/Myloans";
 import AddLoan from "../pages/Dashboard/Manager/AddLoan";
+import ManageLoans from "../pages/Dashboard/Manager/ManageLoans";
 
 
 
@@ -62,6 +63,10 @@ export const router = createBrowserRouter([
         element: <DashboardLayout />,
       },
       {
+        path: "/dashboard/profile",
+        element: <MyLoans gg />,
+      },
+      {
         path: "/dashboard/my-loans",
         element: <MyLoans />,
       },
@@ -69,8 +74,42 @@ export const router = createBrowserRouter([
         path: "/dashboard/add-loan",
         element: 
             <AddLoan/>,
-          
-       },
+                 },
+       {
+        path: "/dashboard/update-loan/:id",
+        element: 
+            <AddLoan gg/>,
+                 },
+       {
+        path: "/dashboard/manage-loans",
+        element: 
+            <ManageLoans/>,
+                 },
+       {
+        path: "/dashboard/pending-loans",
+        element: 
+            <AddLoan gg/>,
+                 },
+       {
+        path: "/dashboard/approved-loans",
+        element: 
+            <AddLoan gg/>,
+                 },
+       {
+        path: "/dashboard/loan-applications",
+        element: 
+            <AddLoan gg/>,
+                 },
+       {
+        path: "/dashboard/all-loan",
+        element: 
+            <AddLoan gg/>,
+                 },
+       {
+        path: "/dashboard/manage-users",
+        element: 
+            <AddLoan gg/>,
+                 },
     ]}
 
 ]);
