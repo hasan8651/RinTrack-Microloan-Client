@@ -17,6 +17,7 @@ const ErrorPage = () => {
         </p>
         <Link href="/" className="btn btn-gradient">
           Go to Homepage
+          
         </Link>
       </div>
     </div>

@@ -1,5 +1,5 @@
-const CustomerStatistics = () => {
-  return <div>Customer Statistics Page</div>
-}
+// const CustomerStatistics = () => {
+//   return <div>Customer Statistics Page</div>
+// }
 
-export default CustomerStatistics
+// export default CustomerStatistics

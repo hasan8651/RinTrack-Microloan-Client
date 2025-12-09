@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../layout/MainLayout";
-import ErrorPage from "../components/ErrorPage/ErrorPage";
 import LoadingSpinner from "../components/LoadingSpinner/LoadingSpinner";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
@@ -16,6 +15,7 @@ import UpdateLoans from "../pages/Dashboard/Manager/UpdateLoans";
 import PendingLoans from "../pages/Dashboard/Manager/PendingLoans";
 import ApprovedLoans from "../pages/Dashboard/Manager/ApprovedLoans";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 
 

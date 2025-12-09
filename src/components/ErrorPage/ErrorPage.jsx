@@ -1,13 +1,13 @@
 
 
-const ErrorPage = () => {
-  return (
+// const ErrorPage = () => {
+//   return (
     
-<div>
-       Error 404
+// <div>
+//        Error 404
 
-</div>     
-  );
-};
+// </div>     
+//   );
+// };
 
-export default ErrorPage;
+// export default ErrorPage;

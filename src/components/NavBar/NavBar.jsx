@@ -1,19 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router";
-import { AuthContext } from "../../context/AuthContext";
-
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router";
+import { AiOutlineMenu } from "react-icons/ai";
+import useAuth from "../../hooks/useAuth";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const Navbar = () => {
-  const { user, logoutFunction, loading } = useContext(AuthContext);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-
-  const location = useLocation();
-  const isDashboardActive = [
-    "/dashboard",
-    "/dashboard/my-enrolled",
-    "/dashboard/add-course",
-    "/dashboard/my-added",
-  ].some((path) => location.pathname.startsWith(path));
+  const { user, logoutFunction, loading } = useAuth();
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") === "light" ? "light" : "dark"
+  );
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -24,328 +19,160 @@ const Navbar = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
+  const linkClass = ({ isActive }) =>
+    `px-4 py-2 font-medium transition-colors duration-200 rounded-lg ${
+      isActive
+        ? "text-blue-500 bg-blue-50 dark:bg-neutral-700/50 border-b-2 border-blue-500"
+        : "text-gray-700 dark:text-gray-200 hover:text-blue-500 hover:bg-gray-50 dark:hover:bg-neutral-800"
+    }`;
+
+  //before login
+  const guestLinks = (
+    <>
+      <li>
+        <NavLink to="/" className={linkClass}>
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/loans" className={linkClass}>
+          All Loans
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about-us" className={linkClass}>
+          About Us
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact-us" className={linkClass}>
+          Contact
+        </NavLink>
+      </li>
+
+      {!loading && (
+  <>
+    <li className="hidden md:block">
+      <NavLink
+        to="/login"
+        className="btn btn-sm w-18 text-white bg-blue-500 hover:bg-blue-600 border-none rounded-lg font-bold shadow-md"
+      >
+        Login
+      </NavLink>
+    </li>
+
+    <li className="hidden md:block">
+      <NavLink
+        to="/register"
+        className="btn btn-sm w-18 text-white bg-orange-500 hover:bg-orange-600 border-none rounded-lg font-bold shadow-md"
+      >
+        Register
+      </NavLink>
+    </li>
+  </>
+)}
+    </>
+  );
+
+  //after login
+  const userLinks = (
+    <>
+      <li>
+        <NavLink to="/" className={linkClass}>
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/loans" className={linkClass}>
+          All Loans
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard" className={linkClass}>
+          Dashboard
+        </NavLink>
+      </li>
+      <li className="hidden md:block">
+        <button
+          onClick={logoutFunction}
+          className="btn btn-sm w-18 text-white bg-red-500 hover:bg-red-600 border-none rounded-lg font-bold shadow-md"
+        >
+          Logout
+        </button>
+      </li>
+    </>
+  );
+
   return (
-    <div className="mb-35">
-      <div className="navbar max-w-7xl shadow-lg fixed top-0 w-full z-50 px-8">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost lg:hidden hover:bg-purple-600"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link className="hover:text-purple-400" to={"/"}>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-purple-400" to={"/loans"}>
-                  All-Loans
-                </Link>
-              </li>
-
-              <li>
-                {user && user?.email ? (
-                  <details close='true'>
-                    <summary className="hover:text-purple-400">
-                      Dashboard
-                    </summary>
-                    <ul>
-                      <li>
-                        <NavLink
-                          to="/profile"
-                          className="hover:text-purple-400"
-                        >
-                          Update Profile
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/dashboard/my-enrolled"
-                          className="hover:text-purple-400"
-                        >
-                          My Enrolled Course
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/dashboard/add-course"
-                          className="hover:text-purple-400"
-                        >
-                          Add Course
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/dashboard/my-added"
-                          className="hover:text-purple-400"
-                        >
-                          My Added Course
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </details>
-                ) : (
-                <li>
-                    <Link className="hover:text-purple-400" to={"/about-us"}>
-                    About Us
-                  </Link>
-                  <Link className="hover:text-purple-400" to={"/contact"}>
-                    Contact
-                  </Link>
-                </li>
-                )}
-              </li>
-
-              <li>
-                {user && user?.email ? (
-                   <li>
-                    <Link className="hover:text-purple-400" to={"/about-us"}>
-                    About Us
-                  </Link>
-                  <Link className="hover:text-purple-400" to={"/contact"}>
-                    Contact
-                  </Link>
-                </li>
-                ) : (
-                  <Link className="hover:text-purple-400" to={"/login"}>
-                    Login / Register
-                  </Link>
-                )}
-              </li>
-            </ul>
-          </div>
-          <Link
-            className="flex flex-wrap justify-center items-center gap-2 px-4 md:px-0 text-2xl font-bold"
+    <div className="bg-base-200 dark:bg-neutral-900 border-b border-gray-200 dark:border-neutral-800 sticky top-0 z-50 transition-colors duration-300 shadow-md">
+      <div className="navbar container mx-auto p-2 h-16">
+        {/* navbar left side */}
+        <div className="navbar-start flex">
+          <NavLink
             to="/"
+            className="flex items-center gap-2 hover:bg-transparent p-0"
           >
-            <img className="w-24" src="/favicon.png" alt="logo" />
-          </Link>
+            <img src="/logo.png" alt="logo" className="h-[70px] w-auto" />
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
+              RinTrack
+            </span>
+          </NavLink>
         </div>
 
-        <div className="navbar-end hidden md:flex">
-          <ul className="menu menu-horizontal px-1 space-x-6 font-semibold">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? "bg-purple-900 text-purple-400"
-                    : "hover:text-purple-400"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/loans"
-                className={({ isActive }) =>
-                  isActive
-                    ? "bg-purple-900 text-purple-400"
-                    : "hover:text-purple-400"
-                }
-              >
-                All-Loans
-              </NavLink>
-            </li>
+        {/* navbar right side */}
+        <div className="navbar-end flex items-center space-x-2">
+          <div className="navbar-center hidden md:flex mr-8">
+            <ul className="menu menu-horizontal px-2 space-x-2">
+              {!user?.email ? guestLinks : userLinks}
+            </ul>
+          </div>
 
-            {user && user?.email ? (
-              <li>
-                <div className="drawer-end">
-                  <input
-                    id="my-drawer-5"
-                    type="checkbox"
-                    className="drawer-toggle"
-                  />
-                  <div className="drawer-content">
-                    <label
-                      htmlFor="my-drawer-5"
-                      className={`px-3 py-2 rounded cursor-pointer ${
-                        isDashboardActive
-                          ? "bg-purple-900 text-purple-400"
-                          : "hover:text-purple-400"
-                      }`}
-                    >
-                      Dashboard
-                    </label>
-                  </div>
-                  <div className="drawer-side">
-                    <label
-                      htmlFor="my-drawer-5"
-                      aria-label="close sidebar"
-                      className="drawer-overlay"
-                    ></label>
-                    <ul className="menu section-gradient min-h-full w-80 p-4">
-                      <li className="flex justify-center items-center pb-2">
-                        <img
-                          src={
-                            user?.photoURL ||
-                            "https://img.icons8.com/windows/64/user.png"
-                          }
-                          alt="user photo"
-                          className="rounded-full"
-                        />
-                      </li>
-                      <li className="text-center font-semibold border-b border-gray-200 mb-2 pb-2">
-                        Hello, {user?.displayName || "User"}
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/profile"
-                          className={({ isActive }) =>
-                          isActive
-                              ? "bg-transparent text-purple-400 btn w-full"
-                              : "hover:text-purple-400 btn btn-gradient w-full"
-                          }
-                        >
-                          Update Profile
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/dashboard/my-enrolled"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "bg-transparent text-purple-400 btn w-full"
-                              : "hover:text-purple-400 btn btn-gradient w-full"
-                          }
-                        >
-                          My Enrolled Course
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/dashboard/add-course"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "bg-transparent text-purple-400 btn w-full"
-                              : "hover:text-purple-400 btn btn-gradient w-full"
-                          }
-                        >
-                          Add Course
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/dashboard/my-added"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "bg-transparent text-purple-400 btn w-full"
-                              : "hover:text-purple-400 btn btn-gradient w-full"
-                          }
-                        >
-                          My Added Course
-                        </NavLink>
-                      </li>
-
-                      <li>
-                        <button
-                          onClick={logoutFunction}
-                          className="btn btn-gradient w-full"
-                        >
-                          Logout
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            ) : (
-              ""
-            )}
-
-            <li>
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  isActive
-                    ? "bg-purple-900 text-purple-400"
-                    : "hover:text-purple-400"
-                }
-              >
-                About Us
-              </NavLink>
-              </li>
-              <li>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive
-                    ? "bg-purple-900 text-purple-400"
-                    : "hover:text-purple-400"
-                }
-              >
-                Contact
-              </NavLink>
-            </li>
-          </ul>
+          {/* login/register button */}
           {loading ? (
             <div className="flex justify-center items-center">
               <span className="loading loading-spinner loading-md"></span>
             </div>
           ) : user && user?.email ? (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div
-                  title={user?.displayName}
-                  className="w-10 rounded-full border-2 border-white"
-                >
-                  <img
-                    className="rounded-full"
-                    src={
-                      user?.photoURL ||
-                      "https://img.icons8.com/windows/32/user.png"
-                    }
-                    alt="user photo"
-                  />
-                </div>
-              </label>
-
-              <ul
+            <div className="dropdown dropdown-end ml-2">
+              <div
                 tabIndex={0}
-                className="mt-3 p-2 shadow dropdown-content rounded-box w-52"
+                role="button"
+                className="btn btn-ghost btn-circle avatar border-2 border-blue-500/50 hover:border-blue-500 p-0"
               >
-                <li className="flex justify-center items-center pb-2">
+                <div className="w-10 rounded-full">
                   <img
+                    alt="user photo"
                     src={
                       user?.photoURL ||
                       "https://img.icons8.com/windows/64/user.png"
                     }
-                    alt="user photo"
-                    className="rounded-full border"
+                    referrerPolicy="no-referrer"
                   />
+                </div>
+              </div>
+
+              {/* dropdown menu on user logo */}
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-white dark:bg-neutral-800 rounded-box z-1 mt-3 w-52 p-2 shadow-lg border border-gray-200 dark:border-neutral-700"
+              >
+                <li className="p-2 text-center border-b dark:border-neutral-700">
+                  <p className="font-bold text-gray-900 dark:text-white truncate">
+                    {user.displayName || "User"}
+                  </p>
                 </li>
-                <li className="text-center font-semibold border-b border-gray-200 pb-2">
-                  Hello, {user?.displayName || "User"}
-                </li>
-                <li className="text-center text-sm pb-2">
-                  {user?.email}
+                <li>
+                  <NavLink
+                    to="/dashboard/profile"
+                    className="dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-neutral-700"
+                  >
+                    Profile
+                  </NavLink>
                 </li>
                 <li>
                   <button
                     onClick={logoutFunction}
-                    className="btn btn-sm w-full"
+                    className="text-red-500 hover:bg-red-100 dark:hover:bg-neutral-700/50"
                   >
                     Logout
                   </button>
@@ -353,52 +180,61 @@ const Navbar = () => {
               </ul>
             </div>
           ) : (
-            <div className="hidden lg:flex gap-5 items-center">
-              <Link
-                to={"/login"}
-                className="btn btn-gradient font-semibold hover:bg-blue-100"
+            <div className="flex space-x-2 md:hidden ml-2">
+              <NavLink
+                to="/login"
+                className="btn btn-sm w-18 text-white bg-blue-500 hover:bg-blue-600 border-none rounded-lg font-bold"
               >
                 Login
-              </Link>
-              <Link
-                to={"/register"}
-                className="btn btn-gradient font-semibold hover:bg-blue-100"
-              >
-                Register
-              </Link>
+              </NavLink>
             </div>
           )}
+
+          {/* theme toggle */}
+          <label className="swap swap-rotate text-xl border-2 border-blue-500/50 rounded-full p-1.5 text-gray-600 dark:text-gray-300 ml-2">
+            <input
+              type="checkbox"
+              checked={theme === "dark"}
+              onChange={toggleTheme}
+            />
+            <FaSun className="swap-off fill-current w-6 h-6 transition-transform duration-300" />
+            <FaMoon className="swap-on fill-current w-6 h-6 transition-transform duration-300" />
+          </label>
+
+          {/* Mobile Dropdown (Hamburger Menu) */}
+          <div className="dropdown dropdown-end md:hidden ml-2">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle"
+            >
+              <AiOutlineMenu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-white dark:bg-neutral-800 rounded-box z-1 mt-3 w-52 p-2 shadow-lg border border-gray-200 dark:border-neutral-700 right-0"
+            >
+              {!user?.email ? guestLinks : userLinks}
+
+              {!user?.email && (
+                <>
+                  <li>
+                    <NavLink to="/login" className={linkClass}>
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/register" className={linkClass}>
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
         </div>
-
-        {/* <div className="navbar-end flex items-center space-x-4 gap-2">
-          
-        </div> */}
-        <label className="swap swap-rotate ml-4">
-          <input
-            type="checkbox"
-            checked={theme === "dark"}
-            onChange={toggleTheme}
-          />
-
-          <svg
-            className="swap-off h-10 w-10 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
-          </svg>
-
-          <svg
-            className="swap-on h-10 w-10 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
-          </svg>
-        </label>
       </div>
     </div>
   );
 };
-
 export default Navbar;
