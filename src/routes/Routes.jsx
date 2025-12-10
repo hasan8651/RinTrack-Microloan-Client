@@ -20,8 +20,11 @@ import PrivateRoute from "./PrivateRoute";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import Suspended from "../pages/Suspended/Suspended";
-
-
+import Statistics from "../pages/Dashboard/Common/Statistics";
+import Profile from "../pages/Dashboard/Common/Profile";
+import ManagerRoute from "./ManagerRoute";
+import BorrowerRoute from "./BorrowerRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +51,7 @@ export const router = createBrowserRouter([
       },
        {
         path: "/payment-success",
-        element: <PaymentSuccess />,
+        element: <PaymentSuccess/>,
       },
       {
         path: "/about-us",
@@ -64,11 +67,11 @@ export const router = createBrowserRouter([
       }
         {
         path: "/register",
-        element: <Register />,
+        element: <Register/>,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <Login/>,
       },
       
     ],
@@ -76,64 +79,52 @@ export const router = createBrowserRouter([
 
   {
     path: "/dashboard",
-    element: 
-     
-        <DashboardLayout />
-      
-   ,
+    element: (<PrivateRoute><DashboardLayout/></PrivateRoute>),
     children: [
       {
-        index: true,
-        element: <DashboardLayout />,
+      index: true,
+      element: (<PrivateRoute><Statistics/></PrivateRoute>),
       },
       {
-        path: "/dashboard/profile",
-        element: <MyLoans gg />,
+        path: "profile",
+        element: (<PrivateRoute><Profile/></PrivateRoute>),
       },
       {
-        path: "/dashboard/my-loans",
-        element: <MyLoans />,
+        path: "my-loans",
+        element: (<PrivateRoute><BorrowerRoute><MyLoans/></BorrowerRoute></PrivateRoute>),
       },
        {
-        path: "/dashboard/add-loan",
-        element: 
-            <AddLoan/>,
-                 },
+        path: "add-loan",
+        element: (<PrivateRoute><ManagerRoute><AddLoan/></ManagerRoute></PrivateRoute>),
+        },
        {
-        path: "/dashboard/update-loan/:id",
-        element: 
-            <UpdateLoans/>,
-                 },
+        path: "update-loan/:id",
+        element: <UpdateLoans/>,
+        },
        {
-        path: "/dashboard/manage-loans",
-        element: 
-            <ManageLoans/>,
-                 },
+        path: "manage-loans",
+         element: (<PrivateRoute><ManagerRoute><ManageLoans/></ManagerRoute></PrivateRoute>),
+        },
        {
-        path: "/dashboard/pending-loans",
-        element: 
-            <PendingLoans/>,
-                 },
+        path: "pending-loans",
+       element: (<PrivateRoute><ManagerRoute><PendingLoans/></ManagerRoute></PrivateRoute>)
+        },
        {
-        path: "/dashboard/approved-loans",
-        element: 
-            <ApprovedLoans/>,
-                 },
+        path: "approved-loans",
+        element: (<PrivateRoute><ManagerRoute><ApprovedLoans/></ManagerRoute></PrivateRoute>),
+        },
        {
-        path: "/dashboard/loan-applications",
-        element: 
-            <AddLoan gg/>,
-                 },
+        path: "loan-applications",
+        element: (<PrivateRoute><AdminRoute><LoanApplication/></AdminRoute></PrivateRoute>),
+     },
        {
-        path: "/dashboard/all-loan",
-        element: 
-            <AddLoan gg/>,
-                 },
+        path: "all-loan",
+        element: (<PrivateRoute><AdminRoute><AllLoan/></AdminRoute></PrivateRoute>),
+       },
        {
-        path: "/dashboard/manage-users",
-        element: 
-            <AddLoan gg/>,
-                 },
+        path: "manage-users",
+        element: (<PrivateRoute><AdminRoute><ManageUsers></ManageUsers></AdminRoute></PrivateRoute>),
+       },
     ]}
 
 ]);

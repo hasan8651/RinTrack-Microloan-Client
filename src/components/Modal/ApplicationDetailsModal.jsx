@@ -13,7 +13,6 @@ const ApplicationDetailsModal = ({ isOpen, closeModal, myLoan }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={closeModal}>
-        {/* Backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -38,7 +37,6 @@ const ApplicationDetailsModal = ({ isOpen, closeModal, myLoan }) => {
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel className="w-full max-w-lg bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl transition-all">
-                {/* Header */}
                 <div className="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">
                   <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                     Loan & Payment Details
@@ -51,7 +49,6 @@ const ApplicationDetailsModal = ({ isOpen, closeModal, myLoan }) => {
                   </button>
                 </div>
 
-                {/* Content */}
                 <div className="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
                   <p>
                     <span className="font-semibold">Loan Title:</span>{" "}
@@ -120,11 +117,10 @@ const ApplicationDetailsModal = ({ isOpen, closeModal, myLoan }) => {
                   <div className="mt-3"></div>
                 </div>
 
-                {/* Footer */}
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={closeModal}
-                    className="px-6 py-2 bg-amber-500 text-white font-medium rounded-lg hover:bg-amber-600 transition-colors"
+                    className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors"
                   >
                     Close
                   </button>
