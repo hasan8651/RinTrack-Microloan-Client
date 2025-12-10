@@ -16,6 +16,10 @@ import PendingLoans from "../pages/Dashboard/Manager/PendingLoans";
 import ApprovedLoans from "../pages/Dashboard/Manager/ApprovedLoans";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import PrivateRoute from "./PrivateRoute";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import ContactUs from "../pages/ContactUs/ContactUs";
+import Suspended from "../pages/Suspended/Suspended";
 
 
 
@@ -36,7 +40,7 @@ export const router = createBrowserRouter([
       },
         {
         path: "/loans/:id",
-        element: <LoanDetails/>,
+        element: (<PrivateRoute><LoanDetails/></PrivateRoute>),
       },
        {
         path: "/loan-form/:id",
@@ -46,6 +50,18 @@ export const router = createBrowserRouter([
         path: "/payment-success",
         element: <PaymentSuccess />,
       },
+      {
+        path: "/about-us",
+        element: <AboutUs/>,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs/>,
+      },
+       {
+        path: '/suspended',
+        element: <Suspended/>
+      }
         {
         path: "/register",
         element: <Register />,

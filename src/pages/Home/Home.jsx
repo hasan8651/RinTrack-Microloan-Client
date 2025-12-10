@@ -1,18 +1,16 @@
+import { Helmet } from "react-helmet-async";
 import FeaturedLoans from "../../components/FeaturedLoans/FeaturedLoans";
 import Hero from "../../components/Hero/Hero";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-
 
 const Home = () => {
- 
-
   return (
     <div>
-       <h2>Home Page</h2>
-      <Hero/>
-      <FeaturedLoans/>
+      <Helmet>
+        <title>RinTrack - Home</title>
+      </Helmet>
+      <Hero />
+      <FeaturedLoans />
     </div>
-     
   );
 };
 

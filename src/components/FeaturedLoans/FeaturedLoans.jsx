@@ -18,7 +18,7 @@ const FeaturedLoans = () => {
   return (
     <div className="py-14">
       <h1 className="text-2xl md:text-3xl py-4 mb-2 section-gradient font-semibold text-center">
-        Popular Loans
+        Available Loans
       </h1>
 
       {loading ? (
