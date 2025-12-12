@@ -28,7 +28,6 @@ const AdminStatistics = () => {
       return result.data;
     },
   });
-  console.log(allLoans);
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -57,54 +56,119 @@ const AdminStatistics = () => {
     { name: "Unpaid", value: totalUnpaid },
   ];
 
-  const COLORS = ["#00C49F", "#FF8042"];
+  const COLORS = ["#22C55E", "#F97316"];
 
   return (
-    <div className="p-6 min-h-screen font-sans">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
+    <div className="p-6 md:p-8 min-h-screen font-sans bg-base-100 dark:bg-neutral-900 transition-colors duration-300">
+      <h1 className="mt-6 md:mt-0 text-3xl md:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">
+        Admin Dashboard
+      </h1>
+      <p className="mb-8 text-gray-500 dark:text-gray-400">
+        Overview of loan activity, users, and payment status.
+      </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white shadow rounded-lg p-5 text-center">
-          <FaHandHoldingUsd className="mx-auto text-blue-500 mb-2" size={30} />
-          <h2 className="text-xl font-semibold text-gray-700">Active Loans</h2>
-          <p className="text-3xl font-bold text-green-600">{totalApproved}</p>
+      {/* Top Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {/* Active Loans */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Active Loans
+              </p>
+              <p className="text-3xl font-extrabold text-green-500">
+                {totalApproved}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400">
+              <FaHandHoldingUsd size={22} />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Loans that have been approved and are currently active.
+          </p>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-5 text-center">
-          <FaFileInvoiceDollar
-            className="mx-auto text-yellow-500 mb-2"
-            size={30}
-          />
-          <h2 className="text-xl font-semibold text-gray-700">Pending Loans</h2>
-          <p className="text-3xl font-bold text-yellow-500">{totalPending}</p>
+        {/* Pending Loans */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-amber-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Pending Loans
+              </p>
+              <p className="text-3xl font-extrabold text-amber-500">
+                {totalPending}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400">
+              <FaFileInvoiceDollar size={22} />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Loan applications waiting for review or approval.
+          </p>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-5 text-center">
-          <FaUserFriends className="mx-auto text-purple-500 mb-2" size={30} />
-          <h2 className="text-xl font-semibold text-gray-700">Total Users</h2>
-          <p className="text-3xl font-bold text-blue-600">{totalUsers}</p>
+        {/* Total Users */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-purple-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Total Users
+              </p>
+              <p className="text-3xl font-extrabold text-blue-500">
+                {totalUsers}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400">
+              <FaUserFriends size={22} />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Unique users who have submitted loan applications.
+          </p>
         </div>
       </div>
 
+      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white shadow rounded-lg p-5">
-          <h2 className="text-xl font-semibold mb-4 text-gray-700">
+        {/* Loan Status Bar Chart */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Loan Status
           </h2>
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
               <BarChart data={barData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#82ca9d" />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fill: "#9CA3AF" }} // gray-400
+                  axisLine={{ stroke: "#E5E7EB" }}
+                  tickLine={{ stroke: "#E5E7EB" }}
+                />
+                <YAxis
+                  tick={{ fill: "#9CA3AF" }}
+                  axisLine={{ stroke: "#E5E7EB" }}
+                  tickLine={{ stroke: "#E5E7EB" }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#111827",
+                    borderRadius: "0.5rem",
+                    border: "1px solid #374151",
+                    color: "#F9FAFB",
+                  }}
+                  itemStyle={{ color: "#F9FAFB" }}
+                />
+                <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#3B82F6" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-5">
-          <h2 className="text-xl font-semibold mb-4 text-gray-700">
+        {/* Payment Status Pie Chart */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Payment Status
           </h2>
           <div style={{ width: "100%", height: 300 }}>
@@ -115,17 +179,39 @@ const AdminStatistics = () => {
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
-                  outerRadius={80}
+                  outerRadius={90}
                   paddingAngle={5}
                   dataKey="value"
                 >
                   {pieData.map((entry, index) => (
-                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#111827",
+                    borderRadius: "0.5rem",
+                    border: "1px solid #374151",
+                    color: "#F9FAFB",
+                  }}
+                  itemStyle={{ color: "#F9FAFB" }}
+                />
               </PieChart>
             </ResponsiveContainer>
+          </div>
+
+          <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+              <span className="inline-block w-3 h-3 rounded-full bg-emerald-500" />
+              <span>Paid ({totalPaid})</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+              <span className="inline-block w-3 h-3 rounded-full bg-orange-500" />
+              <span>Unpaid ({totalUnpaid})</span>
+            </div>
           </div>
         </div>
       </div>

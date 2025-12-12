@@ -19,6 +19,19 @@ const Sidebar = () => {
     setActive(!isActive);
   };
 
+
+const sidebarLinkClass = ({ isActive }) =>
+  `flex items-center gap-3 px-4 py-3 font-medium rounded-lg transition-colors duration-200 ${
+    isActive
+      ? "text-blue-500 bg-blue-50 dark:bg-neutral-700/50 border-b-4 border-blue-500"
+      : "text-gray-700 dark:text-gray-200 hover:text-blue-500 hover:bg-gray-50 dark:hover:bg-neutral-800"
+  }`;
+
+
+
+
+
+
   return (
     <>
       {/* Mobile Header */}
@@ -72,17 +85,17 @@ const Sidebar = () => {
       {/* Nav */}
       <div className="flex flex-col justify-between flex-1 mt-6">
         <nav className="space-y-2">
-          <MenuItem icon={FaChartLine} label="Overview" address="/dashboard" />
-          {role === "borrower" && <CustomerMenu />}
-          {role === "manager" && <SellerMenu />}
-          {role === "admin" && <AdminMenu />}
+          <MenuItem icon={FaChartLine} label="Overview" address="/dashboard" linkClass={sidebarLinkClass} end/>
+          {role === "borrower" && <CustomerMenu linkClass={sidebarLinkClass}/>}
+          {role === "manager" && <SellerMenu linkClass={sidebarLinkClass}/>}
+          {role === "admin" && <AdminMenu linkClass={sidebarLinkClass}/>}
         </nav>
       </div>
 
       {/* Profile + Logout */}
       <div className="mt-6">
         <hr className="border-gray-200 dark:border-neutral-800" />
-        <MenuItem icon={FaUserEdit} label="My Profile" address="/dashboard/profile" />
+        <MenuItem icon={FaUserEdit} label="My Profile" address="/dashboard/profile" linkClass={sidebarLinkClass} />
         <button
           onClick={logoutFunction}
           className="flex w-full items-center px-4 py-3 mt-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors font-medium"
