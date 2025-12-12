@@ -1,13 +1,14 @@
 import { useParams, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { imageUpload } from "../../../utils";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const UpdateLoans = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const [loan, setLoan] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,23 +17,21 @@ const UpdateLoans = () => {
   useEffect(() => {
     const fetchLoan = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/loans/${id}`
-        );
+        const res = await axiosSecure.get(`/loans/${id}`);
         setLoan(res.data);
-        setLoading(false);
       } catch (err) {
         console.error(err);
-          Swal.fire({
-                icon: "error",
-                title: "Failed to load loan data",
-                text: err.response?.data?.message || err.message,
-              });
+        Swal.fire({
+          icon: "error",
+          title: "Failed to load loan data",
+          text: err.response?.data?.message || err.message,
+        });
+      } finally {
         setLoading(false);
       }
     };
     fetchLoan();
-  }, [id]);
+  }, [id, axiosSecure]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,178 +55,219 @@ const UpdateLoans = () => {
         showOnHome: e.target.showOnHome.checked,
       };
 
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/loans/${id}`,
-        updatedData
-      );
-        Swal.fire({
-                position: "top-end",
-                icon: "success",
-                background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-                color: "white",
-                title: "Loan updated successfully!",
-                showConfirmButton: false,
-                timer: 1500,
-              });
+      await axiosSecure.patch(`/loans/${id}`, updatedData);
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
+        color: "white",
+        title: "Loan updated successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       navigate("/dashboard/manage-loans");
     } catch (err) {
       console.error(err);
-           Swal.fire({
-              icon: "error",
-              title: "Failed to update loan",
-              text: err.response?.data?.message || err.message,
-            });
+      Swal.fire({
+        icon: "error",
+        title: "Failed to update loan",
+        text: err.response?.data?.message || err.message,
+      });
     }
   };
 
-  if (loading) return <LoadingSpinner/>;
-  if (!loan) return <p className="text-center mt-12">Loan not found.</p>;
+  if (loading) return <LoadingSpinner />;
+  if (!loan)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-base-100 dark:bg-neutral-900">
+        <p className="text-center text-gray-600 dark:text-gray-300">
+          Loan not found.
+        </p>
+      </div>
+    );
 
   return (
-    <div className="max-w-3xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-xl">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        Update Loan
-      </h2>
+    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-2xl p-6 md:p-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-6 text-gray-900 dark:text-white">
+            Update Loan
+          </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-           <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium">Title</span>
-          </label>
-          <input
-            name="title"
-            defaultValue={loan.title}
-            placeholder="Loan title"
-            className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-          />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                Title
+              </label>
+              <input
+                name="title"
+                defaultValue={loan.title}
+                placeholder="Loan title"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+              />
+            </div>
+
+            {/* Category + Interest */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                  Category
+                </label>
+                <input
+                  name="category"
+                  defaultValue={loan.category}
+                  placeholder="Category"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                  Interest Rate (%)
+                </label>
+                <input
+                  name="interestRate"
+                  type="number"
+                  step="0.1"
+                  defaultValue={loan.interestRate}
+                  placeholder="Interest Rate"
+                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                />
+              </div>
+            </div>
+
+            {/* Max Loan Limit */}
+            <div>
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                Max Loan Limit
+              </label>
+              <input
+                name="maxLoanLimit"
+                type="number"
+                defaultValue={loan.maxLoanLimit}
+                placeholder="Max Loan Limit"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                Description
+              </label>
+              <textarea
+                name="description"
+                defaultValue={loan.description}
+                placeholder="Description"
+                className="w-full h-28 px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none"
+              />
+            </div>
+
+            {/* EMI Plans */}
+            <div>
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                EMI Plans
+              </label>
+              <input
+                name="emiPlans"
+                defaultValue={loan.emiPlans}
+                placeholder="3 Months, 6 Months"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+              />
+            </div>
+
+            {/* Required Documents */}
+            <div>
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                Required Documents
+              </label>
+              <input
+                name="requiredDocuments"
+                defaultValue={loan.requiredDocuments}
+                placeholder="NID, Passport"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+              />
+            </div>
+
+            {/* Image */}
+            <div>
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setSelectedImage(e.target.files[0])}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+              />
+              {loan.image && (
+                <img
+                  src={loan.image}
+                  alt="Loan"
+                  className="mt-3 w-32 h-20 object-cover rounded-md border border-gray-200 dark:border-neutral-700"
+                />
+              )}
+            </div>
+
+            {/* Show on Home */}
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="checkbox"
+                name="showOnHome"
+                defaultChecked={loan.showOnHome}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-400"
+              />
+              <label className="text-sm font-semibold text-gray-800 dark:text-gray-200 cursor-pointer">
+                Show on Home
+              </label>
+            </div>
+
+           {/* Submit + Cancel */}
+<div className="flex gap-3 mt-6">
+  <button
+    type="button"
+    onClick={() => navigate(-1)}
+    className="w-1/2 py-3 rounded-lg font-semibold 
+               border border-gray-300 dark:border-neutral-700
+               bg-white dark:bg-neutral-900 
+               text-gray-700 dark:text-gray-200
+               hover:bg-gray-50 dark:hover:bg-neutral-800
+               transition-colors"
+  >
+    Cancel
+  </button>
+
+  <button
+    type="submit"
+    className="w-1/2 py-3 rounded-lg font-semibold text-white 
+               bg-gradient-to-r from-blue-500 to-sky-600 
+               hover:from-blue-600 hover:to-sky-700 
+               shadow-md shadow-blue-500/30 transition-colors"
+  >
+    Update Loan
+  </button>
+</div>
+          </form>
         </div>
-
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">
-                Category
-              </span>
-            </label>
-            <input
-              name="category"
-              defaultValue={loan.category}
-              placeholder="Category"
-              className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-medium">
-                Interest Rate (%)
-              </span>
-            </label>
-            <input
-              name="interestRate"
-              type="number"
-              step="0.1"
-              defaultValue={loan.interestRate}
-              placeholder="Interest Rate"
-              className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-            />
-          </div>
-        </div>
-
-          <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium">
-              Max Loan Limit
-            </span>
-          </label>
-          <input
-            name="maxLoanLimit"
-            type="number"
-            defaultValue={loan.maxLoanLimit}
-            placeholder="Max Loan Limit"
-            className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-          />
-        </div>
-
-          <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium">
-              Description
-            </span>
-          </label>
-          <textarea
-            name="description"
-            defaultValue={loan.description}
-            placeholder="Description"
-            className="textarea textarea-bordered w-full h-28 border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-          />
-        </div>
-
-          <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium">
-              EMI Plans
-            </span>
-          </label>
-          <input
-            name="emiPlans"
-            defaultValue={loan.emiPlans}
-            placeholder="3 Months, 6 Months"
-            className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-          />
-        </div>
-
-          <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium">
-              Required Documents
-            </span>
-          </label>
-          <input
-            name="requiredDocuments"
-            defaultValue={loan.requiredDocuments}
-            placeholder="NID, Passport"
-            className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-          />
-        </div>
-
-          <div className="form-control">
-          <label className="label">
-            <span className="label-text font-medium">Image</span>
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setSelectedImage(e.target.files[0])}
-            className="input input-bordered w-full border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-          />
-            {loan.image && (
-            <img
-              src={loan.image}
-              alt="Loan Image"
-              className="mt-2 w-32 h-20 object-cover rounded-md border"
-            />
-          )}
-        </div>
-
-          <div className="form-control flex items-center mt-4">
-          <input
-            type="checkbox"
-            name="showOnHome"
-            defaultChecked={loan.showOnHome}
-            className="checkbox checkbox-primary mr-2"
-          />
-          <label className="label-text font-semibold cursor-pointer">
-            Show on Home
-          </label>
-        </div>
-
-      <button
-          type="submit"
-          className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-lg mt-6 transition duration-300"
-        >
-          Submit
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
