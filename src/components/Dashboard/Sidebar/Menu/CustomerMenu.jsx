@@ -1,21 +1,21 @@
-// import { BsFingerprint } from 'react-icons/bs'
-// import { GrUserAdmin } from 'react-icons/gr'
-// import MenuItem from './MenuItem'
-// import { useState } from 'react'
-// import BecomeSellerModal from '../../../Modal/BecomeSellerModal'
-// const CustomerMenu = () => {
-//   const [isOpen, setIsOpen] = useState(false)
+import { BsFingerprint } from 'react-icons/bs'
+import MenuItem from './MenuItem'
+import { useState } from 'react'
+import BecomeSellerModal from '../../../Modal/BecomeSellerModal'
 
-//   const closeModal = () => {
-//     setIsOpen(false)
-//   }
+const CustomerMenu = () => {
+  const [isOpen, setIsOpen] = useState(false)
 
-//   return (
-//     <>
-//       <MenuItem icon={BsFingerprint} label='My Loan' address='my-loan' />
-//       <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} />
-//     </>
-//   )
-// }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
 
-// export default CustomerMenu
+  return (
+    <>
+      <MenuItem icon={BsFingerprint} label='My Loans' address='my-loans' />
+      <BecomeSellerModal closeModal={closeModal} isOpen={isOpen} />
+    </>
+  )
+}
+
+export default CustomerMenu

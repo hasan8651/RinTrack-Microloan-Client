@@ -17,7 +17,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
         <div className="flex flex-wrap gap-2 justify-center">
           <button
             onClick={() => setIsOpen(true)}
-            className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="flex items-center gap-1 px-3 py-1 bg-blue-600  rounded hover:bg-blue-700"
           >
             <span className="md:hidden">
               <MdEdit />
@@ -26,7 +26,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
           </button>
 
           {user.status === "suspended" ? (
-            <span className="px-3 py-1 bg-red-500 text-white rounded">
+            <span className="px-3 py-1 bg-red-500  rounded">
               <span className="md:hidden">
                 <MdBlock />
               </span>
@@ -35,7 +35,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
           ) : (
             <button
               onClick={() => setIsViewOpen(true)}
-              className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+              className="flex items-center gap-1 px-3 py-1 bg-red-600  rounded hover:bg-red-700"
             >
               <span className="md:hidden">
                 <MdDangerous />

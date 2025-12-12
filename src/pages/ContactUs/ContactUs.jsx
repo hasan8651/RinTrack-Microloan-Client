@@ -76,7 +76,7 @@ const ContactUs = () => {
                 key={idx}
                 variants={child}
                 whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-blue-400/20 shadow-lg dark:shadow-[0_0_15px_rgba(251,191,36,0.1)] transition-all duration-300"
+                className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-gray-200 dark:border-blue-400/20 shadow-lg dark:shadow-[0_0_15px_rgba(14,165,233,0.1)] transition-all duration-300"
               >
                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
                   {idx === 0 && (
@@ -151,7 +151,7 @@ const ContactUs = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-white dark:bg-neutral-900 p-8 md:p-10 rounded-3xl border border-gray-200 dark:border-blue-400/20 shadow-2xl dark:shadow-[0_0_20px_rgba(251,191,36,0.15)]"
+              className="bg-white dark:bg-neutral-900 p-8 md:p-10 rounded-3xl border border-gray-200 dark:border-blue-400/20 shadow-2xl dark:shadow-[0_0_20px_rgba(14,165,233,0.15)]"
             >
               <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
                 Send a Message
@@ -206,7 +206,7 @@ const ContactUs = () => {
                 </label>
                 <div className="form-control">
                   <textarea
-                    className="textarea textarea-bordered h-32 bg-gray-50 dark:bg-neutral-800 border-gray-300 dark:border-neutral-700 focus:border-blue-500 focus:outline-none transition-all duration-300"
+                    className="textarea textarea-bordered w-full h-32 bg-gray-50 dark:bg-neutral-800 border-gray-300 dark:border-neutral-700 focus:border-blue-500 focus:outline-none transition-all duration-300"
                     placeholder="How can we help you?"
                   ></textarea>
                 </div>
@@ -214,7 +214,7 @@ const ContactUs = () => {
                 <motion.button
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
-                  className="w-full btn border-none bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-300"
+                  className="w-full btn border-none bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 text-white font-bold text-lg rounded-xl shadow-md shadow-blue-500/30 transition-all duration-300"
                 >
                   Send Message
                 </motion.button>

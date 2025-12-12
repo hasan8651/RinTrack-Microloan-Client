@@ -9,15 +9,14 @@ const ErrorPage = () => {
       </Helmet>
       <div className="flex flex-col items-center justify-center text-center py-12 px-6">
         <img src="/error-404.png" alt="404 page" className="w-96 my-4" />
-        <h1 className="text-4xl font-extrabold text-purple-600 mb-2">
+        <h1 className="text-4xl font-extrabold text-blue-500 mb-2">
           Oops, page not found!
         </h1>
-        <p className="text-purple-600 mb-6">
+        <p className="text-blue-500 mb-6">
           The page you are looking for is not available.
         </p>
-        <Link href="/" className="btn btn-gradient">
+        <Link href="/" className="btn">
           Go to Homepage
-          
         </Link>
       </div>
     </div>

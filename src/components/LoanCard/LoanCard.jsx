@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const LoanCard = ({ loan }) => {
   return (
-    <div className="card relative bg-white dark:bg-neutral-900/90  border border-gray-200 dark:border-blue-400/30 shadow-xl dark:shadow-[0_0_15px_rgba(251,191,36,0.1)] hover:scale-[1.02] hover:shadow-2xl dark:hover:shadow-[0_0_20px_rgba(251,191,36,0.25)] transition-all duration-300 rounded-2xl overflow-hidden">
+    <div className="card relative bg-white dark:bg-neutral-900/90  border border-gray-200 dark:border-blue-400/30 shadow-xl dark:shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:scale-[1.02] hover:shadow-2xl dark:hover:shadow-[0_0_20px_rgba(14,165,233,0.25)] transition-all duration-300 rounded-2xl overflow-hidden">
       <figure className="h-52 overflow-hidden">
         <img
           src={loan.image}

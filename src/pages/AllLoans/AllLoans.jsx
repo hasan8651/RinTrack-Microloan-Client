@@ -1,75 +1,60 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import LoanCard from "../../components/LoanCard/LoanCard";
+import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import LoanCard from "../../components/LoanCard/LoanCard";
+
 
 const AllLoans = () => {
-  const [loans, setLoans] = useState([]);
-  const [filteredLoans, setFilteredLoans] = useState([]);
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [loading, setLoading] = useState(true);
+  const { data: loans = [], isLoading } = useQuery({
+    queryKey: ["loans"],
+    queryFn: async () => {
+      const result = await axios.get(`${import.meta.env.VITE_API_URL}/loans`);
+      console.log(result.data)
+      return result.data;
+    },
+  });
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/loans`)
-      .then(({ data }) => {
-        setLoans(data);
-        setFilteredLoans(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  if (isLoading) return <LoadingSpinner />;
 
-  const handleFilter = (category) => {
-    setCategoryFilter(category);
-    if (category === "") {
-      setFilteredLoans(loans);
-    } else {
-      const filtered = loans.filter((loan) => loan.category === category);
-      setFilteredLoans(filtered);
-    }
+ const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeInOut" },
+    },
   };
 
-  const categories = [...new Set(loans.map((loan) => loan.category))];
-
   return (
-    <div>
-      <Helmet>
-              <title>RinTrack - Loans</title>
-            </Helmet>
-      <div className="mb-4 section-gradient flex items-center justify-center py-2">
-        <select
-          className="select select-bordered w-full max-w-xs bg-transparent"
-          value={categoryFilter}
-          onChange={(e) => handleFilter(e.target.value)}
-        >
-          <option className="section-gradient rounded-md" value="">
-            All Category
-          </option>
-          {categories.map((category, i) => (
-            <option className="section-gradient rounded-md my-1" key={i} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </div>
+    <section className="py-12">
+      <div className="max-w-7xl px-2 mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+            All Available Loans
+          </h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
+            Explore our all microloan options tailored to your needs
+          </p>
+        </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <LoadingSpinner />
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredLoans.map((loan) => (
-            <LoanCard key={loan._id} loan={loan} />
-          ))}
-        </div>
-      )}
-    </div>
+<motion.div
+  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 px-5 sm:px-0"
+>
+  {loans.map((loan) => (
+    <motion.div
+      key={loan._id}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: 0.2 }}
+    >
+      <LoanCard loan={loan} />
+    </motion.div>
+  ))}
+</motion.div>
+      </div>
+    </section>
   );
 };
 

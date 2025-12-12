@@ -1,160 +1,139 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router";
-import Swal from "sweetalert2";
+import useRole from "../../hooks/useRole";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import NotFound from "../NotFound/NotFound";
-import { AuthContext } from "../../context/AuthContext";
-
 
 const LoanDetails = () => {
   const { id } = useParams();
-  const { user } = useContext(AuthContext);
-  const [loan, setloan] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [role, isRoleLoading] = useRole();
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/loans/${id}`)
-      .then(({ data }) => {
-        setloan(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+  // Fetch loan details
+  const { data: details = {}, isLoading } = useQuery({
+    queryKey: ["loans", id],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/loans/${id}`);
+      return result.data;
+    },
+  });
 
-  const handleApplied = () => {
-    const appliedLoan = {
-      loanId: loan?._id,
-      title: loan?.title,
-      image: loan?.image,
-      interest: loan?.interest,
-      maxLimit: loan?.maxLimit,
-      category: loan?.category,
-      email: user?.email,
-    };
+  if (isLoading || isRoleLoading) return <LoadingSpinner />;
 
-    console.log(appliedLoan);
-
-    axios
-      .post(
-        `${import.meta.env.VITE_API_URL}/my-loan`,
-        appliedLoan,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      .then(({ data }) => {
-        if (data?.insertedId) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-            color: "white",
-            title: "Course Enrolled Successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire({
-          icon: "error",
-          title: "Failed to Apply Loan",
-          text: error.response?.data?.message || error.message,
-        });
-      });
-  };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  if (!loan) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <NotFound />
-      </div>
-    );
-  }
   return (
-    <div className="min-h-screen py-6 px-4">
-      <Helmet>
-        <title>RinTrack - {loan.title}</title>
-      </Helmet>
-      <div className="mb-6 text-center text-md text-base-content/70">
-        Microloan Request & Tracking Platform
-      </div>
-      <div className="max-w-5xl mx-auto shadow-xl rounded-lg overflow-hidden">
-        <div className="flex flex-col lg:flex-row">
-          <div className="aspect-video w-full overflow-hidden">
-            <img
-              src={loan.image}
-              alt={loan.title}
-              loading="lazy"
-              className=" w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-            />
-          </div>
-          <div className="lg:w-1/2 p-8 space-y-4">
-            <h1 className="text-3xl font-bold text-purple-600">
-              {loan.title}
-            </h1>
-
-            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between text-lg font-semibold">
-              <p>
-                Featured:{" "}
-                <span
-                  className={
-                    loan.isFeatured ? "text-green-500" : "text-red-500"
-                  }
-                >
-                  {loan.isFeatured ? "Yes" : "No"}
-                </span>
-              </p>
-              <p>
-                Category:{" "}
-                <span className="text-green-500">{loan.category}</span>
-              </p>
+    <section className="py-12 transition-colors">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-xl overflow-hidden border border-gray-200 dark:border-neutral-800">
+          <div className="grid lg:grid-cols-5 gap-0">
+            <div className="lg:col-span-2">
+              <img
+                src={details.image}
+                alt={details.title}
+                className="w-full h-80 sm:h-96 lg:h-full object-cover"
+              />
             </div>
-            <div className="border-t border-purple-600 w-100"></div>
-            <p className="text-purple-600 leading-relaxed font-semibold">
-              {loan.interest}
-            </p>
-            <div className="border-t border-purple-600 w-100"></div>
-            <div className="flex gap-4 px-2 items-center justify-between text-lg font-semibold">
-              <div className="md:flex md:gap-6">
-                <p>
-                  Limit:
-                  <span className="ml-1 text-green-500">{loan.maxLimit}</span>
-                </p>
-                <p>
-                  Price:
-                  <span className="ml-1 text-green-500">${loan.interest}</span>
+
+            <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+              <div className="max-w-2xl">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
+                  {details.title}
+                </h1>
+                <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {details.description}
                 </p>
               </div>
-              <div>
-                {user?.email && (
-                   <Link
-                to={`/loan-form/${loan?._id}`}
-                   className="btn btn-gradient">
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+                <div>
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Category
+                  </p>
+                  <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">
+                    {details.category}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Interest Rate
+                  </p>
+                  <p className="mt-1 text-xl font-bold text-red-600 dark:text-red-400">
+                    {details.interestRate}%
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Max Limit
+                  </p>
+                  <p className="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
+                    ${details.maxLoanLimit?.toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Since
+                  </p>
+                  <p className="mt-1 text-base font-medium text-gray-700 dark:text-gray-300">
+                    {new Date(details.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
+
+              {/* Apply Button */}
+              <div className="mt-10">
+                {role === "borrower" ? (
+                  <Link
+                    to={`/loan-form/${id}`}
+                    className="inline-block bg-gradient-to-r from-blue-500 to-sky-600 
+                         hover:from-blue-600 hover:to-sky-700 text-white font-bold 
+                         px-10 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 
+                         transition-all duration-200 text-lg"
+                  >
                     Apply Now
                   </Link>
+                ) : (
+                  <button
+                    disabled
+                    className="inline-block bg-gray-200 dark:bg-neutral-700 text-gray-500 
+                         px-10 py-4 rounded-xl cursor-not-allowed font-medium"
+                  >
+                    Borrowers Only
+                  </button>
                 )}
               </div>
             </div>
           </div>
         </div>
+
+        <div className="grid md:grid-cols-2 gap-8 mt-12 container mx-auto">
+          <div className="p-6 bg-white dark:bg-neutral-900/90 rounded-xl shadow-md border border-gray-200 dark:border-neutral-700">
+            <h2 className="font-bold text-2xl mb-4 border-b pb-2 text-gray-900 dark:text-white">
+              Required Documents 📄
+            </h2>
+
+            <ul className="space-y-3">
+              {details.requiredDocuments}
+            </ul>
+          </div>
+
+          <div className="bg-white dark:bg-neutral-900 p-8 rounded-2xl border border-gray-200 dark:border-neutral-800">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+              EMI Options
+            </h2>
+            <div className="p-6 bg-white dark:bg-neutral-900/90 rounded-xl shadow-md border border-gray-200 dark:border-neutral-700">
+              <h2 className="font-bold text-2xl mb-4 border-b pb-2 text-gray-900 dark:text-white">
+                Available EMI Plans 📅
+              </h2>
+
+              <div className="flex flex-wrap gap-3">
+                {details.emiPlans}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

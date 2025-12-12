@@ -1,8 +1,8 @@
 import { Navigate, useLocation } from "react-router";
-import LoadingSpinner from "../components/LoadingSpinner";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../components/LoadingSpinner/LoadingSpinner";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();

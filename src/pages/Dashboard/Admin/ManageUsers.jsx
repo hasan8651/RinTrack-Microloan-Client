@@ -51,7 +51,7 @@ const ManageUsers = () => {
             setSearchTerm(searchRef.current.value);
             setCurrentPage(1);
           }}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+          className="ml-2 px-4 py-2 bg-blue-500 rounded"
         >
           Search
         </button>
@@ -76,10 +76,10 @@ const ManageUsers = () => {
           <table className="min-w-full leading-normal">
             <thead>
               <tr>
-                <th className="px-5 py-3 bg-white border-b">Name</th>
-                <th className="px-5 py-3 bg-white border-b">Email</th>
-                <th className="px-5 py-3 bg-white border-b">Role</th>
-                <th className="px-5 py-3 bg-white border-b">Actions</th>
+                <th className="px-5 py-3  border-b">Name</th>
+                <th className="px-5 py-3  border-b">Email</th>
+                <th className="px-5 py-3  border-b">Role</th>
+                <th className="px-5 py-3  border-b">Actions</th>
               </tr>
             </thead>
 

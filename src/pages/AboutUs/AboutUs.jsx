@@ -123,7 +123,7 @@ const AboutUs = () => {
             {teamCardInfo.map((member, idx) => (
               <motion.div
                 key={idx}
-                className="group relative bg-white dark:bg-neutral-900 rounded-2xl p-6 text-center border border-gray-200 dark:border-blue-400/20 shadow-lg dark:shadow-[0_0_10px_rgba(251,191,36,0.1)] hover:-translate-y-2 transition-transform duration-300"
+                className="group relative bg-white dark:bg-neutral-900 rounded-2xl p-6 text-center border border-gray-200 dark:border-blue-400/20 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.1)] hover:-translate-y-2 transition-transform duration-300"
                 variants={fadeUp}
               >
                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-blue-100 dark:border-blue-900/50">

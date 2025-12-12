@@ -95,13 +95,13 @@ const Profile = () => {
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   Last Logged In
                 </p>
-                <p className="text-gray-700 dark:text-gray-200 font-semibold">
+        
                   <p className="text-gray-700 dark:text-gray-200 font-semibold">
                     {new Date(last_loggedIn).toLocaleDateString()}
                     {" | "}
                     {new Date(last_loggedIn).toLocaleTimeString()}
                   </p>
-                </p>
+          
               </div>
             </div>
 

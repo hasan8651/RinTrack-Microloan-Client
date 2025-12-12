@@ -25,6 +25,9 @@ import Profile from "../pages/Dashboard/Common/Profile";
 import ManagerRoute from "./ManagerRoute";
 import BorrowerRoute from "./BorrowerRoute";
 import AdminRoute from "./AdminRoute";
+import LoanApplication from "../pages/Dashboard/Admin/LoanApplication";
+import AllLoan from "../pages/Dashboard/Admin/AllLoan";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -64,7 +67,7 @@ export const router = createBrowserRouter([
        {
         path: '/suspended',
         element: <Suspended/>
-      }
+      },
         {
         path: "/register",
         element: <Register/>,
@@ -123,7 +126,7 @@ export const router = createBrowserRouter([
        },
        {
         path: "manage-users",
-        element: (<PrivateRoute><AdminRoute><ManageUsers></ManageUsers></AdminRoute></PrivateRoute>),
+        element: (<PrivateRoute><AdminRoute><ManageUsers/></AdminRoute></PrivateRoute>),
        },
     ]}
 

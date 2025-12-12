@@ -119,7 +119,7 @@ className="w-full px-4 py-3 border rounded-xl bg-gray-50 dark:bg-neutral-800 dar
 
 return (
 <div className="bg-base-100 dark:bg-base-300 min-h-screen flex items-center justify-center py-10 px-4 transition-colors duration-300">
-<div className=" w-full max-w-4xl p-8 lg:p-10 bg-white dark:bg-neutral-900/90 rounded-2xl shadow-2xl dark:shadow-[0_0_20px_rgba(251,191,36,0.1)] border border-gray-200 dark:border-amber-400/30 " >
+<div className=" w-full max-w-4xl p-8 lg:p-10 bg-white dark:bg-neutral-900/90 rounded-2xl shadow-2xl dark:shadow-[0_0_20px_rgba(14,165,233,0.1)] border border-gray-200 dark:border-amber-400/30 " >
 <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-8 text-center border-b pb-4 border-amber-400/50">
 Apply for: <span className="text-amber-500">{loan.title}</span>
 </h2>
