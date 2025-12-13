@@ -119,7 +119,7 @@ Apply for: <span className="text-blue-500">{loan.title}</span>
           <span className="font-medium">Interest Rate:</span> {loan.interest}%
         </div>
         <div>
-          <span className="font-medium">Max Limit:</span> ${Number(loan.maxLimit).toLocaleString()}
+          <span className="font-medium">Max Loan Limit:</span> ${Number(loan.maxLimit).toLocaleString()}
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@ Apply for: <span className="text-blue-500">{loan.title}</span>
           placeholder="e.g., Job, Business, Freelance"
         />
         <InputField label="Monthly Income ($)" name="monthlyIncome" type="number" register={register} errors={errors} icon={FaMoneyBillWave} requiredMessage="Monthly income is required" />
-        <InputField label="Loan Amount Requested ($)" name="loanAmount" type="number" register={register} errors={errors} icon={FaMoneyBillWave} requiredMessage="Loan amount is required" />
+        <InputField label="Requested Loan Amount ($)" name="loanAmount" type="number" register={register} errors={errors} icon={FaMoneyBillWave} requiredMessage="Loan amount is required" />
       </div>
 
       <h3 className="text-2xl font-bold text-gray-900 dark:text-white border-b pb-2 pt-4">3. Purpose & Address</h3>
@@ -154,7 +154,7 @@ Apply for: <span className="text-blue-500">{loan.title}</span>
         <TextareaField label="Current Address" name="address" register={register} errors={errors} requiredMessage="Address is required" />
       </div>
 
-      <TextareaField label="Additional Notes" name="notes" register={register} errors={errors} optional />
+      <TextareaField label="Additional Notes" name="notes" register={register} errors={errors} requiredMessage="Additional Notes required" />
 
       <button
         type="submit"

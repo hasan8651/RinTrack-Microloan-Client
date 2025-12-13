@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import AllApplicationDataRow from "../../../components/Dashboard/TableRows/AllApplicationDataRow";
 
+const statusOptions = ["All", "Pending", "Approved", "Rejected"];
+
 const LoanApplication = () => {
   const axiosSecure = useAxiosSecure();
+  const [statusFilter, setStatusFilter] = useState("All");
 
   const {
     data: allLoans = [],
@@ -24,11 +28,17 @@ const LoanApplication = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
+  // Apply status filter (client-side)
+  const filteredLoans =
+    statusFilter === "All"
+      ? allLoans
+      : allLoans.filter((loan) => loan.status === statusFilter);
+
   return (
     <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+        <div className="flex flex-col mt-6 md:mt-0 gap-3 mb-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
               Loan Applications
@@ -37,11 +47,32 @@ const LoanApplication = () => {
               View and manage all submitted loan applications.
             </p>
           </div>
-          {isFetching && (
-            <span className="text-xs text-blue-500 dark:text-blue-400">
-              Updating...
-            </span>
-          )}
+
+          <div className="flex flex-col items-start sm:items-end gap-2">
+            {isFetching && (
+              <span className="text-xs text-blue-500 dark:text-blue-400">
+                Updating...
+              </span>
+            )}
+
+            {/* Status Filter */}
+            <div className="flex flex-wrap gap-2">
+              {statusOptions.map((status) => (
+                <button
+                  key={status}
+                  type="button"
+                  onClick={() => setStatusFilter(status)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                    statusFilter === status
+                      ? "bg-blue-500 text-white border-blue-500"
+                      : "bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"
+                  }`}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Error */}
@@ -61,23 +92,26 @@ const LoanApplication = () => {
                     Loan ID
                   </th>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    User Info
+                    User (Email, Name)
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Loan Category
                   </th>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Amount
                   </th>
-                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-5 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-5 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-5 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
 
               <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
-                {allLoans.length > 0 ? (
-                  allLoans.map((loan) => (
+                {filteredLoans.length > 0 ? (
+                  filteredLoans.map((loan) => (
                     <AllApplicationDataRow
                       key={loan._id}
                       loan={loan}
@@ -87,10 +121,10 @@ const LoanApplication = () => {
                 ) : (
                   <tr>
                     <td
-                      colSpan={5}
+                      colSpan={6}
                       className="px-5 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
                     >
-                      No loan applications found.
+                      No loan applications found for this filter.
                     </td>
                   </tr>
                 )}

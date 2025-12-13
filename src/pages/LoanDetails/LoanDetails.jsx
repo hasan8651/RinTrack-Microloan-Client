@@ -97,7 +97,7 @@ const LoanDetails = () => {
                 </div>
                 <div>
                   <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Max Limit
+                    Max Loan Limit
                   </p>
                   <p className="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
                     ${details.maxLoanLimit?.toLocaleString()}

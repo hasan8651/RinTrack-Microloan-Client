@@ -91,6 +91,12 @@ const AllLoan = () => {
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Category
                   </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold whitespace-nowrap text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Created By
+                  </th>
+                  <th className="px-5 py-3 text-center text-xs font-semibold whitespace-nowrap text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Show on Home
+                  </th>
                   <th className="px-5 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Actions
                   </th>
@@ -110,12 +116,13 @@ const AllLoan = () => {
                       loan={loan}
                       refetch={refetch}
                       variants={cardVariants}
+                      adminView  // <- NEW: tells the row to render admin columns
                     />
                   ))
                 ) : (
                   <tr>
                     <td
-                      colSpan={5}
+                      colSpan={7}
                       className="px-5 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
                     >
                       No loans found.

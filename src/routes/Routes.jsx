@@ -102,7 +102,7 @@ export const router = createBrowserRouter([
         },
        {
         path: "update-loan/:id",
-        element: <UpdateLoans/>,
+        element: (<PrivateRoute><ManagerRoute><UpdateLoans/></ManagerRoute></PrivateRoute>),
         },
        {
         path: "manage-loans",

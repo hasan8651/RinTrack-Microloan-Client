@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
 
-const AllApplicationDataRow = ({ loan }) => {
+const AllApplicationDataRow = ({ loan, refetch }) => {
   const [isViewOpen, setIsViewOpen] = useState(false);
 
   const handleView = () => setIsViewOpen(true);
@@ -54,7 +54,7 @@ const AllApplicationDataRow = ({ loan }) => {
         {loan.loanId}
       </td>
 
-      {/* User Info */}
+      {/* User (email, name) */}
       <td className="px-5 py-4 text-left text-sm">
         <p className="font-semibold text-gray-800 dark:text-gray-100">
           {loan.userEmail}
@@ -62,6 +62,11 @@ const AllApplicationDataRow = ({ loan }) => {
         <p className="text-xs text-gray-500 dark:text-gray-400">
           {loan.firstName} {loan.lastName}
         </p>
+      </td>
+
+      {/* Loan Category */}
+      <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
+        {loan.loanCategory || "N/A"}
       </td>
 
       {/* Amount */}
@@ -75,11 +80,10 @@ const AllApplicationDataRow = ({ loan }) => {
           className={`inline-flex items-center justify-center gap-1 rounded-full 
                       text-xs font-medium text-white w-28 h-7 md:h-8 ${color}`}
         >
-          {/* Icon only on small screens */}
+          {/* Icon on small screens */}
           <span className="md:hidden flex items-center justify-center">
             <Icon className="w-4 h-4" />
           </span>
-
           {/* Text on md+ */}
           <span className="hidden md:inline">{label}</span>
         </span>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import LoanCard from "../../components/LoanCard/LoanCard";
+import AllLoanCard from "../../components/LoanCard/AllLoanCard";
 
 
 const AllLoans = () => {
@@ -49,7 +49,7 @@ const AllLoans = () => {
       whileInView="visible"
       viewport={{ once: false, amount: 0.2 }}
     >
-      <LoanCard loan={loan} />
+      <AllLoanCard loan={loan} />
     </motion.div>
   ))}
 </motion.div>

@@ -40,7 +40,7 @@ const Register = () => {
         name: user?.displayName,
         email: user?.email,
         image: user?.photoURL,
-      });
+        });
 
       setUser(user);
 
@@ -75,9 +75,9 @@ const Register = () => {
     const name = e.target.name.value;
     const email = e.target.email.value;
     const photoURL = e.target.photoURL.value;
+    const role = e.target.role.value; // NEW
     const password = e.target.password.value;
 
-    // Validate password
     if (!passwordValidation(password)) {
       setPasswordError(
         "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
@@ -89,24 +89,21 @@ const Register = () => {
     setError("");
 
     try {
-      // Create Firebase user
       const result = await createUserFunction(email, password);
       const user = result.user;
 
-      // Update Firebase profile (name + photo)
       await updateProfileFunction({
         displayName: name,
         photoURL: photoURL,
       });
 
-      // Save or update user in DB
       await saveOrUpdateUser({
         name,
         email,
         image: photoURL,
+        role,
       });
 
-      // Update React user state
       setUser({
         ...user,
         displayName: name,
@@ -220,6 +217,26 @@ const Register = () => {
                              border-gray-300 dark:border-neutral-700 focus:ring-blue-400"
                   required
                 />
+              </div>
+            </div>
+
+            {/* Role (NEW) */}
+            <div className="space-y-2">
+              <label className="block font-medium text-gray-700 dark:text-gray-300">
+                Role
+              </label>
+              <div className="relative">
+                <select
+                  name="role"
+                  defaultValue="borrower"
+                  className="w-full px-4 py-3 border rounded-xl bg-gray-50 dark:bg-neutral-800 dark:text-white
+                             focus:outline-none focus:ring-2 transition-colors duration-200
+                             border-gray-300 dark:border-neutral-700 focus:ring-blue-400"
+                  required
+                >
+                  <option value="borrower">Borrower</option>
+                  <option value="manager">Manager</option>
+                </select>
               </div>
             </div>
 

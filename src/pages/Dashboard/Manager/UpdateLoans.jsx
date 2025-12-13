@@ -66,8 +66,7 @@ const UpdateLoans = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-
-      navigate("/dashboard/manage-loans");
+      navigate(-1);
     } catch (err) {
       console.error(err);
       Swal.fire({
