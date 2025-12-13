@@ -18,7 +18,7 @@ import {
 } from "recharts";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
-const AdminStatistics = () => {
+const ManagerStatistics = () => {
   const { data: allLoans = [], isLoading } = useQuery({
     queryKey: ["loans"],
     queryFn: async () => {
@@ -61,10 +61,10 @@ const AdminStatistics = () => {
   return (
     <div className="p-6 md:p-8 min-h-screen font-sans bg-base-100 dark:bg-neutral-900 transition-colors duration-300">
       <h1 className="mt-6 md:mt-0 text-3xl md:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">
-        Admin Dashboard
+        Manager Dashboard
       </h1>
       <p className="mb-8 text-gray-500 dark:text-gray-400">
-        Overview of loan activity, users, and payment status.
+        Manage of loan activity and Overview users, applications and payment status.
       </p>
 
       {/* Top Stats */}
@@ -219,4 +219,4 @@ const AdminStatistics = () => {
   );
 };
 
-export default AdminStatistics;
+export default ManagerStatistics;

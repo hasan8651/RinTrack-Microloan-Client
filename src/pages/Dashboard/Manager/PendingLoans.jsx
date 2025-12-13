@@ -1,52 +1,104 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import PendingLoanDataRow from "../../../components/Dashboard/TableRows/PendingLoanDataRow";
 
 const PendingLoans = () => {
-   const {
+  const axiosSecure = useAxiosSecure();
+
+  const {
     data: pendingLoans = [],
+    isLoading,
+    isError,
+    error,
     refetch,
+    isFetching,
   } = useQuery({
-    queryKey: ["loans"],
+    queryKey: ["pending-loans"],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/pending-loans`);
+      const result = await axiosSecure.get("/pending-loans");
       return result.data;
     },
+    keepPreviousData: true,
   });
-  console.log(pendingLoans)
+
+  if (isLoading) return <LoadingSpinner />;
+
   return (
-    <>
-      <div className="container mx-auto px-4 sm:px-8">
-      <div className="py-8">
-        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
-              <thead>
+    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
+              Pending Loan Applications
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              Review and manage all loan applications currently pending.
+            </p>
+          </div>
+          {isFetching && (
+            <span className="text-xs text-blue-500 dark:text-blue-400">
+              Updating...
+            </span>
+          )}
+        </div>
+
+        {isError && (
+          <p className="mb-4 text-sm text-red-500">
+            Failed to load pending loans: {error?.message || "Unknown error"}
+          </p>
+        )}
+
+        {/* Table card */}
+        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
+              <thead className="bg-gray-50 dark:bg-neutral-800/80">
                 <tr>
-                  <th className="px-5 py-3 bg-white border-b"> Loan ID</th>
-                  <th className="px-5 py-3 bg-white border-b">User Info </th>
-                  <th className="px-5  py-3 bg-white border-b">Amount</th>
-                  <th className="px-5  py-3 bg-white border-b">Date</th>
-                  <th className="px-5 py-3 bg-white border-b">Actions</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Loan ID
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    User Info
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th className="px-5 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
               </thead>
 
-              <tbody>
-                {pendingLoans.map((loan) => (
-                  <PendingLoanDataRow
-                    key={loan._id}
-                    
-                    loan={loan}
-                    refetch={refetch}
-                  />
-                ))}
+              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+                {pendingLoans.length > 0 ? (
+                  pendingLoans.map((loan) => (
+                    <PendingLoanDataRow
+                      key={loan._id}
+                      loan={loan}
+                      refetch={refetch}
+                    />
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-5 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
+                    >
+                      No pending loan applications found.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-    </>
   );
 };
 

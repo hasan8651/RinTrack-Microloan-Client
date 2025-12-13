@@ -1,36 +1,50 @@
 import { useState } from "react";
-import useAuth from "../../../hooks/useAuth";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import PaymentDetailsModal from "../../Modal/PaymentDetailsModal";
 import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
 
 const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // payment details
+  const [isViewOpen, setIsViewOpen] = useState(false); // application details
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const actionBtnBase =
+    "inline-flex items-center justify-center px-3 py-1.5 rounded-lg " +
+    "text-xs md:text-sm font-medium transition-colors";
 
   const handlePayment = async () => {
-    const paymentInfo = {
-      loanApplicationId: myLoan._id,
-      loanTitle: myLoan.loanTitle,
-      quantity: 1,
-      image: myLoan.image,
-      loanAmount: myLoan.loanAmount,
-      amount: 10,
-      currency: "usd",
-      borrower: {
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-      },
-    };
+    try {
+      const paymentInfo = {
+        loanApplicationId: myLoan._id,
+        loanTitle: myLoan.loanTitle,
+        quantity: 1,
+        image: myLoan.image,
+        loanAmount: myLoan.loanAmount,
+        amount: 10,
+        currency: "usd",
+        borrower: {
+          name: user?.displayName,
+          email: user?.email,
+          image: user?.photoURL,
+        },
+      };
 
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/create-checkout-session`,
-      paymentInfo
-    );
-    window.location.href = data.url;
+      const { data } = await axiosSecure.post(
+        "/create-checkout-session",
+        paymentInfo
+      );
+      window.location.href = data.url;
+    } catch (err) {
+      console.error("Payment error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Payment initiation failed",
+        text: err.response?.data?.message || err.message,
+      });
+    }
   };
 
   const handleCancelLoan = async () => {
@@ -39,99 +53,119 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
       text: "You can cancel only pending loan applications.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
+      confirmButtonColor: "#dc2626",
       cancelButtonColor: "#6b7280",
-      confirmButtonText: "Yes, Cancel",
+      confirmButtonText: "Yes, cancel",
     }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axios.delete(
-            `${import.meta.env.VITE_API_URL}/loan-application/${myLoan._id}`
-          );
+      if (!result.isConfirmed) return;
 
-          Swal.fire({
-            title: "Cancelled!",
-            text: "Your loan request has been cancelled.",
-            icon: "success",
-            confirmButtonColor: "#16a34a",
-          });
+      try {
+        await axiosSecure.delete(`/loan-application/${myLoan._id}`);
 
-          refetch();
-        } catch (error) {
-          Swal.fire({
-            title: "Error!",
-            text: "Failed to cancel loan.",
-            icon: "error",
-          });
-        }
+        Swal.fire({
+          position: "top-end",
+          background:
+            "linear-gradient(to right, #093371, #6E11B0, #093371)",
+          color: "white",
+          icon: "success",
+          title: "Your loan request has been cancelled.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        refetch && refetch();
+      } catch (error) {
+        console.error("Cancel loan error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Failed to cancel loan",
+          text: error.response?.data?.message || error.message,
+        });
       }
     });
   };
 
+  const statusColor =
+    myLoan.status === "Pending"
+      ? "bg-amber-500"
+      : myLoan.status === "Approved"
+      ? "bg-emerald-500"
+      : myLoan.status === "Rejected"
+      ? "bg-red-500"
+      : "bg-gray-400";
+
   return (
-    <tr>
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        <p>{myLoan.loanId}</p>
+    <tr className="border-b border-gray-200 dark:border-neutral-800">
+      {/* Loan ID */}
+      <td className="px-5 py-4 text-left text-sm text-gray-800 dark:text-gray-100">
+        {myLoan.loanId}
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        <p className="font-semibold">{myLoan.loanTitle}</p>
-        <p className="text-gray-600 text-sm">
+      {/* Loan Info */}
+      <td className="px-5 py-4 text-left text-sm">
+        <p className="font-semibold text-gray-800 dark:text-gray-100">
+          {myLoan.loanTitle}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {myLoan.firstName} {myLoan.lastName}
         </p>
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        <p>${myLoan.loanAmount}</p>
+      {/* Amount */}
+      <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
+        ${myLoan.loanAmount}
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        <p
-          className={`font-bold ${
-            myLoan.status === "Pending"
-              ? "text-orange-500"
-              : myLoan.status === "Approved"
-              ? "text-green-500"
-              : "text-gray-500"
-          }`}
+      {/* Status */}
+      <td className="px-5 py-4 text-left text-sm">
+        <span
+          className={`inline-flex items-center justify-center px-3 py-1 rounded-full 
+                      text-xs font-medium text-white ${statusColor}`}
         >
           {myLoan.status}
-        </p>
+        </span>
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm space-x-2">
-        <button
-          onClick={() => setIsViewOpen(true)}
-          className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
-        >
-          View Details
-        </button>
-
-        {myLoan.status === "Pending" && (
+      {/* Actions */}
+      <td className="px-5 py-4 text-right text-sm">
+        <div className="flex justify-end items-center gap-2">
+          {/* View Details */}
           <button
-            onClick={handleCancelLoan}
-            className="px-3 py-1 bg-red-500 text-white rounded text-sm"
+            onClick={() => setIsViewOpen(true)}
+            className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700`}
           >
-            Cancel
+            View Details
           </button>
-        )}
 
-        {myLoan.applicationFeeStatus === "Unpaid" ? (
-          <button
-            onClick={handlePayment}
-            className="px-3 py-1 bg-lime-600 text-white rounded text-sm"
-          >
-            Pay $10 Fee
-          </button>
-        ) : (
-          <button
-            onClick={() => setIsOpen(true)}
-            className="px-3 py-1 bg-green-600 text-white rounded text-sm"
-          >
-            Paid
-          </button>
-        )}
+          {/* Cancel (only Pending) */}
+          {myLoan.status === "Pending" && (
+            <button
+              onClick={handleCancelLoan}
+              className={`${actionBtnBase} bg-red-600 text-white hover:bg-red-700`}
+            >
+              Cancel
+            </button>
+          )}
 
+          {/* Payment / Paid */}
+          {myLoan.applicationFeeStatus === "Unpaid" ? (
+            <button
+              onClick={handlePayment}
+              className={`${actionBtnBase} bg-lime-600 text-white hover:bg-lime-700`}
+            >
+              Pay $10 Fee
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsOpen(true)}
+              className={`${actionBtnBase} bg-emerald-600 text-white hover:bg-emerald-700`}
+            >
+              Paid
+            </button>
+          )}
+        </div>
+
+        {/* Modals */}
         {isViewOpen && (
           <ApplicationDetailsModal
             myLoan={myLoan}

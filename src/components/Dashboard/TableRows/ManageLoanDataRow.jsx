@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { motion } from "framer-motion";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -12,8 +13,8 @@ const ManageLoanDataRow = ({ loan, refetch, variants }) => {
       text: "This loan will be permanently deleted.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#dc2626", // red-600
-      cancelButtonColor: "#6b7280", // gray-500
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete",
     }).then(async (result) => {
       if (!result.isConfirmed) return;
@@ -52,8 +53,8 @@ const ManageLoanDataRow = ({ loan, refetch, variants }) => {
   };
 
   const actionBtnBase =
-    "inline-flex items-center justify-center px-3 py-1.5 rounded-lg " +
-    "text-xs md:text-sm font-medium transition-colors";
+    "inline-flex items-center justify-center gap-1 px-3 py-1.5 " +
+    "rounded-lg text-xs md:text-sm font-medium w-24 transition-colors";
 
   return (
     <motion.tr
@@ -91,14 +92,20 @@ const ManageLoanDataRow = ({ loan, refetch, variants }) => {
             to={`/dashboard/update-loan/${loan._id}`}
             className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700`}
           >
-            Update
+            <span className="md:hidden flex items-center justify-center">
+              <FaEdit className="w-4 h-4" />
+            </span>
+            <span className="hidden md:inline">Update</span>
           </Link>
 
           <button
             onClick={() => handleDelete(loan._id)}
             className={`${actionBtnBase} bg-red-600 text-white hover:bg-red-700`}
           >
-            Delete
+            <span className="md:hidden flex items-center justify-center">
+              <FaTrash className="w-4 h-4" />
+            </span>
+            <span className="hidden md:inline">Delete</span>
           </button>
         </div>
       </td>

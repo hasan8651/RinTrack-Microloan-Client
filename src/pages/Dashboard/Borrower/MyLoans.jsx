@@ -1,65 +1,113 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import BorrowerAppliedDataRow from "../../../components/Dashboard/TableRows/BorrowerAppliedDataRow";
 
 const MyLoans = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: myLoans = [],
     isLoading,
+    isError,
+    error,
     refetch,
+    isFetching,
   } = useQuery({
     queryKey: ["my-loans", user?.email],
+    enabled: !!user?.email,
     queryFn: async () => {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/my-loans/${user?.email}`
-      );
+      const result = await axiosSecure.get(`/my-loans/${user?.email}`);
       return result.data;
     },
+    keepPreviousData: true,
   });
 
+  // After payment success, refetch and clean URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
 
     if (sessionId) {
       refetch();
-
       window.history.replaceState({}, document.title, "/dashboard/my-loans");
     }
   }, [refetch]);
-  if(isLoading){
-    return <LoadingSpinner/>
-  }
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="container mx-auto px-4 sm:px-8">
-      <div className="py-8">
-                <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
-              <thead>
+    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
+              My Loans
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              Track your loan applications, status, and payment progress.
+            </p>
+          </div>
+          {isFetching && (
+            <span className="text-xs text-blue-500 dark:text-blue-400">
+              Updating...
+            </span>
+          )}
+        </div>
+
+        {isError && (
+          <p className="mb-4 text-sm text-red-500">
+            Failed to load loans: {error?.message || "Unknown error"}
+          </p>
+        )}
+
+        {/* Table card */}
+        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
+              <thead className="bg-gray-50 dark:bg-neutral-800/80">
                 <tr>
-                  <th className="px-5 py-3 bg-white border-b">Loan ID</th>
-                  <th className="px-5 py-3 bg-white border-b">Loan Info</th>
-                  <th className="px-5 py-3 bg-white border-b">Amount</th>
-                  <th className="px-5 py-3 bg-white border-b">Status</th>
-                  <th className="px-5 py-3 bg-white border-b">Actions</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Loan ID
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Loan Info
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-5 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
               </thead>
 
-              <tbody>
-                {myLoans.map((myLoan) => (
-                  <BorrowerAppliedDataRow
-                    key={myLoan._id}
-                    myLoan={myLoan}
-                    refetch={refetch}
-                  />
-                ))}
+              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+                {myLoans.length > 0 ? (
+                  myLoans.map((myLoan) => (
+                    <BorrowerAppliedDataRow
+                      key={myLoan._id}
+                      myLoan={myLoan}
+                      refetch={refetch}
+                    />
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-5 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
+                    >
+                      You have not applied for any loans yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

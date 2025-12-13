@@ -1,41 +1,57 @@
 import { useState } from "react";
+import { FaEye } from "react-icons/fa";
 import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
 
 const ApprovedLoanDataRow = ({ loan }) => {
-      const [isViewOpen, setIsViewOpen] = useState(false);
-    
-   const handleView = () => {
-     setIsViewOpen(true);
-   }
+  const [isViewOpen, setIsViewOpen] = useState(false);
+
+  const handleView = () => setIsViewOpen(true);
+
+  const actionBtnBase =
+    "inline-flex items-center justify-center gap-1 px-3 py-1.5 " +
+    "rounded-lg text-xs md:text-sm font-medium w-24 transition-colors";
+
   return (
-    <tr>
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        <p>{loan.loanId}</p>
+    <tr className="border-b border-gray-200 dark:border-neutral-800">
+      {/* Loan ID */}
+      <td className="px-5 py-4 text-left text-sm text-gray-800 dark:text-gray-100">
+        {loan.loanId}
       </td>
 
-      <td className="px-5 py-5 border-b bg-white text-sm">
-        <p className="font-semibold">{loan.userEmail}</p>
-        <p className="text-gray-600 text-sm">
+      {/* User Info */}
+      <td className="px-5 py-4 text-left text-sm">
+        <p className="font-semibold text-gray-800 dark:text-gray-100">
+          {loan.userEmail}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {loan.firstName} {loan.lastName}
         </p>
       </td>
 
-          <td className="px-5 py-5 border-b bg-white text-sm">
-        <p>${loan.loanAmount}</p>
+      {/* Amount */}
+      <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
+        ${loan.loanAmount}
       </td>
 
-       <td className="px-5 py-5 border-b bg-white text-sm">
-        <p>{new Date(loan.createdAt).toLocaleDateString()}</p>
+      {/* Date */}
+      <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
+        {new Date(loan.createdAt).toLocaleDateString()}
       </td>
 
-      {/* Actions (Manager Requirements) */}
-      <td className="px-5 py-5 border-b bg-white text-sm space-x-2">
-         <button
-          onClick={handleView}
-          className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm transition duration-150"
-        >
-          View Details
-        </button>
+      {/* Actions */}
+      <td className="px-5 py-4 text-right text-sm">
+        <div className="flex justify-end items-center gap-2">
+          <button
+            onClick={handleView}
+            className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700`}
+          >
+            <span className="md:hidden flex items-center justify-center">
+              <FaEye className="w-4 h-4" />
+            </span>
+            <span className="hidden md:inline">View</span>
+          </button>
+        </div>
+
         {isViewOpen && (
           <ApplicationDetailsModal
             myLoan={loan}

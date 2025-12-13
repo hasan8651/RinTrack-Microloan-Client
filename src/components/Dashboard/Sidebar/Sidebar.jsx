@@ -7,8 +7,9 @@ import useAuth from "../../../hooks/useAuth";
 import useRole from "../../../hooks/useRole";
 import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/AdminMenu";
-import SellerMenu from "./Menu/SellerMenu";
-import CustomerMenu from "./Menu/CustomerMenu";
+import SellerMenu from "./Menu/ManagerMenu";
+import BorrowerMenu from "./Menu/BorrowerMenu";
+import ManagerMenu from "./Menu/ManagerMenu";
 
 const Sidebar = () => {
   const { logoutFunction } = useAuth();
@@ -86,8 +87,8 @@ const sidebarLinkClass = ({ isActive }) =>
       <div className="flex flex-col justify-between flex-1 mt-6">
         <nav className="space-y-2">
           <MenuItem icon={FaChartLine} label="Overview" address="/dashboard" linkClass={sidebarLinkClass} end/>
-          {role === "borrower" && <CustomerMenu linkClass={sidebarLinkClass}/>}
-          {role === "manager" && <SellerMenu linkClass={sidebarLinkClass}/>}
+          {role === "borrower" && <BorrowerMenu linkClass={sidebarLinkClass}/>}
+          {role === "manager" && <ManagerMenu linkClass={sidebarLinkClass}/>}
           {role === "admin" && <AdminMenu linkClass={sidebarLinkClass}/>}
         </nav>
       </div>

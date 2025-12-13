@@ -19,12 +19,21 @@ import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 const BorrowerStatistics = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: myLoans = [], isLoading } = useQuery({
+
+  const {
+    data: myLoans = [],
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["my-loans", user?.email],
+    enabled: !!user?.email,
     queryFn: async () => {
-      const result = await axiosSecure(`/my-loans/${user?.email}`);
+      const result = await axiosSecure.get(`/my-loans/${user?.email}`);
       return result.data;
     },
+    keepPreviousData: true,
   });
 
   if (isLoading) return <LoadingSpinner />;
@@ -51,55 +60,139 @@ const BorrowerStatistics = () => {
   ];
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">My Loan Statistics</h1>
+    <div className="p-6 md:p-8 min-h-screen font-sans bg-base-100 dark:bg-neutral-900 transition-colors duration-300">
+      {/* Header */}
+      <h1 className="mt-6 md:mt-0 text-3xl md:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">
+        My Loan Overview
+      </h1>
+      <p className="mb-8 text-gray-500 dark:text-gray-400">
+        Summary of your loan applications, statuses, and payment activity.
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="flex items-center justify-between p-4 bg-white rounded shadow">
-          <div>
-            <p className="text-gray-500">Total Loans</p>
-            <h2 className="text-xl font-bold">{totalLoans}</h2>
+      {isFetching && (
+        <p className="mb-4 text-xs text-blue-500 dark:text-blue-400">
+          Updating your statistics...
+        </p>
+      )}
+
+      {isError && (
+        <p className="mb-4 text-sm text-red-500">
+          Failed to load your loan statistics: {error?.message || "Unknown error"}
+        </p>
+      )}
+
+      {/* Top Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Total Loans */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Total Loans
+              </p>
+              <p className="text-3xl font-extrabold text-blue-500">
+                {totalLoans}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">
+              <FaFileInvoiceDollar size={22} />
+            </div>
           </div>
-          <FaFileInvoiceDollar className="text-3xl text-blue-500" />
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            All loan applications you have submitted.
+          </p>
         </div>
 
-        <div className="flex items-center justify-between p-4 bg-white rounded shadow">
-          <div>
-            <p className="text-gray-500">Pending Loans</p>
-            <h2 className="text-xl font-bold">{totalPending}</h2>
+        {/* Pending Loans */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-amber-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Pending Loans
+              </p>
+              <p className="text-3xl font-extrabold text-amber-500">
+                {totalPending}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400">
+              <FaHourglassHalf size={22} />
+            </div>
           </div>
-          <FaHourglassHalf className="text-3xl text-yellow-500" />
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Applications waiting for review or approval.
+          </p>
         </div>
 
-        <div className="flex items-center justify-between p-4 bg-white rounded shadow">
-          <div>
-            <p className="text-gray-500">Approved Loans</p>
-            <h2 className="text-xl font-bold">{totalApproved}</h2>
+        {/* Approved Loans */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Approved Loans
+              </p>
+              <p className="text-3xl font-extrabold text-emerald-500">
+                {totalApproved}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <FaCheckCircle size={22} />
+            </div>
           </div>
-          <FaCheckCircle className="text-3xl text-green-500" />
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Loans that have been successfully approved.
+          </p>
         </div>
 
-        <div className="flex items-center justify-between p-4 bg-white rounded shadow">
-          <div>
-            <p className="text-gray-500">Paid Fees</p>
-            <h2 className="text-xl font-bold">{totalPaid}</h2>
+        {/* Paid Fees */}
+        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-purple-400/20 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                Paid Fees
+              </p>
+              <p className="text-3xl font-extrabold text-purple-500">
+                {totalPaid}
+              </p>
+            </div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400">
+              <FaCheckCircle size={22} />
+            </div>
           </div>
-          <FaCheckCircle className="text-3xl text-purple-500" />
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Loan application fees you have already paid.
+          </p>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-lg font-semibold mb-4">Loan & Payment Status</h2>
+      {/* Chart */}
+      <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+          Loan & Payment Status
+        </h2>
         <div style={{ width: "100%", height: 300 }}>
           <ResponsiveContainer>
-            <BarChart
-              data={chartData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            >
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#82ca9d" />
+            <BarChart data={chartData}>
+              <XAxis
+                dataKey="name"
+                tick={{ fill: "#9CA3AF" }} // gray-400
+                axisLine={{ stroke: "#E5E7EB" }}
+                tickLine={{ stroke: "#E5E7EB" }}
+              />
+              <YAxis
+                tick={{ fill: "#9CA3AF" }}
+                axisLine={{ stroke: "#E5E7EB" }}
+                tickLine={{ stroke: "#E5E7EB" }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#111827",
+                  borderRadius: "0.5rem",
+                  border: "1px solid #374151",
+                  color: "#F9FAFB",
+                }}
+                itemStyle={{ color: "#F9FAFB" }}
+              />
+              <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#3B82F6" />
             </BarChart>
           </ResponsiveContainer>
         </div>
