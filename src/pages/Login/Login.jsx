@@ -7,6 +7,7 @@ import { saveOrUpdateUser } from "../../utils";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
+import axiosPublic from "../../hooks/useAxiosPublic";
 
 const Login = () => {
   const { loginFunction, setUser, loginPopFunction, setLoading } = useAuth();
@@ -35,6 +36,10 @@ const Login = () => {
       // Firebase google popup login
       const result = await loginPopFunction();
       const user = result.user;
+
+
+    const idToken = await user.getIdToken();
+      await axiosPublic.post("/auth/login", { idToken });
 
       // Save or update user in database
       await saveOrUpdateUser({
@@ -83,6 +88,11 @@ const Login = () => {
       // Login with email/password
       const { user } = await loginFunction(email, password);
 
+ 
+    const idToken = await user.getIdToken();
+     await axiosPublic.post("/auth/login", { idToken });
+
+console.log("Login page theke", idToken)
       // Save or update DB user
       await saveOrUpdateUser({
         name: user?.displayName,

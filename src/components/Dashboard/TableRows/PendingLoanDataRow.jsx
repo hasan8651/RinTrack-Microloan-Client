@@ -64,10 +64,10 @@ const PendingLoanDataRow = ({ loan, refetch }) => {
       {/* User Info */}
       <td className="px-5 py-4 text-left text-sm">
         <p className="font-semibold text-gray-800 dark:text-gray-100">
-          {loan.userEmail}
+          {loan.firstName} {loan.lastName}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          {loan.firstName} {loan.lastName}
+          {loan.userEmail}
         </p>
       </td>
 

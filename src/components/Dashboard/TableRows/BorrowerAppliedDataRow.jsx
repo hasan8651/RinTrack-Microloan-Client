@@ -23,6 +23,7 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
         quantity: 1,
         image: myLoan.image,
         loanAmount: myLoan.loanAmount,
+        loanCategory: myLoan.loanCategory,
         amount: 10,
         currency: "usd",
         borrower: {
@@ -107,7 +108,7 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
           {myLoan.loanTitle}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          {myLoan.firstName} {myLoan.lastName}
+          {myLoan.loanCategory}
         </p>
       </td>
 

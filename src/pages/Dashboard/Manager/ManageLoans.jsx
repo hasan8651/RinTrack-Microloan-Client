@@ -1,10 +1,17 @@
+import { useState } from "react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import ManageLoanDataRow from "../../../components/Dashboard/TableRows/ManageLoanDataRow";
 
 const ManageLoans = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const {
     data: loans = [],
@@ -15,6 +22,7 @@ const ManageLoans = () => {
     isFetching,
   } = useQuery({
     queryKey: ["loans"],
+    enabled: !!user?.email, // wait for user
     queryFn: async () => {
       const result = await axiosSecure.get("/loans");
       return result.data;
@@ -24,17 +32,39 @@ const ManageLoans = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
+  // Filter: only loans created by logged-in manager, plus search by title/category
+  const normalizedSearch = searchTerm.trim().toLowerCase();
+
+  const filteredLoans = loans.filter((loan) => {
+    // Only loans created by current manager
+    if (loan.createdBy !== user?.email) return false;
+
+    if (!normalizedSearch) return true;
+
+    const haystack = `${loan.title || ""} ${loan.category || ""}`.toLowerCase();
+    return haystack.includes(normalizedSearch);
+  });
+
+  const handleSearch = () => {
+    setSearchTerm(searchInput);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setSearchTerm("");
+  };
+
   return (
     <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+        <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
-              Manage Loans
+              Manage My Loans
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              View, edit, and manage all loan products.
+              View, edit, and manage loans created under your account.
             </p>
           </div>
           {isFetching && (
@@ -44,6 +74,52 @@ const ManageLoans = () => {
           )}
         </div>
 
+        {/* Search bar */}
+        <div className="mb-6 bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md p-4">
+          <div className="flex flex-col md:flex-row gap-4 md:items-center">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Search Loans
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search by title or category"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleSearch();
+                  }}
+                  className="w-full pl-3 pr-20 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
+                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                />
+                {/* Clear */}
+                {searchInput && (
+                  <button
+                    type="button"
+                    onClick={handleClearSearch}
+                    className="absolute inset-y-0 right-9 flex items-center px-2 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400"
+                    aria-label="Clear search"
+                  >
+                    <FaTimes size={12} />
+                  </button>
+                )}
+                {/* Search */}
+                <button
+                  type="button"
+                  onClick={handleSearch}
+                  className="absolute inset-y-0 right-2 flex items-center px-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400"
+                  aria-label="Search"
+                >
+                  <FaSearch size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Error */}
         {isError && (
           <p className="mb-4 text-sm text-red-500">
             Failed to load loans: {error?.message || "Unknown error"}
@@ -75,8 +151,8 @@ const ManageLoans = () => {
               </thead>
 
               <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
-                {loans.length > 0 ? (
-                  loans.map((loan) => (
+                {filteredLoans.length > 0 ? (
+                  filteredLoans.map((loan) => (
                     <ManageLoanDataRow
                       key={loan._id}
                       loan={loan}
@@ -89,7 +165,7 @@ const ManageLoans = () => {
                       colSpan={5}
                       className="px-5 py-6 text-center text-sm text-gray-500 dark:text-gray-400"
                     >
-                      No loans found.
+                      No loans found for your account or this search.
                     </td>
                   </tr>
                 )}

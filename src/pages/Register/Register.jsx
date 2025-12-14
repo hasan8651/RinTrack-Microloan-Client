@@ -7,6 +7,7 @@ import { saveOrUpdateUser } from "../../utils";
 import { FaEnvelope, FaLock, FaUser, FaImage } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
+import axiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
   const {
@@ -35,6 +36,9 @@ const Register = () => {
     try {
       const result = await loginPopFunction();
       const user = result.user;
+
+      const idToken = await user.getIdToken();
+    await axiosPublic.post("/auth/login", { idToken });
 
       await saveOrUpdateUser({
         name: user?.displayName,
@@ -109,6 +113,9 @@ const Register = () => {
         displayName: name,
         photoURL: photoURL,
       });
+
+      const idToken = await user.getIdToken();
+await axiosPublic.post("/auth/login", { idToken });
 
       Swal.fire({
         position: "top-end",
