@@ -132,7 +132,7 @@ const UpdateLoans = () => {
                 <input
                   name="interestRate"
                   type="number"
-                  step="0.1"
+                  step="0.05"
                   defaultValue={loan.interestRate}
                   placeholder="Interest Rate"
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 

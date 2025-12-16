@@ -44,7 +44,7 @@ const LoanForm = () => {
       loanCategory: loan.category,
       loanId: loan._id,
       loanTitle: loan.title,
-      interestRate: loan.interest,
+      interestRate: loan.interestRate,
       userEmail: user?.email,
       firstName: data.firstName,
       lastName: data.lastName,

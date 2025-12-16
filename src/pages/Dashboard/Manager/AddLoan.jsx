@@ -119,7 +119,7 @@ const AddLoan = () => {
                 <input
                   {...register("interestRate", { required: true })}
                   type="number"
-                  step="0.1"
+                  step="0.05"
                   placeholder="e.g. 5.5"
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
                              bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 

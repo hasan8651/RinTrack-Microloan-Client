@@ -67,8 +67,7 @@ const MyLoans = () => {
           </p>
         )}
 
-        {/* Table card */}
-        <div className="bg-orange-50 dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+          <div className="bg-orange-50 dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
               <thead className="bg-orange-100 dark:bg-neutral-800/80">
