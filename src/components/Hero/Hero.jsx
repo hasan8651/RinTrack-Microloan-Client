@@ -3,21 +3,20 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const slides = [
-  "/banner1.jpg",
-  "/banner2.jpg",
-  "/banner3.jpg",
-  "/banner4.jpg",
-  "/banner5.jpg",
-  "/banner6.jpg",
+  "/hero_image_1.png",
+  "/hero_image_2.png",
+  "/hero_image_3.png",
+  "/hero_image_4.png",
+  "/hero_image_5.png",
+  "/hero_image_6.png",
 ];
 
-const IMAGE_DURATION = 10; // seconds
+const IMAGE_DURATION = 10;
 
 export default function Hero() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-slide
   useEffect(() => {
     const id = setInterval(
       () => setCurrentIndex((prev) => (prev + 1) % slides.length),
@@ -26,7 +25,6 @@ export default function Hero() {
     return () => clearInterval(id);
   }, []);
 
-  // Animations for left content
   const textVariants = {
     hidden: { opacity: 0, x: -50 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
@@ -48,7 +46,7 @@ export default function Hero() {
   const badges = ["100% Secure", "No Hidden Fees", "24/7 Support"];
 
   return (
-    <section className="relative overflow-hidden text-base-content">
+    <section className="relative overflow-hidden text-base-content bg-orange-50 dark:bg-transparent">
       <div className="container mx-auto px-4 py-10 md:py-14">
         <div className="flex flex-col md:flex-row items-center justify-between gap-2">
           <div className="md:w-6/12 text-center md:text-left">
@@ -96,7 +94,6 @@ export default function Hero() {
               </motion.button>
             </motion.div>
 
-            {/* Badges */}
             <div className="mt-10 flex flex-wrap gap-6 justify-center md:justify-start text-base text-gray-600 dark:text-gray-400">
               {badges.map((text, i) => (
                 <motion.div
@@ -124,7 +121,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right side banner image */}
           <div className="md:w-8/12 mt-12 md:mt-0 flex justify-center">
             <div className="relative w-full rounded-3xl overflow-hidden border-4 border-white/50 dark:border-neutral-800/50 shadow-2xl shadow-gray-400/50 dark:shadow-neutral-950/70">
               <AnimatePresence mode="wait">
@@ -143,7 +139,6 @@ export default function Hero() {
                 />
               </AnimatePresence>
 
-              {/* Shine animation */}
               <motion.div
                 className="pointer-events-none absolute -inset-y-1 -left-1 h-[200%] w-[140%]"
                 initial={{ x: "-150%" }}

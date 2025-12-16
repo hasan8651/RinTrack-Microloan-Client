@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-import { imageUpload } from "../../../utils";
+import { imageUpload, showAlert } from "../../../utils";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const AddLoan = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -38,22 +38,19 @@ const AddLoan = () => {
       const res = await axiosSecure.post("/loans", loanData);
 
       if (res.data.insertedId || res.data.acknowledged) {
-        Swal.fire({
-          position: "top-end",
+        showAlert({
           icon: "success",
-          background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
+          color: "lime",
           title: "Loan added successfully!",
-          showConfirmButton: false,
-          timer: 1500,
         });
         reset();
         setSelectedImage(null);
       }
     } catch (err) {
       console.error("Error:", err);
-      Swal.fire({
+      showAlert({
         icon: "error",
+        color: "pink",
         title: "Failed to submit loan",
         text: err.response?.data?.message || err.message,
       });
@@ -63,20 +60,19 @@ const AddLoan = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | AddLoan</title>
+      </Helmet>
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-2xl p-6 md:p-8">
-          {/* Header */}
+        <div className="bg-orange-100 dark:bg-neutral-900/90 border border-blue-400/20 rounded-2xl shadow-2xl p-6 md:p-8">
           <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-6 text-gray-900 dark:text-white">
             Create New Loan
           </h2>
           <p className="text-sm text-center mb-6 text-gray-500 dark:text-gray-400">
             Define a new loan product for borrowers to apply for.
           </p>
-
-          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Loan Title */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Loan Title
@@ -90,8 +86,6 @@ const AddLoan = () => {
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
-
-                        {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Description
@@ -104,8 +98,6 @@ const AddLoan = () => {
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none"
               />
             </div>
-
-            {/* Category + Interest */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
@@ -135,8 +127,6 @@ const AddLoan = () => {
                 />
               </div>
             </div>
-
-            {/* Max Loan Limit */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Max Loan Limit
@@ -151,9 +141,6 @@ const AddLoan = () => {
               />
             </div>
 
-
-
-            {/* Required Documents */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Required Documents
@@ -168,7 +155,6 @@ const AddLoan = () => {
               />
             </div>
 
-            {/* EMI Plans */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 EMI Plans
@@ -183,7 +169,6 @@ const AddLoan = () => {
               />
             </div>
 
-            {/* Image */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Loan Image
@@ -198,7 +183,6 @@ const AddLoan = () => {
               />
             </div>
 
-            {/* Show on Home */}
             <div className="flex items-center gap-2 mt-2">
               <input
                 {...register("showOnHome")}
@@ -210,7 +194,6 @@ const AddLoan = () => {
               </label>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={uploading}

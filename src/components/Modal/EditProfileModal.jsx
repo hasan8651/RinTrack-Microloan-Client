@@ -6,22 +6,14 @@ import {
   Transition,
 } from "@headlessui/react";
 import { IoClose } from "react-icons/io5";
-import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { showAlert } from "../../utils";
 
 const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
   const axiosSecure = useAxiosSecure();
 
   const [name, setName] = useState(profileInfo?.name || "");
   const [photoURL, setPhotoURL] = useState(profileInfo?.image || "");
-
-  // Sync form fields when modal opens or profileInfo changes
-  useEffect(() => {
-    if (isOpen) {
-      setName(profileInfo?.name || "");
-      setPhotoURL(profileInfo?.image || "");
-    }
-  }, [isOpen, profileInfo]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -33,33 +25,25 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
         image: photoURL,
       });
 
-      Swal.fire({
-        position: "top-end",
-        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+      showAlert({
+        color: "lime",
         icon: "success",
         title: "Profile updated successfully!",
-        showConfirmButton: false,
-        timer: 1500,
       });
 
       refetch?.();
       closeModal();
     } catch (err) {
       console.error(err);
-      Swal.fire({
-        position: "top-end",
-        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+      showAlert({
+        color: "pink",
         icon: "error",
         title: err?.response?.data?.message || "Failed to update profile",
-        showConfirmButton: false,
-        timer: 1800,
       });
     }
   };
 
-  const avatarPreview =
+  const userImg =
     photoURL ||
     profileInfo?.image ||
     "https://img.icons8.com/windows/64/user.png";
@@ -67,7 +51,6 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={closeModal}>
-        {/* Backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-200"
@@ -92,11 +75,10 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
               leaveTo="opacity-0 scale-95 translate-y-2"
             >
               <DialogPanel
-                className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-neutral-900/95 
-                           border border-gray-200 dark:border-blue-400/30 
+                className="w-full max-w-lg rounded-2xl bg-orange-50 dark:bg-neutral-900/95 
+                           border border-blue-400/30 
                            shadow-2xl p-6 md:p-7 transition-all"
               >
-                {/* Header */}
                 <div className="flex justify-between items-center mb-4 md:mb-5 border-b border-gray-200 dark:border-neutral-800 pb-3">
                   <DialogTitle className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
                     Edit Profile
@@ -109,12 +91,10 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
                   </button>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSave} className="space-y-5">
-                  {/* Avatar + Email */}
                   <div className="flex items-center gap-4">
                     <img
-                      src={avatarPreview}
+                      src={userImg}
                       alt={name || profileInfo?.name || "User avatar"}
                       className="w-16 h-16 rounded-full object-cover border border-gray-200 dark:border-neutral-700"
                     />
@@ -128,7 +108,6 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
                     </div>
                   </div>
 
-                  {/* Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                       Full Name
@@ -144,7 +123,6 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
                     />
                   </div>
 
-                  {/* Photo URL */}
                   <div>
                     <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                       Profile Image URL
@@ -160,14 +138,13 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
                     />
                   </div>
 
-                  {/* Actions */}
                   <div className="mt-6 flex justify-end gap-3">
                     <button
                       type="button"
                       onClick={closeModal}
                       className="px-5 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                                 bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 
-                                 text-sm font-medium hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
+                                 bg-orange-50 dark:bg-neutral-900 text-gray-700 dark:text-gray-200 
+                                 text-sm font-medium hover:bg-orange-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -176,7 +153,7 @@ const EditProfileModal = ({ isOpen, closeModal, profileInfo, refetch }) => {
                       className="px-5 py-2 rounded-lg text-sm font-semibold text-white 
                                  bg-gradient-to-r from-blue-500 to-sky-600 
                                  hover:from-blue-600 hover:to-sky-700 
-                                 shadow-sm shadow-blue-500/30 transition-colors"
+                                 shadow-sm shadow-blue-500/30 transition-colors cursor-pointer"
                     >
                       Save Changes
                     </button>

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import AllApplicationDataRow from "../../../components/Dashboard/TableRows/AllApplicationDataRow";
+import { Helmet } from "react-helmet-async";
 
 const statusOptions = ["All", "Pending", "Approved", "Rejected"];
 
@@ -28,17 +29,18 @@ const LoanApplication = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  // Apply status filter (client-side)
   const filteredLoans =
     statusFilter === "All"
       ? allLoans
       : allLoans.filter((loan) => loan.status === statusFilter);
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | Loan Application</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col mt-6 md:mt-0 gap-3 mb-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
+           <div className="flex flex-col mt-6 md:mt-0 gap-3 mb-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
               Loan Applications
@@ -55,14 +57,13 @@ const LoanApplication = () => {
               </span>
             )}
 
-            {/* Status Filter */}
             <div className="flex flex-wrap gap-2">
               {statusOptions.map((status) => (
                 <button
                   key={status}
                   type="button"
                   onClick={() => setStatusFilter(status)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer ${
                     statusFilter === status
                       ? "bg-blue-500 text-white border-blue-500"
                       : "bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"
@@ -75,18 +76,16 @@ const LoanApplication = () => {
           </div>
         </div>
 
-        {/* Error */}
         {isError && (
           <p className="mb-4 text-sm text-red-500">
             Failed to load loan applications: {error?.message || "Unknown error"}
           </p>
         )}
 
-        {/* Table card */}
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+        <div className=" border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
-              <thead className="bg-gray-50 dark:bg-neutral-800/80">
+              <thead className="bg-orange-100 dark:bg-neutral-800/80">
                 <tr>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Loan ID

@@ -6,8 +6,8 @@ import {
   Transition,
 } from "@headlessui/react";
 import { IoClose } from "react-icons/io5";
-import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { showAlert } from "../../utils";
 
 const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
   const [reason, setReason] = useState("");
@@ -16,14 +16,10 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
 
   const handleSuspend = async () => {
     if (!reason || !feedback) {
-      Swal.fire({
-        position: "top-end",
-        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+      showAlert({
+        color: "pink",
         icon: "error",
         title: "Please fill out both fields",
-        showConfirmButton: false,
-        timer: 1500,
       });
       return;
     }
@@ -38,29 +34,21 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
     try {
       await axiosSecure.patch(`/users/suspend/${user?._id}`, suspendInfo);
 
-      Swal.fire({
-        position: "top-end",
-        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+      showAlert({
+        color: "lime",
         icon: "success",
         title: "User suspended successfully",
-        showConfirmButton: false,
-        timer: 1500,
       });
 
       refetch && refetch();
       closeModal();
     } catch (error) {
-      Swal.fire({
-        position: "top-end",
-        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+      showAlert({
+        color: "pink",
         icon: "error",
         title:
           error?.response?.data?.message ||
           "Failed to suspend user. Please try again.",
-        showConfirmButton: false,
-        timer: 1500,
       });
     }
   };
@@ -68,7 +56,6 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={closeModal}>
-        {/* Backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-200"
@@ -97,20 +84,18 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
                            border border-gray-200 dark:border-red-400/30 
                            shadow-2xl p-6 md:p-7 transition-all"
               >
-                {/* Header */}
                 <div className="flex justify-between items-center border-b border-gray-200 dark:border-neutral-800 pb-3 mb-4">
                   <DialogTitle className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
                     Suspend User
                   </DialogTitle>
                   <button
                     onClick={closeModal}
-                    className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                    className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors cursor-pointer"
                   >
                     <IoClose className="w-6 h-6" />
                   </button>
                 </div>
 
-                {/* User info */}
                 <div className="mb-4 text-sm text-gray-700 dark:text-gray-300 space-y-1">
                   <p>
                     <span className="font-semibold">Name:</span> {user?.name}
@@ -124,7 +109,6 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
                   </p>
                 </div>
 
-                {/* Form */}
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-semibold text-gray-800 dark:text-gray-200">
@@ -157,13 +141,12 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
                   </div>
                 </div>
 
-                {/* Actions */}
                 <div className="mt-6 flex justify-end gap-3">
                   <button
                     onClick={closeModal}
                     className="px-5 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
                                bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 
-                               text-sm font-medium hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
+                               text-sm font-medium hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -171,7 +154,7 @@ const UserSuspendModal = ({ isOpen, closeModal, user, refetch }) => {
                   <button
                     onClick={handleSuspend}
                     className="px-5 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold 
-                               shadow-sm hover:bg-red-700 transition-colors"
+                               shadow-sm hover:bg-red-700 transition-colors cursor-pointer"
                   >
                     Confirm Suspend
                   </button>

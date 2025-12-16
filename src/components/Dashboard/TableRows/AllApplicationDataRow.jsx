@@ -4,17 +4,15 @@ import {
   FaClock,
   FaTimesCircle,
   FaQuestionCircle,
+  FaEye,
 } from "react-icons/fa";
 import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
 
 const AllApplicationDataRow = ({ loan, refetch }) => {
   const [isViewOpen, setIsViewOpen] = useState(false);
-
   const handleView = () => setIsViewOpen(true);
-
   const actionBtnBase =
-    "inline-flex items-center justify-center px-3 py-1.5 rounded-lg " +
-    "text-xs md:text-sm font-medium transition-colors";
+    "inline-flex items-center justify-center px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium w-9 md:w-24 transition-colors";
 
   const getStatusConfig = (status) => {
     switch (status) {
@@ -49,12 +47,10 @@ const AllApplicationDataRow = ({ loan, refetch }) => {
 
   return (
     <tr className="border-b border-gray-200 dark:border-neutral-800">
-      {/* Loan ID */}
       <td className="px-5 py-4 text-left text-sm text-gray-800 dark:text-gray-100">
         {loan.loanId}
       </td>
 
-      {/* User (email, name) */}
       <td className="px-5 py-4 text-left text-sm">
         <p className="font-semibold text-gray-800 dark:text-gray-100">
           {loan.userEmail}
@@ -64,38 +60,35 @@ const AllApplicationDataRow = ({ loan, refetch }) => {
         </p>
       </td>
 
-      {/* Loan Category */}
       <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
         {loan.loanCategory || "N/A"}
       </td>
 
-      {/* Amount */}
       <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
         ${loan.loanAmount}
       </td>
 
-      {/* Status */}
       <td className="px-5 py-4 text-left text-sm">
         <span
-          className={`inline-flex items-center justify-center gap-1 rounded-full 
-                      text-xs font-medium text-white w-28 h-7 md:h-8 ${color}`}
+          className={`inline-flex items-center justify-center gap-0 md:gap-1 rounded-full 
+                      text-xs font-medium text-white w-9 md:w-24 h-7 ${color}`}
         >
-          {/* Icon on small screens */}
           <span className="md:hidden flex items-center justify-center">
             <Icon className="w-4 h-4" />
           </span>
-          {/* Text on md+ */}
           <span className="hidden md:inline">{label}</span>
         </span>
       </td>
 
-      {/* Actions */}
       <td className="px-5 py-4 text-right text-sm">
         <button
           onClick={handleView}
-          className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700`}
+          className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700 cursor-pointer`}
         >
-          View Details
+          <span className="md:hidden flex items-center justify-center">
+            <FaEye className="w-4 h-4" />
+          </span>
+          <span className="hidden md:inline">View</span>
         </button>
 
         {isViewOpen && (

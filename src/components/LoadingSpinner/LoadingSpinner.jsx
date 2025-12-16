@@ -6,7 +6,7 @@ const LoadingSpinner = () => {
         <div className="absolute inset-0 flex items-center justify-center">
           <img
             src="/logo.png"
-            alt="Loading"
+            alt="Loading..."
             className="w-28 h-28 animate-pulse drop-shadow-[0_0_15px_rgba(59,130,246,0.7)]"
           />
         </div>

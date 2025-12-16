@@ -4,16 +4,16 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import PaymentDetailsModal from "../../Modal/PaymentDetailsModal";
 import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
+import { showAlert } from "../../../utils";
 
 const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
-  const [isOpen, setIsOpen] = useState(false); // payment details
-  const [isViewOpen, setIsViewOpen] = useState(false); // application details
+  const [isOpen, setIsOpen] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const actionBtnBase =
-    "inline-flex items-center justify-center px-3 py-1.5 rounded-lg " +
-    "text-xs md:text-sm font-medium transition-colors";
+    "inline-flex items-center justify-center px-3 py-1 rounded-lg text-xs md:text-sm font-medium w-24 transition-colors";
 
   const handlePayment = async () => {
     try {
@@ -40,8 +40,9 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
       window.location.href = data.url;
     } catch (err) {
       console.error("Payment error:", err);
-      Swal.fire({
+      showAlert({
         icon: "error",
+        color: "pink",
         title: "Payment initiation failed",
         text: err.response?.data?.message || err.message,
       });
@@ -63,22 +64,18 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
       try {
         await axiosSecure.delete(`/loan-application/${myLoan._id}`);
 
-        Swal.fire({
-          position: "top-end",
-          background:
-            "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
+        showAlert({
+          color: "lime",
           icon: "success",
           title: "Your loan request has been cancelled.",
-          showConfirmButton: false,
-          timer: 1500,
         });
 
         refetch && refetch();
       } catch (error) {
         console.error("Cancel loan error:", error);
-        Swal.fire({
+        showAlert({
           icon: "error",
+          color: "pink",
           title: "Failed to cancel loan",
           text: error.response?.data?.message || error.message,
         });
@@ -97,12 +94,9 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
 
   return (
     <tr className="border-b border-gray-200 dark:border-neutral-800">
-      {/* Loan ID */}
       <td className="px-5 py-4 text-left text-sm text-gray-800 dark:text-gray-100">
         {myLoan.loanId}
       </td>
-
-      {/* Loan Info */}
       <td className="px-5 py-4 text-left text-sm">
         <p className="font-semibold text-gray-800 dark:text-gray-100">
           {myLoan.loanTitle}
@@ -111,62 +105,52 @@ const BorrowerAppliedDataRow = ({ myLoan, refetch }) => {
           {myLoan.loanCategory}
         </p>
       </td>
-
-      {/* Amount */}
       <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
         ${myLoan.loanAmount}
       </td>
-
-      {/* Status */}
       <td className="px-5 py-4 text-left text-sm">
         <span
-          className={`inline-flex items-center justify-center px-3 py-1 rounded-full 
+          className={`inline-flex items-center justify-center w-20 h-7 px-3 py-1 rounded-full 
                       text-xs font-medium text-white ${statusColor}`}
         >
           {myLoan.status}
         </span>
       </td>
-
-      {/* Actions */}
       <td className="px-5 py-4 text-right text-sm">
         <div className="flex justify-end items-center gap-2">
-          {/* View Details */}
           <button
             onClick={() => setIsViewOpen(true)}
-            className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700`}
+            className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700 cursor-pointer`}
           >
-            View Details
+            View
           </button>
 
-          {/* Cancel (only Pending) */}
           {myLoan.status === "Pending" && (
             <button
               onClick={handleCancelLoan}
-              className={`${actionBtnBase} bg-red-600 text-white hover:bg-red-700`}
+              className={`${actionBtnBase} bg-red-600 text-white hover:bg-red-700 cursor-pointer`}
             >
               Cancel
             </button>
           )}
 
-          {/* Payment / Paid */}
           {myLoan.applicationFeeStatus === "Unpaid" ? (
             <button
               onClick={handlePayment}
-              className={`${actionBtnBase} bg-lime-600 text-white hover:bg-lime-700`}
+              className={`${actionBtnBase} bg-lime-600 text-white hover:bg-lime-700 cursor-pointer`}
             >
-              Pay $10 Fee
+              Pay $10
             </button>
           ) : (
             <button
               onClick={() => setIsOpen(true)}
-              className={`${actionBtnBase} bg-emerald-600 text-white hover:bg-emerald-700`}
+              className={`${actionBtnBase} bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer`}
             >
               Paid
             </button>
           )}
         </div>
 
-        {/* Modals */}
         {isViewOpen && (
           <ApplicationDetailsModal
             myLoan={myLoan}

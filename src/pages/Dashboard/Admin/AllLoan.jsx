@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import ManageLoanDataRow from "../../../components/Dashboard/TableRows/ManageLoanDataRow";
+import useAuth from "../../../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const AllLoan = () => {
   const axiosSecure = useAxiosSecure();
+  const { user, loading } = useAuth();
 
   const {
     data: allLoans = [],
@@ -15,7 +18,8 @@ const AllLoan = () => {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["loans"],
+    queryKey: ["all-loans-admin", user?.email],
+    enabled: !loading && !!user?.email,
     queryFn: async () => {
       const result = await axiosSecure.get("/loans");
       return result.data;
@@ -23,7 +27,7 @@ const AllLoan = () => {
     keepPreviousData: true,
   });
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading || loading) return <LoadingSpinner />;
 
   const containerVariants = {
     hidden: {},
@@ -47,9 +51,11 @@ const AllLoan = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | All Loan</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -66,18 +72,16 @@ const AllLoan = () => {
           )}
         </div>
 
-        {/* Error message */}
         {isError && (
           <div className="mb-4 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/40 rounded-xl px-4 py-2">
             Failed to load loans: {error?.message || "Unknown error"}
           </div>
         )}
 
-        {/* Table Card */}
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+        <div className="border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
-              <thead className="bg-gray-50 dark:bg-neutral-800/80">
+              <thead className="bg-orange-100 dark:bg-neutral-800/80">
                 <tr>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Image
@@ -116,7 +120,7 @@ const AllLoan = () => {
                       loan={loan}
                       refetch={refetch}
                       variants={cardVariants}
-                      adminView  // <- NEW: tells the row to render admin columns
+                      adminView
                     />
                   ))
                 ) : (

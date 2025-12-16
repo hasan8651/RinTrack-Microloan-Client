@@ -17,7 +17,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
         <div className="flex flex-wrap gap-2 justify-end">
           <button
             onClick={() => setIsOpen(true)}
-            className="flex items-center gap-1 px-3 py-1 bg-blue-600 rounded hover:bg-blue-700"
+            className="flex items-center gap-1 px-3 py-1 bg-blue-600 rounded hover:bg-blue-700 cursor-pointer"
           >
             <span className="md:hidden">
               <MdEdit />
@@ -35,7 +35,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
           ) : (
             <button
               onClick={() => setIsViewOpen(true)}
-              className="flex items-center gap-1 px-3 py-1 bg-red-600 rounded hover:bg-red-700"
+              className="flex items-center gap-1 px-3 py-1 bg-red-600 rounded hover:bg-red-700 cursor-pointer"
             >
               <span className="md:hidden">
                 <MdDangerous />
@@ -45,6 +45,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
           )}
 
           <UpdateUserRoleModal
+            key={user._id}
             user={user}
             refetch={refetch}
             isOpen={isOpen}
@@ -56,7 +57,7 @@ const ManageUserDataRow = ({ user, refetch }) => {
               user={user}
               isOpen={isViewOpen}
               closeModal={() => setIsViewOpen(false)}
-               refetch={refetch}
+              refetch={refetch}
             />
           )}
         </div>

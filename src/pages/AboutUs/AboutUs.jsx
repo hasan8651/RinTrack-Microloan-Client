@@ -1,21 +1,33 @@
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const AboutUs = () => {
   const teamCardInfo = [
-    { name: "Alex Johnson", role: "CEO & Founder", img: "https://i.pravatar.cc/300?img=11" },
-    { name: "Sarah Williams", role: "Head of Finance", img: "https://i.pravatar.cc/300?img=5" },
-    { name: "Michael Chen", role: "Lead Developer", img: "https://i.pravatar.cc/300?img=3" },
+    { name: "Alex Johnson", role: "CEO & Founder", img: "/alex_johnson.jpg" },
+    {
+      name: "Sarah Williams",
+      role: "Head of Finance",
+      img: "/sarah_williams.jpg",
+    },
+    { name: "Michael Chen", role: "Lead Developer", img: "/michael_chen.jpg" },
   ];
 
-  // Variants
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   const fadeInScale = {
     hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" } },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   const containerVariants = {
@@ -24,8 +36,11 @@ const AboutUs = () => {
   };
 
   return (
-    <div className="bg-base-100 text-base-content min-h-screen transition-colors duration-500">
-      {/* --- Section 1: About Hero --- */}
+    <div className="bg-orange-50 dark:bg-transparent text-base-content min-h-screen transition-colors duration-500">
+      <Helmet>
+        <title>RinTrack | AboutUs</title>
+      </Helmet>
+      {/* --- About Hero --- */}
       <section className="relative py-20 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1
@@ -53,7 +68,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* --- Section 2: Our Story --- */}
+      {/* --- Our Story --- */}
       <section className="py-16">
         <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
           <motion.div
@@ -64,7 +79,7 @@ const AboutUs = () => {
             viewport={{ once: true }}
           >
             <img
-              src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80"
+              src="/office_meeting.avif"
               alt="Office Meeting"
               className="relative rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 w-full object-cover h-[400px]"
             />
@@ -81,10 +96,14 @@ const AboutUs = () => {
               Building a Future <br /> Without Financial Barriers
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              Founded in 2024, RinTrack started with a simple mission: to make
-              financial support accessible to everyone, regardless of their
-              background. We noticed that traditional banking systems were too
-              slow for the fast-paced needs of modern life.
+              Founded in 2024,{" "}
+              <span className="bg-gradient-to-r from-blue-500 to-sky-500 bg-clip-text text-transparent">
+                RinTrack
+              </span>{" "}
+              started with a simple mission: to make financial support
+              accessible to everyone, regardless of their background. We noticed
+              that traditional banking systems were too slow for the fast-paced
+              needs of modern life.
             </p>
             <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
               Today, we have served over 10,000+ customers, disbursing millions
@@ -95,7 +114,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* --- Section 3: Team --- */}
+      {/* --- Team --- */}
       <section className="py-20 transition-colors duration-500">
         <div className="container mx-auto px-4">
           <motion.div
@@ -123,14 +142,22 @@ const AboutUs = () => {
             {teamCardInfo.map((member, idx) => (
               <motion.div
                 key={idx}
-                className="group relative bg-white dark:bg-neutral-900 rounded-2xl p-6 text-center border border-gray-200 dark:border-blue-400/20 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.1)] hover:-translate-y-2 transition-transform duration-300"
+                className="group relative bg-orange-100 dark:bg-neutral-900 rounded-2xl p-6 text-center border border-blue-400/20 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.1)] hover:-translate-y-2 transition-transform duration-300"
                 variants={fadeUp}
               >
                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-blue-100 dark:border-blue-900/50">
-                  <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                  <img
+                    src={member.img}
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{member.name}</h3>
-                <p className="text-blue-600 dark:text-blue-400 text-sm font-medium mb-4">{member.role}</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {member.name}
+                </h3>
+                <p className="text-blue-600 dark:text-blue-400 text-sm font-medium mb-4">
+                  {member.role}
+                </p>
               </motion.div>
             ))}
           </motion.div>

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { FaCheck, FaTimes, FaEye } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import ApplicationDetailsModal from "../../Modal/ApplicationDetailsModal";
+import { showAlert } from "../../../utils";
 
 const PendingLoanDataRow = ({ loan, refetch }) => {
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -15,33 +15,23 @@ const PendingLoanDataRow = ({ loan, refetch }) => {
       });
 
       if (res.data?.modifiedCount > 0 || res.data?.acknowledged) {
-        Swal.fire({
-          position: "top-end",
-          background:
-            "linear-gradient(to right, #093371, #6E11B0, #093371)",
-          color: "white",
+        showAlert({
+          color: "lime",
           icon: "success",
           title:
             status === "Approved"
               ? "Loan approved successfully."
               : "Loan rejected successfully.",
-          showConfirmButton: false,
-          timer: 1500,
         });
         refetch && refetch();
       }
     } catch (err) {
       console.error("Update status error:", err);
-      Swal.fire({
-        position: "top-end",
-        background:
-          "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+      showAlert({
+        color: "pink",
         icon: "error",
         title: "Failed to update status. Try again.",
         text: err.response?.data?.message || err.message,
-        showConfirmButton: false,
-        timer: 2000,
       });
     }
   };
@@ -51,17 +41,13 @@ const PendingLoanDataRow = ({ loan, refetch }) => {
   const handleView = () => setIsViewOpen(true);
 
   const actionBtnBase =
-    "inline-flex items-center justify-center gap-1 px-3 py-1.5 " +
-    "rounded-lg text-xs md:text-sm font-medium w-24 transition-colors";
+    "inline-flex items-center justify-center gap-0 md:gap-1 px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium w-9 md:w-24 transition-colors";
 
   return (
     <tr className="border-b border-gray-200 dark:border-neutral-800">
-      {/* Loan ID */}
       <td className="px-5 py-4 text-left text-sm text-gray-800 dark:text-gray-100">
         {loan.loanId}
       </td>
-
-      {/* User Info */}
       <td className="px-5 py-4 text-left text-sm">
         <p className="font-semibold text-gray-800 dark:text-gray-100">
           {loan.firstName} {loan.lastName}
@@ -70,18 +56,12 @@ const PendingLoanDataRow = ({ loan, refetch }) => {
           {loan.userEmail}
         </p>
       </td>
-
-      {/* Amount */}
       <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
         ${loan.loanAmount}
       </td>
-
-      {/* Date */}
       <td className="px-5 py-4 text-left text-sm text-gray-700 dark:text-gray-300">
         {new Date(loan.createdAt).toLocaleDateString()}
       </td>
-
-      {/* Actions */}
       <td className="px-5 py-4 text-right text-sm">
         <div className="flex justify-end items-center gap-2">
           <button

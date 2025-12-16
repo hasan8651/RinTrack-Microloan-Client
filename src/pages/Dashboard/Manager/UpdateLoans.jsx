@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
-import Swal from "sweetalert2";
-import { imageUpload } from "../../../utils";
+import { imageUpload, showAlert } from "../../../utils";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const UpdateLoans = () => {
   const { id } = useParams();
@@ -21,8 +21,9 @@ const UpdateLoans = () => {
         setLoan(res.data);
       } catch (err) {
         console.error(err);
-        Swal.fire({
+        showAlert({
           icon: "error",
+          color: "pink",
           title: "Failed to load loan data",
           text: err.response?.data?.message || err.message,
         });
@@ -57,20 +58,17 @@ const UpdateLoans = () => {
 
       await axiosSecure.patch(`/loans/${id}`, updatedData);
 
-      Swal.fire({
-        position: "top-end",
+      showAlert({
         icon: "success",
-        background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-        color: "white",
+        color: "lime",
         title: "Loan updated successfully!",
-        showConfirmButton: false,
-        timer: 1500,
       });
       navigate(-1);
     } catch (err) {
       console.error(err);
-      Swal.fire({
+      showAlert({
         icon: "error",
+        color: "pink",
         title: "Failed to update loan",
         text: err.response?.data?.message || err.message,
       });
@@ -80,7 +78,7 @@ const UpdateLoans = () => {
   if (loading) return <LoadingSpinner />;
   if (!loan)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-base-100 dark:bg-neutral-900">
+      <div className="min-h-screen flex items-center justify-center bg-orange-100 dark:bg-neutral-900">
         <p className="text-center text-gray-600 dark:text-gray-300">
           Loan not found.
         </p>
@@ -88,15 +86,17 @@ const UpdateLoans = () => {
     );
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | Update {loan.title}</title>
+      </Helmet>
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-2xl p-6 md:p-8">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 border border-blue-400/20 rounded-2xl shadow-2xl p-6 md:p-8">
           <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-6 text-gray-900 dark:text-white">
             Update Loan
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Title */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Title
@@ -106,12 +106,11 @@ const UpdateLoans = () => {
                 defaultValue={loan.title}
                 placeholder="Loan title"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
 
-            {/* Category + Interest */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
@@ -122,7 +121,7 @@ const UpdateLoans = () => {
                   defaultValue={loan.category}
                   placeholder="Category"
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                              focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
                 />
               </div>
@@ -137,13 +136,12 @@ const UpdateLoans = () => {
                   defaultValue={loan.interestRate}
                   placeholder="Interest Rate"
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                              focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
                 />
               </div>
             </div>
 
-            {/* Max Loan Limit */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Max Loan Limit
@@ -154,12 +152,11 @@ const UpdateLoans = () => {
                 defaultValue={loan.maxLoanLimit}
                 placeholder="Max Loan Limit"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Description
@@ -169,12 +166,11 @@ const UpdateLoans = () => {
                 defaultValue={loan.description}
                 placeholder="Description"
                 className="w-full h-28 px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none"
               />
             </div>
 
-            {/* EMI Plans */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 EMI Plans
@@ -184,12 +180,11 @@ const UpdateLoans = () => {
                 defaultValue={loan.emiPlans}
                 placeholder="3 Months, 6 Months"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
 
-            {/* Required Documents */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Required Documents
@@ -199,12 +194,11 @@ const UpdateLoans = () => {
                 defaultValue={loan.requiredDocuments}
                 placeholder="NID, Passport"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
 
-            {/* Image */}
             <div>
               <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
                 Image
@@ -214,7 +208,7 @@ const UpdateLoans = () => {
                 accept="image/*"
                 onChange={(e) => setSelectedImage(e.target.files[0])}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
               {loan.image && (
@@ -226,7 +220,6 @@ const UpdateLoans = () => {
               )}
             </div>
 
-            {/* Show on Home */}
             <div className="flex items-center gap-2 mt-2">
               <input
                 type="checkbox"
@@ -239,31 +232,30 @@ const UpdateLoans = () => {
               </label>
             </div>
 
-           {/* Submit + Cancel */}
-<div className="flex gap-3 mt-6">
-  <button
-    type="button"
-    onClick={() => navigate(-1)}
-    className="w-1/2 py-3 rounded-lg font-semibold 
+            <div className="flex gap-3 mt-6">
+              <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="w-1/2 py-3 rounded-lg font-semibold 
                border border-gray-300 dark:border-neutral-700
                bg-white dark:bg-neutral-900 
                text-gray-700 dark:text-gray-200
                hover:bg-gray-50 dark:hover:bg-neutral-800
-               transition-colors"
-  >
-    Cancel
-  </button>
+               transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
 
-  <button
-    type="submit"
-    className="w-1/2 py-3 rounded-lg font-semibold text-white 
+              <button
+                type="submit"
+                className="w-1/2 py-3 rounded-lg font-semibold text-white 
                bg-gradient-to-r from-blue-500 to-sky-600 
                hover:from-blue-600 hover:to-sky-700 
-               shadow-md shadow-blue-500/30 transition-colors"
-  >
-    Update Loan
-  </button>
-</div>
+               shadow-md shadow-blue-500/30 transition-colors cursor-pointer"
+              >
+                Update Loan
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router";
 import useRole from "../../hooks/useRole";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
+import NotFound from "../NotFound/NotFound";
 
 const LoanDetails = () => {
   const { id } = useParams();
@@ -13,7 +15,6 @@ const LoanDetails = () => {
     data: details,
     isLoading,
     isError,
-    error,
   } = useQuery({
     queryKey: ["loan-details", id],
     enabled: !!id,
@@ -27,37 +28,34 @@ const LoanDetails = () => {
 
   if (isError || !details?._id) {
     return (
-      <div className="min-h-screen bg-base-100 dark:bg-neutral-900 flex items-center justify-center p-4">
-        <p className="text-center text-gray-700 dark:text-gray-300">
-          Failed to load loan details: {error?.message || "Loan not found."}
-        </p>
+      <div className="bg-orange-100 dark:bg-neutral-900 flex items-center justify-center mt-6">
+        <NotFound />
       </div>
     );
   }
 
-  const docs =
-    Array.isArray(details.requiredDocuments)
-      ? details.requiredDocuments
-      : (details.requiredDocuments || "")
-          .split(",")
-          .map((d) => d.trim())
-          .filter(Boolean);
+  const docs = Array.isArray(details.requiredDocuments)
+    ? details.requiredDocuments
+    : (details.requiredDocuments || "")
+        .split(",")
+        .map((d) => d.trim())
+        .filter(Boolean);
 
-  const emiPlans =
-    Array.isArray(details.emiPlans)
-      ? details.emiPlans
-      : (details.emiPlans || "")
-          .split(",")
-          .map((p) => p.trim())
-          .filter(Boolean);
+  const emiPlans = Array.isArray(details.emiPlans)
+    ? details.emiPlans
+    : (details.emiPlans || "")
+        .split(",")
+        .map((p) => p.trim())
+        .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | {details.title}</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
-        {/* Main Card */}
-        <div className="bg-white dark:bg-neutral-900/95 rounded-3xl shadow-xl overflow-hidden border border-gray-200 dark:border-neutral-800">
+        <div className="bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 rounded-3xl shadow-xl overflow-hidden border">
           <div className="grid lg:grid-cols-5 gap-0">
-            {/* Image */}
             <div className="lg:col-span-2">
               <img
                 src={details.image}
@@ -65,8 +63,6 @@ const LoanDetails = () => {
                 className="w-full h-80 sm:h-96 lg:h-full object-cover"
               />
             </div>
-
-            {/* Info */}
             <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
               <div className="max-w-2xl">
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -76,8 +72,6 @@ const LoanDetails = () => {
                   {details.description}
                 </p>
               </div>
-
-              {/* Stats */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
                 <div>
                   <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -92,7 +86,7 @@ const LoanDetails = () => {
                     Interest Rate
                   </p>
                   <p className="mt-1 text-xl font-bold text-red-600 dark:text-red-400">
-                    {details.interestRate}% 
+                    {details.interestRate}%
                   </p>
                 </div>
                 <div>
@@ -120,24 +114,18 @@ const LoanDetails = () => {
                   </p>
                 </div>
               </div>
-
-              {/* Apply Button */}
               <div className="mt-10">
                 {role === "borrower" ? (
                   <Link
                     to={`/loan-form/${id}`}
-                    className="inline-block bg-gradient-to-r from-blue-500 to-sky-600 
-                               hover:from-blue-600 hover:to-sky-700 text-white font-bold 
-                               px-10 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 
-                               transition-all duration-200 text-lg"
+                    className="inline-block bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 text-white font-bold px-10 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg cursor-pointer"
                   >
                     Apply Now
                   </Link>
                 ) : (
                   <button
                     disabled
-                    className="inline-block bg-gray-200 dark:bg-neutral-700 text-gray-500 
-                               px-10 py-4 rounded-xl cursor-not-allowed font-medium"
+                    className="inline-block bg-red-300 dark:bg-neutral-700 text-gray-500 px-10 py-4 rounded-xl cursor-not-allowed font-medium"
                   >
                     Borrowers Only
                   </button>
@@ -147,10 +135,8 @@ const LoanDetails = () => {
           </div>
         </div>
 
-        {/* Extra Details */}
-        <div className="grid md:grid-cols-2 gap-8 mt-12">
-          {/* Required Documents */}
-          <div className="p-6 bg-white dark:bg-neutral-900/90 rounded-xl shadow-md border border-gray-200 dark:border-neutral-700">
+        <div className="grid md:grid-cols-2 gap-8 mt-6">
+          <div className="p-6 bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 rounded-xl shadow-md border">
             <h2 className="font-bold text-2xl mb-4 border-b pb-2 text-gray-900 dark:text-white">
               Required Documents
             </h2>
@@ -170,8 +156,7 @@ const LoanDetails = () => {
             )}
           </div>
 
-          {/* EMI Options */}
-          <div className="bg-white dark:bg-neutral-900/90 p-6 rounded-xl shadow-md border border-gray-200 dark:border-neutral-700">
+          <div className="bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 p-6 rounded-xl shadow-md border">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-b pb-2">
               EMI Options
             </h2>
@@ -183,8 +168,7 @@ const LoanDetails = () => {
                 {emiPlans.map((plan, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
-                               bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/30"
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-300  dark:bg-blue-500/10 dark:text-blue-300 border border-blue-100 dark:border-blue-500/30"
                   >
                     {plan}
                   </span>

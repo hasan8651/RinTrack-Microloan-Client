@@ -30,7 +30,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 text-base-content transition-colors duration-300">
+    <section className="py-16 text-base-content bg-orange-50 dark:bg-transparent transition-colors duration-300">
       <div className="text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
           How It Works
@@ -44,7 +44,7 @@ export default function HowItWorks() {
         {steps.map((step) => (
           <div
             key={step.id}
-            className="relative bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/30 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.15)] rounded-2xl p-8 text-center hover:scale-[1.03] transition-all duration-300 hover:shadow-xl dark:hover:shadow-[0_0_15px_rgba(14,165,233,0.25)]"
+            className="relative bg-orange-100 dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/30 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.15)] rounded-2xl p-8 text-center hover:scale-[1.03] transition-all duration-300 hover:shadow-xl dark:hover:shadow-[0_0_15px_rgba(14,165,233,0.25)]"
           >
             <div className="flex justify-center mb-5">{step.icon}</div>
             <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-blue-300">

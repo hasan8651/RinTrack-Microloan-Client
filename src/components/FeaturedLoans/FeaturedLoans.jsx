@@ -6,10 +6,9 @@ import LoanCard from "../LoanCard/LoanCard";
 
 const FeaturedLoans = () => {
   const { data: loans = [], isLoading } = useQuery({
-    queryKey: ["loans"],
+    queryKey: ["available-loans"],
     queryFn: async () => {
       const result = await axios(`${import.meta.env.VITE_API_URL}/loans-home`);
-       console.log(result)
       return result.data;
     },
   });

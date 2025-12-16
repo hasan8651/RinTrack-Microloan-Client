@@ -17,10 +17,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const AdminStatistics = () => {
   const { data: allLoans = [], isLoading } = useQuery({
-    queryKey: ["loans"],
+    queryKey: ["loans-admin-stat"],
     queryFn: async () => {
       const result = await axios(
         `${import.meta.env.VITE_API_URL}/loan-applications`
@@ -59,7 +60,10 @@ const AdminStatistics = () => {
   const COLORS = ["#22C55E", "#F97316"];
 
   return (
-    <div className="p-6 md:p-8 min-h-screen font-sans bg-base-100 dark:bg-neutral-900 transition-colors duration-300">
+    <div className="p-6 md:p-8 min-h-screen font-sans bg-orange-50 dark:bg-transparent transition-colors duration-300">
+      <Helmet>
+        <title>RinTrack | Admin Dashboard</title>
+      </Helmet>
       <h1 className="mt-6 md:mt-0 text-3xl md:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">
         Admin Dashboard
       </h1>
@@ -67,10 +71,8 @@ const AdminStatistics = () => {
         Overview of loan activity, users, and payment status.
       </p>
 
-      {/* Top Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {/* Active Loans */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -89,8 +91,7 @@ const AdminStatistics = () => {
           </p>
         </div>
 
-        {/* Pending Loans */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-amber-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-amber-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -109,8 +110,7 @@ const AdminStatistics = () => {
           </p>
         </div>
 
-        {/* Total Users */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-purple-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-purple-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -130,10 +130,8 @@ const AdminStatistics = () => {
         </div>
       </div>
 
-      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Loan Status Bar Chart */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Loan Status
           </h2>
@@ -142,7 +140,7 @@ const AdminStatistics = () => {
               <BarChart data={barData}>
                 <XAxis
                   dataKey="name"
-                  tick={{ fill: "#9CA3AF" }} // gray-400
+                  tick={{ fill: "#9CA3AF" }}
                   axisLine={{ stroke: "#E5E7EB" }}
                   tickLine={{ stroke: "#E5E7EB" }}
                 />
@@ -166,8 +164,7 @@ const AdminStatistics = () => {
           </div>
         </div>
 
-        {/* Payment Status Pie Chart */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Payment Status
           </h2>

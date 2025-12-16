@@ -22,7 +22,7 @@ const PrivateRoute = ({ children }) => {
 
   if (userInfo?.status === "suspended") return <Navigate to="/suspended" />;
 
-  if (!user) return <Navigate state={location.pathname} to="/login" />;
+  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
 
   return children;
 };

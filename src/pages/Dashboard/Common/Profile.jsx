@@ -1,17 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
-import { FaEnvelope, FaCalendarCheck, FaSignInAlt, FaUserTag } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaCalendarCheck,
+  FaSignInAlt,
+  FaUserTag,
+} from "react-icons/fa";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import { useState } from "react";
 import EditProfileModal from "../../../components/Modal/EditProfileModal";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const { data: profileInfo = {}, isLoading, refetch, } = useQuery({
+  const {
+    data: profileInfo = {},
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["user-profile", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -23,14 +33,7 @@ const Profile = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  const {
-    name,
-    email,
-    image,
-    role,
-    created_at,
-    last_loggedIn,
-  } = profileInfo;
+  const { name, email, image, role, created_at, last_loggedIn } = profileInfo;
 
   const safeDateTime = (value) =>
     value ? new Date(value).toLocaleString() : "N/A";
@@ -38,18 +41,16 @@ const Profile = () => {
   const displayName = name || user?.displayName || "User";
   const displayEmail = email || user?.email || "Not available";
   const avatar =
-    image ||
-    user?.photoURL ||
-    "https://img.icons8.com/windows/64/user.png";
+    image || user?.photoURL || "https://img.icons8.com/windows/64/user.png";
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8 flex items-start md:items-center justify-center">
-      <div className="w-full max-w-4xl bg-white dark:bg-neutral-900/95 border border-gray-200 dark:border-blue-400/30 rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header / Cover */}
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8 flex items-start md:items-center justify-center">
+      <Helmet>
+        <title>RinTrack | User Profile</title>
+      </Helmet>
+      <div className="w-full max-w-4xl bg-orange-100 dark:bg-neutral-900/95 border border-gray-200 dark:border-blue-400/30 rounded-2xl shadow-2xl overflow-hidden">
         <div className="relative h-32 md:h-40 bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">
-          {/* Decorative overlay */}
           <div className="absolute inset-0 bg-black/10" />
-          {/* Avatar */}
           <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 md:left-16 md:translate-x-0">
             <img
               src={avatar}
@@ -59,9 +60,7 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Body */}
         <div className="pt-20 md:pt-10 pb-8 px-6 md:px-8">
-          {/* Name & role */}
           <div className="md:ml-40 text-center md:text-left">
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
               {displayName}
@@ -87,9 +86,7 @@ const Profile = () => {
 
           <hr className="my-6 border-gray-200 dark:border-neutral-800" />
 
-          {/* Info grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {/* Email */}
             <div className="flex items-start gap-3">
               <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">
                 <FaEnvelope className="w-4 h-4" />
@@ -104,7 +101,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Account created */}
             <div className="flex items-start gap-3">
               <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                 <FaCalendarCheck className="w-4 h-4" />
@@ -119,7 +115,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Last logged in */}
             <div className="flex items-start gap-3">
               <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400">
                 <FaSignInAlt className="w-4 h-4" />
@@ -134,7 +129,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Role */}
             <div className="flex items-start gap-3">
               <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
                 <FaUserTag className="w-4 h-4" />
@@ -150,31 +144,28 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Actions */}
-        <div className="mt-8 flex flex-col md:flex-row md:justify-end gap-3 px-6 md:px-8 pb-4">
-          <button
-            type="button"
-            onClick={() => setIsEditOpen(true)}
-            className="w-full md:w-auto px-6 py-3 rounded-lg font-semibold text-white 
+          <div className="mt-8 flex flex-col md:flex-row md:justify-end gap-3 px-6 md:px-8 pb-4">
+            <button
+              type="button"
+              onClick={() => setIsEditOpen(true)}
+              className="w-full md:w-auto px-6 py-3 rounded-lg font-semibold text-white 
                        bg-gradient-to-r from-blue-500 to-sky-600 
                        hover:from-blue-600 hover:to-sky-700 
-                       shadow-md shadow-blue-500/30 transition-colors"
-          >
-            Edit Profile
-          </button>
+                       shadow-md shadow-blue-500/30 transition-colors cursor-pointer"
+            >
+              Edit Profile
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Edit Profile Modal */}
-      <EditProfileModal
-        isOpen={isEditOpen}
-        closeModal={() => setIsEditOpen(false)}
-        profileInfo={profileInfo}
-        refetch={refetch}
-      />
-    </div>
-   
-    
+        <EditProfileModal
+          key={profileInfo?.email}
+          isOpen={isEditOpen}
+          closeModal={() => setIsEditOpen(false)}
+          profileInfo={profileInfo}
+          refetch={refetch}
+        />
+      </div>
     </div>
   );
 };

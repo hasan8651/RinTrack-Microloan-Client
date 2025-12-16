@@ -15,6 +15,7 @@ import {
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const BorrowerStatistics = () => {
   const { user } = useAuth();
@@ -60,8 +61,11 @@ const BorrowerStatistics = () => {
   ];
 
   return (
-    <div className="p-6 md:p-8 min-h-screen font-sans bg-base-100 dark:bg-neutral-900 transition-colors duration-300">
-      {/* Header */}
+    <div className="p-6 md:p-8 min-h-screen font-sans bg-orange-50 dark:bg-transparent transition-colors duration-300">
+      <Helmet>
+                    <title>RinTrack | Borrower Dashboard</title>
+                  </Helmet>
+
       <h1 className="mt-6 md:mt-0 text-3xl md:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">
         My Loan Overview
       </h1>
@@ -81,10 +85,8 @@ const BorrowerStatistics = () => {
         </p>
       )}
 
-      {/* Top Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Total Loans */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -103,8 +105,7 @@ const BorrowerStatistics = () => {
           </p>
         </div>
 
-        {/* Pending Loans */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-amber-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-amber-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -123,8 +124,7 @@ const BorrowerStatistics = () => {
           </p>
         </div>
 
-        {/* Approved Loans */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
+            <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -143,8 +143,7 @@ const BorrowerStatistics = () => {
           </p>
         </div>
 
-        {/* Paid Fees */}
-        <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-purple-400/20 p-5">
+         <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-purple-400/20 p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
@@ -164,8 +163,7 @@ const BorrowerStatistics = () => {
         </div>
       </div>
 
-      {/* Chart */}
-      <div className="bg-white dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+      <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
           Loan & Payment Status
         </h2>
@@ -174,7 +172,7 @@ const BorrowerStatistics = () => {
             <BarChart data={chartData}>
               <XAxis
                 dataKey="name"
-                tick={{ fill: "#9CA3AF" }} // gray-400
+                tick={{ fill: "#9CA3AF" }}
                 axisLine={{ stroke: "#E5E7EB" }}
                 tickLine={{ stroke: "#E5E7EB" }}
               />

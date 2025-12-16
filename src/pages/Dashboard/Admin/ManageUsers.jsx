@@ -5,6 +5,7 @@ import ManageUserDataRow from "../../../components/Dashboard/TableRows/ManageUse
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const USERS_PER_PAGE = 5;
 
@@ -18,14 +19,7 @@ const ManageUsers = () => {
   const [filterRole, setFilterRole] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch,
-    isFetching,
-  } = useQuery({
+  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
     queryKey: ["users", user?.email, currentPage, searchTerm, filterRole],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -58,9 +52,11 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | Manage Users</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -77,10 +73,8 @@ const ManageUsers = () => {
           )}
         </div>
 
-        {/* Filters */}
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md p-4 md:p-5 mb-6">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md p-4 md:p-5 mb-6">
           <div className="flex flex-col md:flex-row gap-4 md:items-center">
-            {/* Search */}
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Search
@@ -96,37 +90,32 @@ const ManageUsers = () => {
                     if (e.key === "Enter") handleSearch();
                   }}
                   className="w-full pl-3 pr-20 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                              focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
                 />
 
-                {/* Clear (X) icon */}
                 {searchInput && (
                   <button
                     type="button"
                     onClick={handleClearSearch}
-                    className="absolute inset-y-0 right-9 flex items-center px-2 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400"
+                    className="absolute inset-y-0 right-9 flex items-center px-2 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 cursor-pointer"
                     aria-label="Clear search"
                   >
                     <FaTimes size={12} />
                   </button>
                 )}
 
-                
-                {/* Search icon button */}
                 <button
                   type="button"
                   onClick={handleSearch}
-                  className="absolute inset-y-0 right-2 flex items-center px-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400"
+                  className="absolute inset-y-0 right-2 flex items-center px-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 cursor-pointer"
                   aria-label="Search"
                 >
                   <FaSearch size={14} />
                 </button>
-
               </div>
             </div>
 
-            {/* Role Filter */}
             <div className="w-full md:w-56">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Filter by Role
@@ -138,7 +127,7 @@ const ManageUsers = () => {
                   setCurrentPage(1);
                 }}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               >
                 <option value="">All Roles</option>
@@ -156,11 +145,10 @@ const ManageUsers = () => {
           )}
         </div>
 
-        {/* Table */}
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+        <div className="bg-orange-50 dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
-              <thead className="bg-gray-50 dark:bg-neutral-800/80">
+              <thead className="bg-orange-100 dark:bg-neutral-800/80">
                 <tr>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Name
@@ -177,7 +165,7 @@ const ManageUsers = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+              <tbody className="bg-orange-50 dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
                 {users.length > 0 ? (
                   users.map((user) => (
                     <ManageUserDataRow
@@ -202,13 +190,12 @@ const ManageUsers = () => {
           </div>
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center mt-6 space-x-2">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className={`px-3 py-1 rounded-lg border text-sm font-medium ${
+              className={`px-3 py-1 rounded-lg border text-sm font-medium cursor-pointer ${
                 currentPage === 1
                   ? "bg-gray-200 text-gray-500 dark:bg-neutral-800 dark:text-gray-500 cursor-not-allowed border-gray-300 dark:border-neutral-700"
                   : "bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"
@@ -221,7 +208,7 @@ const ManageUsers = () => {
               <button
                 key={idx + 1}
                 onClick={() => setCurrentPage(idx + 1)}
-                className={`px-3 py-1 rounded-lg border text-sm font-medium ${
+                className={`px-3 py-1 rounded-lg border text-sm font-medium cursor-pointer ${
                   currentPage === idx + 1
                     ? "bg-blue-500 text-white border-blue-500"
                     : "bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"
@@ -236,7 +223,7 @@ const ManageUsers = () => {
                 setCurrentPage((prev) => Math.min(prev + 1, totalPages))
               }
               disabled={currentPage === totalPages}
-              className={`px-3 py-1 rounded-lg border text-sm font-medium ${
+              className={`px-3 py-1 rounded-lg border text-sm font-medium cursor-pointer ${
                 currentPage === totalPages
                   ? "bg-gray-200 text-gray-500 dark:bg-neutral-800 dark:text-gray-500 cursor-not-allowed border-gray-300 dark:border-neutral-700"
                   : "bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"

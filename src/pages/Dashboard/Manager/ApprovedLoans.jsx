@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import ApprovedLoanDataRow from "../../../components/Dashboard/TableRows/ApprovedLoanDataRow";
+import { Helmet } from "react-helmet-async";
 
 const ApprovedLoans = () => {
   const axiosSecure = useAxiosSecure();
@@ -25,9 +26,11 @@ const ApprovedLoans = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+      <Helmet>
+        <title>RinTrack | Approved Loans</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col mt-6 md:mt-0 sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -50,11 +53,10 @@ const ApprovedLoans = () => {
           </p>
         )}
 
-        {/* Table card */}
-        <div className="bg-white dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+        <div className="bg-orange-50 dark:bg-neutral-900/90 border border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
-              <thead className="bg-gray-50 dark:bg-neutral-800/80">
+              <thead className="bg-orange-100 dark:bg-neutral-800/80">
                 <tr>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Loan ID
@@ -66,7 +68,7 @@ const ApprovedLoans = () => {
                     Amount
                   </th>
                   <th className="px-5 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Approved Date
+                    Approved Date
                   </th>
                   <th className="px-5 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Actions
@@ -74,7 +76,7 @@ const ApprovedLoans = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+              <tbody className="bg-orange-50 dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
                 {approvedLoans.length > 0 ? (
                   approvedLoans.map((loan) => (
                     <ApprovedLoanDataRow

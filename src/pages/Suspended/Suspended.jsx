@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const Suspended = () => {
   const { user } = useAuth();
@@ -17,7 +18,10 @@ const Suspended = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center  dark:from-neutral-900 dark:to-neutral-800 px-6 py-16 text-base-content transition-colors duration-500">
+    <div className="min-h-screen flex items-center justify-center dark:from-neutral-900 dark:to-neutral-800 px-6 py-16 text-base-content transition-colors duration-500">
+      <Helmet>
+        <title>RinTrack | Suspended</title>
+      </Helmet>
       <div className="max-w-3xl w-full bg-white/80 dark:bg-neutral-900/60 backdrop-blur-xl border border-red-200 dark:border-neutral-700 rounded-3xl shadow-2xl p-10 text-center animate-fadeIn">
         <div className="mb-6">
           <span className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-500/20 shadow-lg">
@@ -38,7 +42,7 @@ const Suspended = () => {
           </span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-red-600 dark:text-red-400 mb-4">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-red-600 dark:text-red-400 mb-4">
           Your Account Has Been Suspended
         </h1>
 

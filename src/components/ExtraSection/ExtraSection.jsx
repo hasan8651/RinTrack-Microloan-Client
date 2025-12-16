@@ -24,7 +24,7 @@ const ExtraSections = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="relative p-8 rounded-2xl border border-gray-200 dark:border-blue-400/30 shadow-lg dark:shadow-[0_0_10px_rgba(59,130,246,0.15)] backdrop-blur-xl hover:scale-[1.04] hover:shadow-2xl dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] transition-all duration-300 bg-white/90 dark:bg-neutral-900/90"
+                className="relative p-8 rounded-2xl border border-blue-400/30 shadow-lg dark:shadow-[0_0_10px_rgba(59,130,246,0.15)] backdrop-blur-xl hover:scale-[1.04] hover:shadow-2xl dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] transition-all duration-300 bg-orange-100 dark:bg-neutral-900/90"
               >
                 <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-blue-300">
                   {item.title}
@@ -63,7 +63,7 @@ const ExtraSections = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="relative p-8 rounded-2xl border border-blue-300/30 dark:border-blue-400/30 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.15)] backdrop-blur-xl hover:scale-[1.04] hover:shadow-2xl dark:hover:shadow-[0_0_15px_rgba(14,165,233,0.25)] transition-all duration-300 text-center bg-white/90 dark:bg-neutral-900/90"
+                className="relative p-8 rounded-2xl border border-blue-400/30 shadow-lg dark:shadow-[0_0_10px_rgba(14,165,233,0.15)] backdrop-blur-xl hover:scale-[1.04] hover:shadow-2xl dark:hover:shadow-[0_0_15px_rgba(14,165,233,0.25)] transition-all duration-300 text-center bg-orange-100 dark:bg-neutral-900/90"
               >
                 <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-blue-300">
                   {item.title}

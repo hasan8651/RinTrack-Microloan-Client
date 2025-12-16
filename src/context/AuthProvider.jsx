@@ -8,10 +8,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import { AuthContext } from "./AuthContext";
 import { auth } from "../firebase/firebase.config";
 import axiosPublic from "../hooks/useAxiosPublic";
+import { showAlert } from "../utils";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -46,24 +46,19 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-     const logoutFunction = async () => {
+  const logoutFunction = async () => {
     setLoading(true);
     try {
-         await axiosPublic.post("/auth/logout");
+      await axiosPublic.post("/auth/logout");
       await signOut(auth);
-
       setUser(null);
     } finally {
       setLoading(false);
-      Swal.fire({
-      position: "top-end",
-      background: "linear-gradient(to right, #093371, #6E11B0, #093371)",
-      color: "white",
-      icon: "success",
-      title: "Logged Out successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+      showAlert({
+        color: "lime",
+        icon: "success",
+        title: "Logged out successfully!",
+      });
     }
   };
 

@@ -2,26 +2,33 @@ import { NavLink } from "react-router";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-base-200 dark:bg-neutral-900 border-t border-neutral-300 dark:border-neutral-700 py-6 md:py-8 px-4 md:px-6 mt-8">
+    <footer className="w-full bg-[#FFF4D6] dark:bg-neutral-900 border-t border-neutral-300 dark:border-neutral-700 py-6 md:py-8 px-4 md:px-6 mt-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
         {/* Logo + Description */}
         <div className="order-1 md:order-1">
           <div className="flex items-center gap-2 mb-2">
             <img src="/logo.png" alt="logo" className="h-[70px] w-auto" />
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-sky-500 bg-clip-text text-transparent">
               RinTrack
-            </h2>
+            </span>
           </div>
           <p className="text-sm md:text-md text-gray-700 dark:text-gray-300 leading-snug max-w-xs">
-            RinTrack is a secure microloan request & approval management system
-            for small financial organizations, NGOs, and microloan providers.
+            <span className="bg-gradient-to-r from-blue-500 to-sky-500 bg-clip-text text-transparent">
+              RinTrack
+            </span>{" "}
+            is a secure microloan request & approval management system for small
+            financial organizations, NGOs, and microloan providers.
           </p>
         </div>
 
         {/* Copyright */}
         <div className="order-3 md:order-2 flex md:justify-center items-center text-center">
           <p className="text-xs md:text-sm text-gray-700 dark:text-gray-300">
-            © {new Date().getFullYear()} RinTrack — All Rights Reserved.
+            © {new Date().getFullYear()}{" "}
+            <span className="bg-gradient-to-r from-blue-500 to-sky-500 bg-clip-text text-transparent">
+              RinTrack
+            </span>{" "}
+            — All Rights Reserved.
           </p>
         </div>
 
