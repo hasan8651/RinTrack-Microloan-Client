@@ -146,11 +146,11 @@ const LoanForm = () => {
             </div>
             <div>
               <span className="font-medium">Interest Rate:</span>{" "}
-              {loan.interest}%
+              {loan.interestRate}%
             </div>
             <div>
               <span className="font-medium">Max Loan Limit:</span> $
-              {Number(loan.maxLimit).toLocaleString()}
+              {Number(loan.maxLoanLimit).toLocaleString()}
             </div>
           </div>
         </div>
