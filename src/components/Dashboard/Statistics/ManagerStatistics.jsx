@@ -132,12 +132,12 @@ const ManagerStatistics = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-blue-400/20 p-5 min-w-0">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Loan Status
           </h2>
-          <div style={{ width: "100%", height: 300 }}>
-            <ResponsiveContainer>
+          <div className="w-full h-72">
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={barData}>
                 <XAxis
                   dataKey="name"
@@ -165,12 +165,12 @@ const ManagerStatistics = () => {
           </div>
         </div>
 
-        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5">
+        <div className="bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-lg border border-gray-200 dark:border-emerald-400/20 p-5 min-w-0">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             Payment Status
           </h2>
-          <div style={{ width: "100%", height: 300 }}>
-            <ResponsiveContainer>
+          <div className="w-full h-72">
+            <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={pieData}

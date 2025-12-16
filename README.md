@@ -1,4 +1,4 @@
-# RinTrack <img src="/logo.png" width="45" alt="RinTrack Logo" style="vertical-align: middle;" /> - Microloan Request & Approval Tracker System
+# RinTrack <img src="./public/logo.png" width="45" alt="RinTrack Logo" style="vertical-align: middle;" /> - Microloan Request & Approval Tracker System
 
 
 
@@ -68,7 +68,7 @@ RinTrack simplifies the entire microloan lifecycle by providing a **fast, paperl
 
 - Add, manage, and update loans.
 - Review and verify loan applications
-- Update loan applications status (Pending, Approved, //Rejected) or Approve or reject loan requests
+- Update loan applications status (Approved, Rejected)
 - Manage borrower information
 - Monitor active loans and EMI schedules
 
@@ -108,7 +108,7 @@ RinTrack simplifies the entire microloan lifecycle by providing a **fast, paperl
 - Node.js
 - Express.js
 - MongoDB
-- JWT (///// Firebase SDK )
+- JWT ( Firebase Authentication using JWT tokens )
 - Stripe API
 
 ### 🗃️ Authentication & Hosting
