@@ -35,7 +35,7 @@ const LoanCard = ({ loan }) => {
           {shortDesc}
         </p>
 
-        <div className="mt-2">
+        <div className="mt-2 flex items-center justify-between gap-3">
           <p className="text-sm text-gray-600 dark:text-gray-300">
             <span className="font-medium text-gray-700 dark:text-gray-200">
               Max Loan Limit:
@@ -44,19 +44,18 @@ const LoanCard = ({ loan }) => {
               ${formattedMaxLimit}
             </span>
           </p>
-        </div>
 
-        <div className="flex-1" />
-        <Link
-          to={`/loans/${loan._id}`}
-          className="mt-3 inline-flex items-center justify-center w-full py-2.5 px-4 
-                     rounded-xl bg-gradient-to-r from-blue-500 to-sky-600 
-                     hover:from-blue-600 hover:to-sky-700 text-white dark:text-gray-900 
-                     font-semibold text-sm shadow-md shadow-blue-500/30 
-                     hover:shadow-lg transition-all duration-200"
-        >
-          View Details
-        </Link>
+          <Link
+            to={`/loans/${loan._id}`}
+            className="inline-flex items-center justify-center px-4 py-2 
+                       rounded-xl bg-gradient-to-r from-blue-500 to-sky-600 
+                       hover:from-blue-600 hover:to-sky-700 text-white dark:text-gray-900 
+                       font-semibold text-xs sm:text-sm shadow-md shadow-blue-500/30 
+                       hover:shadow-lg transition-all duration-200 whitespace-nowrap"
+          >
+            View Details
+          </Link>
+        </div>
       </div>
     </div>
   );

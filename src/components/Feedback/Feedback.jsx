@@ -26,14 +26,14 @@ const feedbackData = [
     name: "Ali Khan",
     role: "Borrower",
     message: "Excellent platform for microloans, very user-friendly interface.",
-    avatar: "/public/ali_khan.jpg",
+    avatar: "/ali_khan.jpg",
   },
   {
     id: 4,
     name: "Sarah Lee",
     role: "Borrower",
     message: "Amazing support! Helped me throughout the entire process.",
-    avatar: "/public/sarah_lee.jpg",
+    avatar: "/sarah_lee.jpg",
   },
 ];
 

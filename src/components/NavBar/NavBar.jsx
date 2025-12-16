@@ -170,7 +170,7 @@ const Navbar = () => {
               >
                 <li className="p-2 text-center border-b dark:border-neutral-700">
                   <p className="font-bold text-gray-900 dark:text-white truncate">
-                    {user.displayName || "User"}
+                    {dbUser?.name || user.displayName || "User"}
                   </p>
                 </li>
                 <li>

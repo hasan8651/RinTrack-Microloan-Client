@@ -79,7 +79,7 @@ const AboutUs = () => {
             viewport={{ once: true }}
           >
             <img
-              src="/office_meeting.avif"
+              src="/office_meeting.png"
               alt="Office Meeting"
               className="relative rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800 w-full object-cover h-[400px]"
             />

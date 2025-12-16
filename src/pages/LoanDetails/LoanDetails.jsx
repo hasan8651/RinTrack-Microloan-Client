@@ -49,21 +49,21 @@ const LoanDetails = () => {
         .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-0 md:py-8">
       <Helmet>
         <title>RinTrack | {details.title}</title>
       </Helmet>
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 rounded-3xl shadow-xl overflow-hidden border">
-          <div className="grid lg:grid-cols-5 gap-0">
-            <div className="lg:col-span-2">
+          <div className="grid lg:grid-cols-7 gap-0">
+            <div className="lg:col-span-3">
               <img
                 src={details.image}
                 alt={details.title}
                 className="w-full h-80 sm:h-96 lg:h-full object-cover"
               />
             </div>
-            <div className="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+            <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-center">
               <div className="max-w-2xl">
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
                   {details.title}
@@ -135,8 +135,8 @@ const LoanDetails = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mt-6">
-          <div className="p-6 bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 rounded-xl shadow-md border">
+        <div className="grid md:grid-cols-7 gap-8 mt-6">
+          <div className="md:col-span-3 p-6 bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 rounded-xl shadow-md border">
             <h2 className="font-bold text-2xl mb-4 border-b pb-2 text-gray-900 dark:text-white">
               Required Documents
             </h2>
@@ -156,7 +156,7 @@ const LoanDetails = () => {
             )}
           </div>
 
-          <div className="bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 p-6 rounded-xl shadow-md border">
+          <div className="md:col-span-4 bg-orange-100 dark:bg-neutral-900/95 border-blue-400/30 p-6 rounded-xl shadow-md border">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-b pb-2">
               EMI Options
             </h2>
