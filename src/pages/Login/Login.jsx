@@ -107,7 +107,7 @@ const Login = () => {
       <Helmet>
         <title>RinTrack | Login</title>
       </Helmet>
-      <div className="bg-orange-50 dark:bg-transparent min-h-screen flex items-center justify-center py-12 px-4 transition-colors duration-300">
+      <div className="min-h-screen flex items-center justify-center py-12 px-4 transition-colors duration-300">
         <div className="w-full max-w-md p-8 lg:p-10 bg-orange-100 dark:bg-neutral-900/90 rounded-2xl shadow-2xl dark:shadow-[0_0_20px_rgba(14,165,233,0.1)] border border-blue-400/30 relative z-10">
           <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-3">
             Access Your Account

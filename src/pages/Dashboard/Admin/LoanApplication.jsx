@@ -35,7 +35,7 @@ const LoanApplication = () => {
       : allLoans.filter((loan) => loan.status === statusFilter);
 
   return (
-    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen transition-colors duration-300 p-4 md:p-8">
       <Helmet>
         <title>RinTrack | Loan Application</title>
       </Helmet>

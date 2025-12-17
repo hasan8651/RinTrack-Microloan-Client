@@ -127,7 +127,7 @@ const LoanForm = () => {
   );
 
   return (
-    <div className="bg-orange-50 dark:bg-transparent min-h-screen flex items-center justify-center py-10 px-4 transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center py-10 px-4 transition-colors duration-300">
       <Helmet>
         <title>RinTrack | {loan.title}</title>
       </Helmet>

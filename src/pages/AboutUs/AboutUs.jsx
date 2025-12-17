@@ -36,7 +36,7 @@ const AboutUs = () => {
   };
 
   return (
-    <div className="bg-orange-50 dark:bg-transparent text-base-content min-h-screen transition-colors duration-500">
+    <div className="text-base-content min-h-screen transition-colors duration-500">
       <Helmet>
         <title>RinTrack | AboutUs</title>
       </Helmet>

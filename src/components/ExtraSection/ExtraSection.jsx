@@ -1,6 +1,6 @@
 const ExtraSections = () => {
   return (
-    <div className="space-y-24 bg-orange-50 dark:bg-transparent transition-colors duration-300">
+    <div className="space-y-24 transition-colors duration-300">
       {/* Our Mission */}
       <section className="text-center text-base-content pt-10">
         <div className="container mx-auto px-4">

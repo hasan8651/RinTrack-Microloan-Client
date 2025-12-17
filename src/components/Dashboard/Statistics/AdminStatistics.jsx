@@ -60,7 +60,7 @@ const AdminStatistics = () => {
   const COLORS = ["#22C55E", "#F97316"];
 
   return (
-    <div className="p-6 md:p-8 min-h-screen font-sans bg-orange-50 dark:bg-transparent transition-colors duration-300">
+    <div className="p-6 md:p-8 min-h-screen font-sans transition-colors duration-300">
       <Helmet>
         <title>RinTrack | Admin Dashboard</title>
       </Helmet>

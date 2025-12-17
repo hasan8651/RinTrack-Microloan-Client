@@ -30,7 +30,7 @@ const AllLoans = () => {
       <Helmet>
         <title>RinTrack | All Loans</title>
       </Helmet>
-      <div className="max-w-7xl px-2 mx-auto bg-orange-50 dark:bg-transparent">
+      <div className="max-w-7xl px-2 mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
             All Available Loans

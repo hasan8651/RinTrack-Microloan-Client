@@ -39,7 +39,7 @@ const feedbackData = [
 
 const Feedback = () => {
   return (
-    <section className="py-12 text-base-content transition-colors duration-300 bg-orange-50 dark:bg-transparent">
+    <section className="py-12 text-base-content transition-colors duration-300">
       <div className="text-center mb-10">
         <h2 className="text-2xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
           Customer Feedback

@@ -28,7 +28,7 @@ const LoanDetails = () => {
 
   if (isError || !details?._id) {
     return (
-      <div className="bg-orange-50 dark:bg-transparent flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <NotFound />
       </div>
     );
@@ -49,7 +49,7 @@ const LoanDetails = () => {
         .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-0 md:py-8">
+    <div className="min-h-screen transition-colors duration-300 p-4 md:p-0 md:py-8">
       <Helmet>
         <title>RinTrack | {details.title}</title>
       </Helmet>

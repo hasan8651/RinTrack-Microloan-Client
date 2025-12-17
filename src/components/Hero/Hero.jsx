@@ -46,7 +46,7 @@ export default function Hero() {
   const badges = ["100% Secure", "No Hidden Fees", "24/7 Support"];
 
   return (
-    <section className="relative overflow-hidden text-base-content bg-orange-50 dark:bg-transparent">
+    <section className="relative overflow-hidden text-base-content">
       <div className="container mx-auto px-4 py-10 md:py-14">
         <div className="flex flex-col md:flex-row items-center justify-between gap-2">
           <div className="md:w-6/12 text-center md:text-left">

@@ -44,7 +44,7 @@ const Profile = () => {
     image || user?.photoURL || "https://img.icons8.com/windows/64/user.png";
 
   return (
-    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8 flex items-start md:items-center justify-center">
+    <div className="min-h-screen transition-colors duration-300 p-4 md:p-8 flex items-start md:items-center justify-center">
       <Helmet>
         <title>RinTrack | User Profile</title>
       </Helmet>

@@ -61,7 +61,7 @@ const BorrowerStatistics = () => {
   ];
 
   return (
-    <div className="p-6 md:p-8 min-h-screen font-sans bg-orange-50 dark:bg-transparent transition-colors duration-300">
+    <div className="p-6 md:p-8 min-h-screen transition-colors duration-300">
       <Helmet>
         <title>RinTrack | Borrower Dashboard</title>
       </Helmet>

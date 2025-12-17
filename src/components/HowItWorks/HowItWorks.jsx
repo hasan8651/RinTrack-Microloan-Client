@@ -30,7 +30,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 text-base-content bg-orange-50 dark:bg-transparent transition-colors duration-300">
+    <section className="py-16 text-base-content transition-colors duration-300">
       <div className="text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
           How It Works
