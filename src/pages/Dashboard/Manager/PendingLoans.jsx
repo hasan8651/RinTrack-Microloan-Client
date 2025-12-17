@@ -76,7 +76,7 @@ const PendingLoans = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+              <tbody className="bg-orange-50 dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
                 {pendingLoans.length > 0 ? (
                   pendingLoans.map((loan) => (
                     <PendingLoanDataRow

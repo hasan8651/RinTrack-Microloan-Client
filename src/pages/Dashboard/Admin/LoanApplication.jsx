@@ -63,10 +63,10 @@ const LoanApplication = () => {
                   key={status}
                   type="button"
                   onClick={() => setStatusFilter(status)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border-2 transition-colors cursor-pointer ${
                     statusFilter === status
-                      ? "bg-blue-500 text-white border-blue-500"
-                      : "bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"
+                      ? "bg-blue-500 text-white border-blue-600"
+                      : "bg-orange-50 dark:bg-neutral-900 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-neutral-700 hover:bg-blue-50 dark:hover:bg-neutral-800"
                   }`}
                 >
                   {status}
@@ -108,7 +108,7 @@ const LoanApplication = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+              <tbody className="bg-orange-50 dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
                 {filteredLoans.length > 0 ? (
                   filteredLoans.map((loan) => (
                     <AllApplicationDataRow

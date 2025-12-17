@@ -66,7 +66,7 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
               leaveTo="opacity-0 scale-95 translate-y-2"
             >
               <DialogPanel
-                className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-neutral-900/95 
+                className="w-full max-w-lg rounded-2xl bg-orange-100 dark:bg-neutral-900/95 
                            border border-gray-200 dark:border-blue-400/30 
                            shadow-2xl p-6 md:p-7 transition-all"
               >
@@ -123,7 +123,7 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
                       value={updatedRole}
                       onChange={(e) => setUpdatedRole(e.target.value)}
                       className="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                                 bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                                 bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                                  focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
                     >
                       <option value="borrower">Borrower</option>

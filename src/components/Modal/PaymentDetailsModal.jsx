@@ -36,7 +36,7 @@ const PaymentDetailsModal = ({ isOpen, closeModal, myLoan }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel className="w-full max-w-md bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl transition-all">
+              <DialogPanel className="w-full max-w-md bg-orange-50 dark:bg-neutral-900/95 p-6 rounded-2xl shadow-xl transition-all">
                 <div className="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">
                   <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                     Payment Details

@@ -28,7 +28,7 @@ const LoanDetails = () => {
 
   if (isError || !details?._id) {
     return (
-      <div className="bg-orange-100 dark:bg-neutral-900 flex items-center justify-center mt-6">
+      <div className="bg-orange-50 dark:bg-transparent flex items-center justify-center">
         <NotFound />
       </div>
     );

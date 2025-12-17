@@ -108,7 +108,7 @@ const AllLoan = () => {
               </thead>
 
               <motion.tbody
-                className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800"
+                className="bg-orange-50 dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"

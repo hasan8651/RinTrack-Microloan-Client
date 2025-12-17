@@ -12,7 +12,7 @@ const LoanCard = ({ loan }) => {
       : loan.maxLoanLimit;
 
   return (
-    <div className="group relative flex flex-col bg-orange-50 dark:bg-neutral-900/90 rounded-2xl border border-blue-400/30 shadow-lg hover:shadow-2xl dark:hover:shadow-[0_0_20px_rgba(14,165,233,0.25)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
+    <div className="group relative flex flex-col bg-orange-100 dark:bg-neutral-900/90 rounded-2xl border border-blue-400/30 shadow-lg hover:shadow-2xl dark:hover:shadow-[0_0_20px_rgba(14,165,233,0.25)] overflow-hidden transition-all duration-300 hover:-translate-y-1">
       <div className="relative h-52 overflow-hidden">
         <img
           src={loan.image}

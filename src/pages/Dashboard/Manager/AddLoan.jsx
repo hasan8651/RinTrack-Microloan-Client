@@ -82,7 +82,7 @@ const AddLoan = () => {
                 type="text"
                 placeholder="e.g. Personal Loan"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
@@ -94,7 +94,7 @@ const AddLoan = () => {
                 {...register("description", { required: true })}
                 placeholder="Loan details..."
                 className="w-full h-28 px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none"
               />
             </div>
@@ -108,7 +108,7 @@ const AddLoan = () => {
                   type="text"
                   placeholder="e.g. Business"
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                              focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
                 />
               </div>
@@ -122,7 +122,7 @@ const AddLoan = () => {
                   step="0.05"
                   placeholder="e.g. 5.5"
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                             bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                             bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                              focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
                 />
               </div>
@@ -136,7 +136,7 @@ const AddLoan = () => {
                 type="number"
                 placeholder="e.g. 500000"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
@@ -150,7 +150,7 @@ const AddLoan = () => {
                 type="text"
                 placeholder="e.g. NID, Passport, Bank Statement"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
@@ -164,7 +164,7 @@ const AddLoan = () => {
                 type="text"
                 placeholder="e.g. 3 Months, 6 Months, 1 Year"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>
@@ -178,7 +178,7 @@ const AddLoan = () => {
                 accept="image/*"
                 onChange={(e) => setSelectedImage(e.target.files[0])}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 
-                           bg-gray-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
+                           bg-orange-50 dark:bg-neutral-800 text-gray-800 dark:text-gray-100 
                            focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
               />
             </div>

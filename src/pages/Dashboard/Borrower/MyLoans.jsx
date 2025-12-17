@@ -40,7 +40,7 @@ const MyLoans = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-base-100 dark:bg-neutral-900 transition-colors duration-300 p-4 md:p-8">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent transition-colors duration-300 p-4 md:p-8">
       <Helmet>
         <title>RinTrack | My Loans</title>
       </Helmet>
@@ -67,7 +67,7 @@ const MyLoans = () => {
           </p>
         )}
 
-          <div className="bg-orange-50 dark:bg-neutral-900/90 border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
+          <div className="border border-gray-200 dark:border-blue-400/20 rounded-2xl shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-800 text-sm">
               <thead className="bg-orange-100 dark:bg-neutral-800/80">
@@ -90,7 +90,7 @@ const MyLoans = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
+              <tbody className="bg-orange-50 dark:bg-neutral-900/90 divide-y divide-gray-200 dark:divide-neutral-800">
                 {myLoans.length > 0 ? (
                   myLoans.map((myLoan) => (
                     <BorrowerAppliedDataRow

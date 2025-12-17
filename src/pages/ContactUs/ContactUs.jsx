@@ -31,7 +31,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 text-base-content py-20 transition-colors duration-500 relative overflow-hidden">
+    <div className="min-h-screen bg-orange-50 dark:bg-transparent text-base-content py-20 transition-colors duration-500 relative overflow-hidden">
       <Helmet>
         <title>RinTrack | Contact Us</title>
       </Helmet>
