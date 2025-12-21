@@ -73,7 +73,7 @@ const ManageLoanDataRow = ({ loan, refetch, variants, adminView = false }) => {
   };
 
   const actionBtnBase =
-    "inline-flex items-center justify-center gap-0 md:gap-1 px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium w-9 md:w-24 transition-colors";
+    "inline-flex items-center justify-center gap-0 md:gap-1 px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium w-9 md:w-20 transition-colors";
 
   return (
     <motion.tr
@@ -123,7 +123,7 @@ const ManageLoanDataRow = ({ loan, refetch, variants, adminView = false }) => {
       )}
 
       <td className="px-5 py-4 text-right text-sm">
-        <div className="flex justify-end items-center gap-2">
+        <div className="flex md:flex-wrap justify-end items-center gap-2">
           <Link
             to={`/dashboard/update-loan/${loan._id}`}
             className={`${actionBtnBase} bg-blue-600 text-white hover:bg-blue-700`}

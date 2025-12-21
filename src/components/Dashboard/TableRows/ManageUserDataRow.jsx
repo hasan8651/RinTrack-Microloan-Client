@@ -9,12 +9,12 @@ const ManageUserDataRow = ({ user, refetch }) => {
   const closeModal = () => setIsOpen(false);
 
   return (
-    <tr className="border-b">
+    <tr>
       <td className="px-5 py-4 text-left">{user.name}</td>
       <td className="px-5 py-4 text-left">{user.email}</td>
       <td className="px-5 py-4 text-left capitalize">{user.role}</td>
       <td className="px-5 py-4 text-right">
-        <div className="flex flex-wrap gap-2 justify-end">
+        <div className="flex flex-wrap gap-2  font-semibold text-white justify-end">
           <button
             onClick={() => setIsOpen(true)}
             className="flex items-center gap-1 px-3 py-1 bg-blue-600 rounded hover:bg-blue-700 cursor-pointer"

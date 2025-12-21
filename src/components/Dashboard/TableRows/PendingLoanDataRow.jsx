@@ -41,7 +41,7 @@ const PendingLoanDataRow = ({ loan, refetch }) => {
   const handleView = () => setIsViewOpen(true);
 
   const actionBtnBase =
-    "inline-flex items-center justify-center gap-0 md:gap-1 px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium w-9 md:w-24 transition-colors";
+    "inline-flex items-center justify-center gap-0 md:gap-1 px-2 py-1 rounded-lg text-xs md:text-sm font-medium w-9 md:w-20 transition-colors";
 
   return (
     <tr className="border-b border-gray-200 dark:border-neutral-800">
