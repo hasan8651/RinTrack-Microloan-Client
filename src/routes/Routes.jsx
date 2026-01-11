@@ -41,98 +41,163 @@ export const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-        {
+      {
         path: "/loans",
-        element: <AllLoans/>,
+        element: <AllLoans />,
       },
-        {
+      {
         path: "/loans/:id",
-        element: <LoanDetails/>,
+        element: <LoanDetails />,
       },
-       {
+      {
         path: "/loan-form/:id",
-        element: <LoanForm/>,
+        element: <LoanForm />,
       },
-       {
+      {
         path: "/payment-success",
-        element: <PaymentSuccess/>,
+        element: <PaymentSuccess />,
       },
       {
         path: "/blog/:id",
-        element: <BlogDetails/>,
+        element: <BlogDetails />,
       },
       {
         path: "/about-us",
-        element: <AboutUs/>,
+        element: <AboutUs />,
       },
       {
         path: "/contact-us",
-        element: <ContactUs/>,
+        element: <ContactUs />,
       },
-       {
-        path: '/suspended',
-        element: <Suspended/>
+      {
+        path: "/suspended",
+        element: <Suspended />,
       },
-        {
+      {
         path: "/register",
-        element: <Register/>,
+        element: <Register />,
       },
       {
         path: "/login",
-        element: <Login/>,
+        element: <Login />,
       },
-      
     ],
   },
 
   {
     path: "/dashboard",
-    element: (<PrivateRoute><DashboardLayout/></PrivateRoute>),
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
-      index: true,
-      element: (<PrivateRoute><Statistics/></PrivateRoute>),
+        index: true,
+        element: (
+          <PrivateRoute>
+            <Statistics />
+          </PrivateRoute>
+        ),
       },
       {
         path: "profile",
-        element: (<PrivateRoute><Profile/></PrivateRoute>),
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-loans",
-        element: (<PrivateRoute><BorrowerRoute><MyLoans/></BorrowerRoute></PrivateRoute>),
+        element: (
+          <PrivateRoute>
+            <BorrowerRoute>
+              <MyLoans />
+            </BorrowerRoute>
+          </PrivateRoute>
+        ),
       },
-       {
+      {
         path: "add-loan",
-        element: (<PrivateRoute><ManagerRoute><AddLoan/></ManagerRoute></PrivateRoute>),
-        },
-       {
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <AddLoan />
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "update-loan/:id",
-        element: (<PrivateRoute><ManagerRoute><UpdateLoans/></ManagerRoute></PrivateRoute>),
-        },
-       {
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <UpdateLoans />
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "manage-loans",
-         element: (<PrivateRoute><ManagerRoute><ManageLoans/></ManagerRoute></PrivateRoute>),
-        },
-       {
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <ManageLoans />
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "pending-loans",
-       element: (<PrivateRoute><ManagerRoute><PendingLoans/></ManagerRoute></PrivateRoute>)
-        },
-       {
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <PendingLoans />
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "approved-loans",
-        element: (<PrivateRoute><ManagerRoute><ApprovedLoans/></ManagerRoute></PrivateRoute>),
-        },
-       {
+        element: (
+          <PrivateRoute>
+            <ManagerRoute>
+              <ApprovedLoans />
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "loan-applications",
-        element: (<PrivateRoute><AdminRoute><LoanApplication/></AdminRoute></PrivateRoute>),
-     },
-       {
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <LoanApplication />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "all-loan",
-        element: (<PrivateRoute><AdminRoute><AllLoan/></AdminRoute></PrivateRoute>),
-       },
-       {
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AllLoan />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "manage-users",
-        element: (<PrivateRoute><AdminRoute><ManageUsers/></AdminRoute></PrivateRoute>),
-       },
-    ]}
-
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageUsers />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
 ]);

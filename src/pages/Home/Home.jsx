@@ -9,7 +9,6 @@ import ServicesSection from "../../components/ServicesSection/ServicesSection";
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
 import BlogsSection from "../../components/BlogSection/BlogSection";
 
-
 const Home = () => {
   return (
     <div>
@@ -21,9 +20,9 @@ const Home = () => {
       <HowItWorks />
       <Feedback />
       <ExtraSections />
-      <ServicesSection/>
-      <StatisticsSection/>
-      <BlogsSection/>
+      <ServicesSection />
+      <StatisticsSection />
+      <BlogsSection />
       <HelpSection />
     </div>
   );

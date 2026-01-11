@@ -62,6 +62,36 @@ const Login = () => {
     }
   };
 
+// Quick Auto Login Helper
+const handleAutoLogin = async (email, password) => {
+  try {
+    // Firebase Login
+    const { user } = await loginFunction(email, password);
+    const idToken = await user.getIdToken();
+    await axiosPublic.post("/auth/login", { idToken });
+
+    await saveOrUpdateUser({
+      name: user?.displayName,
+      email: user?.email,
+      image: user?.photoURL,
+    });
+
+    setUser(user);
+    showAlert({
+      color: "lime",
+      icon: "success",
+      title: `Logged in as ${email.split('@')[0].toUpperCase()}!`,
+    });
+
+    const from = location?.state?.from?.pathname || "/";
+    navigate(from, { replace: true });
+  } catch (err) {
+    setError("Failed to auto-fill login. Please try manually.");
+    setLoading(false);
+  }
+};
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -100,6 +130,9 @@ const Login = () => {
         title: "Failed to log in with Google.",
       });
     }
+
+
+
   };
 
   return (
@@ -201,6 +234,38 @@ const Login = () => {
                 <FcGoogle size={24} />
                 <span>Continue with Google</span>
               </button>
+
+{/* --- Demo Login Section --- */}
+<div className="mt-8">
+  <div className="relative flex items-center justify-center mb-6">
+    <div className="flex-grow border-t border-gray-300 dark:border-neutral-700"></div>
+    <span className="flex-shrink mx-4 text-gray-400 text-xs font-semibold uppercase tracking-wider">
+      Try Demo Accounts
+    </span>
+    <div className="flex-grow border-t border-gray-300 dark:border-neutral-700"></div>
+  </div>
+
+  <div className="grid grid-cols-3 gap-3">
+    {[
+      { label: "Admin", email: "admin@rintrack.com", pass: "Admin123#", color: "from-rose-500 to-red-600" },
+      { label: "Manager", email: "manager@rintrack.com", pass: "Manager123#", color: "from-amber-500 to-orange-600" },
+      { label: "Borrower", email: "borrower@rintrack.com", pass: "Borrower123#", color: "from-emerald-500 to-teal-600" },
+    ].map((role) => (
+      <button
+        key={role.label}
+        type="button"
+        onClick={() => handleAutoLogin(role.email, role.pass)}
+        className={`group relative flex flex-col items-center justify-center py-2 px-1 rounded-xl border border-transparent bg-white dark:bg-neutral-800 hover:border-blue-400 shadow-sm transition-all duration-300 cursor-pointer overflow-hidden`}
+      >
+        <span className="text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400 group-hover:text-blue-500">
+          {role.label}
+        </span>
+        <div className={`mt-1 h-1 w-6 rounded-full bg-gradient-to-r ${role.color}`}></div>
+      </button>
+    ))}
+  </div>
+</div>
+
             </div>
           </form>
 
