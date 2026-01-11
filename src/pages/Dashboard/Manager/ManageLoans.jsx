@@ -25,7 +25,7 @@ const ManageLoans = () => {
     queryKey: ["manage-loans"],
     enabled: !!user?.email,
     queryFn: async () => {
-      const result = await axiosSecure.get("/loans");
+      const result = await axiosSecure.get("/loans-all");
       return result.data;
     },
     keepPreviousData: true,

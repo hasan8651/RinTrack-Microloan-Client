@@ -19,9 +19,9 @@ const AllLoan = () => {
     isFetching,
   } = useQuery({
     queryKey: ["all-loans-admin", user?.email],
-    enabled: !loading && !!user?.email,
+    // enabled: !loading && !!user?.email,
     queryFn: async () => {
-      const result = await axiosSecure.get("/loans");
+      const result = await axiosSecure.get("/loans-all");
       return result.data;
     },
     keepPreviousData: true,
