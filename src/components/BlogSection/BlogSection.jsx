@@ -1,32 +1,6 @@
-const blogPosts = [
-  {
-    id: 1,
-    title: "5 Tips to Track Microloans Efficiently",
-    excerpt:
-      "Learn how to manage borrowers, repayments, and balances quickly and accurately using RinTrack.",
-    image:
-      "https://via.placeholder.com/400x250?text=Microloan+Tips",
-    link: "#",
-  },
-  {
-    id: 2,
-    title: "Why Microfinance Needs a Tracking System",
-    excerpt:
-      "Discover the importance of a centralized microloan tracker and how it reduces errors and delays.",
-    image:
-      "https://via.placeholder.com/400x250?text=Microfinance+System",
-    link: "#",
-  },
-  {
-    id: 3,
-    title: "Top Features of RinTrack You Should Know",
-    excerpt:
-      "Explore the key features of RinTrack that make microloan management simple and effective.",
-    image:
-      "https://via.placeholder.com/400x250?text=RinTrack+Features",
-    link: "#",
-  },
-];
+import { Link } from "react-router";
+import { blogPosts } from "../../utils/blogs";
+import { FaArrowRight } from "react-icons/fa";
 
 const BlogsSection = () => {
   return (
@@ -54,12 +28,13 @@ const BlogsSection = () => {
             <div className="card-body">
               <h3 className="card-title mb-4 text-gray-900 dark:text-blue-300">{post.title}</h3>
               <p className="leading-relaxed italic text-gray-600 dark:text-blue-100/80">{post.excerpt}</p>
-              <a
-                href={post.link}
-                className="btn btn-link mt-2"
+             <Link
+                to={`/blog/${post.id}`}
+                className="btn btn-link mt-2 pl-0 text-blue-600 dark:text-blue-400 hover:no-underline group"
               >
-                Read More
-              </a>
+                Read More 
+                <FaArrowRight className="group-hover:translate-x-1 transition-transform"/>
+              </Link>
             </div>
           </div>
         ))}

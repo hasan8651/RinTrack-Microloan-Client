@@ -28,6 +28,7 @@ import AdminRoute from "./AdminRoute";
 import LoanApplication from "../pages/Dashboard/Admin/LoanApplication";
 import AllLoan from "../pages/Dashboard/Admin/AllLoan";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import BlogDetails from "../pages/BlogDetails/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
       },
         {
         path: "/loans/:id",
-        element: (<PrivateRoute><LoanDetails/></PrivateRoute>),
+        element: <LoanDetails/>,
       },
        {
         path: "/loan-form/:id",
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
        {
         path: "/payment-success",
         element: <PaymentSuccess/>,
+      },
+      {
+        path: "/blog/:id",
+        element: <BlogDetails/>,
       },
       {
         path: "/about-us",
